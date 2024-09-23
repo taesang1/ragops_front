@@ -65,6 +65,7 @@ export default {
   methods: {
     onDrop(e) {
       const files = e.dataTransfer.files
+      console.log(files)
       if (files.length > 0) {
         const file = files[0];
         if (file.type === 'application/pdf' || file.name.split('.')[1] === 'hwp') {

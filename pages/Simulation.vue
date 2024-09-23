@@ -118,30 +118,4 @@ export default {
   width: 18px;
   margin-right: 12px;
 }
-.option-box {
-  font-size: 14px;
-  font-family: 'Pretendard-Regular' !important;
-}
-.option-title {
-  font-weight: 700;
-}
-.option {
-  display: flex;
-  margin: 24px 30px;
-}
-.option p {
-  width: 100px;
-}
-.option .text-field {
-  width: 45px;
-  background-color: rgba(231, 235, 244, 1);
-  border-radius: 6px;
-  margin: 0px 12px;
-  font-size: 12px;
-  text-align: center;
-}
-.option .text-field:focus {
-  outline: none;
-}
-
 </style>
