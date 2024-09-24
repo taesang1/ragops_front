@@ -7,8 +7,9 @@
           <h2 class="logo" >Generation <br> Wons</h2>
         </div>
         <div class="page-list">
-          <div :style="`${i['style']}`" :id="path.includes(i.link) ? 'activate' : ''" :key="i.name" v-for="i in page_list" class="page">
-            <a :href="i.link">{{ i.name }}</a>
+          <div :style="`${i['style']}`" :id="path.includes(i.link) || path.includes(i.text) ? 'activate' : ''" :key="i.name" v-for="i in page_list" class="page">
+            <a v-if="i.link != null" :href="i.link">{{ i.name }}</a>
+            <a v-else>{{ i.name }}</a>
           </div>
         </div>
       </div>
@@ -24,7 +25,7 @@ export default {
         {name: '프로젝트 목록', link: '/project'},
         {name: '데이터업로드', link: '/dataupload'},
         {name: '전처리', link: '/Preprocessing'},
-        {name: 'rag 설정', link: 'rag'},
+        {name: 'rag 설정', link: null, text: 'rag'},
         {name: 'AI 자동최적화', link: '/ragai', style : 'margin-left : 24px'},
         {name: '수동 설정', link: '/raghuman', style : 'margin-left : 24px'},
         {name: '벡터DB 생성', link: '/vectordb'},

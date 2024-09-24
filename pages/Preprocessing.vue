@@ -32,19 +32,18 @@
         </iframe>
       </div>
 
-      <div>
-        <div class="box">
-          <p class="box-title">추출 결과</p>
-          <p v-if="view">
-            샘플
-          </p>
-        </div>
-        <div class="box">
-          <p class="box-title">파싱 결과</p>
-          <p v-if="view">
-            샘플
-          </p>
-        </div>
+      <div class="box">
+        <p class="box-title">추출 결과</p>
+        <p v-if="view">
+          샘플
+        </p>
+      </div>
+
+      <div class="box">
+        <p class="box-title">파싱 결과</p>
+        <p v-if="view">
+          샘플
+        </p>
       </div>
 
     </div>
