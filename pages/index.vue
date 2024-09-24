@@ -8,7 +8,7 @@ export default {
     }
   },
   mounted() {
-    window.location.href = '/Preprocessing'
+    window.location.href = '/project'
   }
 }
 </script>
