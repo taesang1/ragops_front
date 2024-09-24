@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="main-title">DB 생성</p>    
+    <p class="main-title">수동설정</p>    
 
     <div class="box-grid">
       <div class="box" style="min-height: 643px;">

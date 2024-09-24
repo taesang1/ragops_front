@@ -1,7 +1,14 @@
 <template>
   <div>
-    <p class="main-title">전처리</p>
+    <p class="main-title">벡터DB 생성 결과보기</p>
 
+    <v-progress-linear
+      v-model="knowledge"
+      style="width: 100px; margin-left: 16px;"
+      height="25"
+    >
+      <strong>24%</strong>
+    </v-progress-linear>
     <div class="box-grid">
       <div class="box">
         <p class="box-title">데이터 업로드</p>
@@ -46,6 +53,7 @@
 export default {
   data () {
     return {
+      knowledge : 22,
       view: false,
       initiallyOpen: ['folder2'],
       files: {
