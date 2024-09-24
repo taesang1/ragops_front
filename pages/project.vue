@@ -1,6 +1,13 @@
 <template>
   <div>
-    <p class="main-title">프로젝트 목록</p>
+    <p class="main-title">프로젝트 생성 및 관리</p>
+    <div style="width: max-content; margin-left: auto;">
+      <button class="nuxt-button" style="margin-bottom: 100px;">프로젝트 생성 ></button>
+    </div>
+
+    <div class="sub-title">
+      프로젝트 목록
+    </div>
     <div class="box">
       <table>
         <thead>

@@ -52,9 +52,7 @@
   </div>
 </template>
 <script>
-import popup from '@/components/popup.vue'
 export default {
-  components : {popup},
   data () {
     return {
       dialog : false,

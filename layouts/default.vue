@@ -4,7 +4,7 @@
       <script src="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"></script>
       <div class="navigation">
         <div style="width: max-content; margin: 0 auto;">
-          <h2 class="logo" >Generation <br> Wons</h2>
+          <h2 class="logo" >RAGOps</h2>
         </div>
         <div class="page-list">
           <div :style="`${i['style']}`" :id="path.includes(i.link) || path.includes(i.text) ? 'activate' : ''" :key="i.name" v-for="i in page_list" class="page">
@@ -86,11 +86,21 @@ p {
 }
 .main-title {
   color : rgba(80, 72, 176, 1);
-  font-size: 18px;
+  font-size: 24px;
   padding: 24px 16px;
   text-align: left;
   font-weight: 700;
   margin-top: 134px;
+}
+.sub-title {
+  color: white;
+  background-color: rgba(57, 57, 75, 1);
+  width: 200px;
+  padding: 6px 24px;
+  border-radius: 18px;
+  margin-left: 16px;
+  font-size: 14px;
+  box-shadow: 0px 5px 6px #a7a3a3;
 }
 .box-grid {
   display: flex;
