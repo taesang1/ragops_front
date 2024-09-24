@@ -65,35 +65,21 @@
           <p class="box-title">최적의 옵션</p>
           
           <div class="option-box">
-            <p>청킹</p>
-            <div class="option">
-              <p>방법: Recursive</p>
-            </div>
+            <p>청킹 옵션 : Recursive</p>
             <div class="option">
               <p>Chunk Size</p>
               <input value="500" type="text" class="text-field"/>
-            </div>
-            <div class="option">
               <p>Overlap Size</p>
               <input value="100" type="text" class="text-field"/>
             </div>
           </div>
 
           <div class="option-box">
-            <p>임베딩 모델</p>
-            <div class="option">
-              <p style="width: max-content;">방법: 모델1</p>
-            </div>
+            <p>임베딩 모델 : 모델1</p>
           </div>
 
-          <div class="option-box">
-            <p>AUGMENT</p>
-            <div class="option">
-              <p style="width: max-content;">방법: Chunk window</p>
-            </div>
-            <div class="option">
-              <p>Window size: 3</p>
-            </div>
+          <div class="option-box" style="padding: 24px 0px;">
+            <p>AUGMENT : Chunk window Window size: 3</p>
           </div>
         </div>
       </div>
@@ -103,7 +89,7 @@
       <p class="box-title">실행모델</p>
       <div class="option-box" style="display: flex;">
         <label v-for="option in Object.keys(smp_1)" :key="option" class="check-box-label" style="margin: 0 12px;">
-          <input type="checkbox" name="smp1_popup" v-model="smp_1[option]['value']" class="check-box">
+          <input @click="check(smp_1, option)" type="checkbox" name="smp1_popup" v-model="smp_1[option]['value']" class="check-box">
           <p style="margin: auto !important;" class="option-title">{{ smp_1[option]['text'] }}</p>
           <hr style="width: 100px; margin: auto 12px; border: 1px solid rgba(197, 197, 197, 1)">
           <p style="margin: auto !important;">{{ smp_1[option]['sub'] }}</p>
@@ -155,6 +141,13 @@ export default {
     }
   },
   methods: {
+    check(e, ch) {
+      for (var i of Object.keys(e)) {
+        if (i != ch) {
+          e[i].value = false
+        }
+      }
+    },
     set_chart() {
       if (this.is_chart) return
       var ctx = document.querySelector('#chart')
