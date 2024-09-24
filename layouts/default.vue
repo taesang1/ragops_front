@@ -24,8 +24,9 @@ export default {
         {name: '프로젝트 목록', link: '/project'},
         {name: '데이터업로드', link: '/dataupload'},
         {name: '전처리', link: '/Preprocessing'},
-        {name: 'AI 자동최적화', link: '/Preprocessingai', style : 'margin-left : 24px'},
-        {name: '수동 설정', link: '/Preprocessinghuman', style : 'margin-left : 24px'},
+        {name: 'rag 설정', link: 'rag'},
+        {name: 'AI 자동최적화', link: '/ragai', style : 'margin-left : 24px'},
+        {name: '수동 설정', link: '/raghuman', style : 'margin-left : 24px'},
         {name: '벡터DB 생성', link: '/vectordb'},
         {name: 'DB관리', link: '/Dblist'}
       ],

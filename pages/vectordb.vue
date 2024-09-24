@@ -4,6 +4,7 @@
 
     <v-progress-linear
       v-model="knowledge"
+      :active="true"
       style="width: 100px; margin-left: 16px;"
       height="25"
     >

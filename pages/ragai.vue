@@ -9,7 +9,7 @@
           <p class="box-title">청킹 옵션</p>
           <div class="option-box" v-for="option in Object.keys(chuncking)" :key="option.text">
             <label class="check-box-label">
-              <input @click="check(chuncking, option)" name="chuncking_popup" type="checkbox" v-model="chuncking[option].value" class="check-box">
+              <input name="chuncking_popup" type="checkbox" v-model="chuncking[option].value" class="check-box">
               <p class="option-title">{{ chuncking[option].text }}</p>
             </label>
             <template v-for="key in Object.keys(chuncking[option])">
@@ -32,7 +32,7 @@
           <p class="box-title">임베딩 모델</p>
           <div class="option-box" v-for="option in Object.keys(model)" :key="option">
             <label class="check-box-label">
-              <input @click="check(model, option)" type="checkbox" name="model_popup" v-model="model[option]['value']" class="check-box">
+              <input type="checkbox" name="model_popup" v-model="model[option]['value']" class="check-box">
               <p class="option-title">{{ model[option]['text'] }}</p>
             </label>
           </div>
@@ -42,7 +42,7 @@
           <p class="box-title">Augmentation 옵션</p>
           <div class="option-box" v-for="option in Object.keys(augmentation)" :key="option">
             <label class="check-box-label">
-              <input @click="check(augmentation, option)" type="checkbox" name="augmentation_popup" v-model="augmentation[option]['value']" class="check-box">
+              <input type="checkbox" name="augmentation_popup" v-model="augmentation[option]['value']" class="check-box">
               <p class="option-title">{{ augmentation[option]['text'] }}</p>
             </label>
             <div v-if="option == 'chunk_window'" class="option">
@@ -103,7 +103,7 @@
       <p class="box-title">실행모델</p>
       <div class="option-box" style="display: flex;">
         <label v-for="option in Object.keys(smp_1)" :key="option" class="check-box-label" style="margin: 0 12px;">
-          <input @click="check(smp_1, option)" type="checkbox" name="smp1_popup" v-model="smp_1[option]['value']" class="check-box">
+          <input type="checkbox" name="smp1_popup" v-model="smp_1[option]['value']" class="check-box">
           <p style="margin: auto !important;" class="option-title">{{ smp_1[option]['text'] }}</p>
           <hr style="width: 100px; margin: auto 12px; border: 1px solid rgba(197, 197, 197, 1)">
           <p style="margin: auto !important;">{{ smp_1[option]['sub'] }}</p>
@@ -155,13 +155,6 @@ export default {
     }
   },
   methods: {
-    check(e, ch) {
-      for (var i of Object.keys(e)) {
-        if (i != ch) {
-          e[i].value = false
-        }
-      }
-    },
     set_chart() {
       if (this.is_chart) return
       var ctx = document.querySelector('#chart')
