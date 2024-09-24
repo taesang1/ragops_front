@@ -1,16 +1,18 @@
 <template>
   <v-app>
     <div class='main'>
+      <script src="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"></script>
       <div class="navigation">
-        <h2 class="logo" >RAGOps</h2>
+        <div style="width: max-content; margin: 0 auto;">
+          <h2 class="logo" >Generation <br> Wons</h2>
+        </div>
         <div class="page-list">
-          <div :key="i.name" v-for="i in page_list" class="page">
+          <div :style="`${i['style']}`" :id="path.includes(i.link) ? 'activate' : ''" :key="i.name" v-for="i in page_list" class="page">
             <a :href="i.link">{{ i.name }}</a>
-            <img v-if="path.includes(i.link)" src="@/assets/page_icon.png" class="page_icon">
           </div>
         </div>
       </div>
-      <Nuxt style="width: 100%;"/>
+      <Nuxt style="width: 100%; padding: 0px 36px;"/>
     </div>
   </v-app>
 </template>
@@ -19,9 +21,13 @@ export default {
   data () {
     return {
       page_list : [
+        {name: '프로젝트 목록', link: '/project'},
+        {name: '데이터업로드', link: '/dataupload'},
         {name: '전처리', link: '/Preprocessing'},
-        {name: 'DB생성', link: '/Simulation'},
-        {name: 'DB목록', link: '/Dblist'}       
+        {name: 'AI 자동최적화', link: '/Preprocessingai', style : 'margin-left : 24px'},
+        {name: '수동 설정', link: '/Preprocessinghuman', style : 'margin-left : 24px'},
+        {name: '벡터DB 생성', link: '/vectordb'},
+        {name: 'DB관리', link: '/Dblist'}
       ],
       path : '/'
     }
@@ -32,14 +38,8 @@ export default {
 }
 </script>
 <style>
-@font-face {
-    font-family: 'Pretendard-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
-}
 * {
-  font-family: 'Pretendard-Regular'
+  font-family: 'Pretendard'
 }
 p {
   margin-bottom: 0px !important;
@@ -50,22 +50,27 @@ p {
   height: 100%;
 }
 .logo {
-  text-align: center;
+  color: white;
+  text-align: right;;
   margin-top: 24px;
   font-size: 24px;
 }
 .navigation {
   width: 284px;
   height: 100%;
-  background: var(--Light-blue, rgba(242, 245, 249, 1));
+  background: rgba(57, 57, 75, 1)
 }
 .page-list {
   padding: 0px 50px;
-  margin-top: 150px;
+  margin-top: 50px;
 }
 .page {
+  color: gray;
   display: flex;
   padding: 12px 0px
+}
+#activate a{
+  color: rgba(98, 84, 255, 1);
 }
 .page_icon {
   width: 26px;
@@ -78,19 +83,18 @@ p {
   color: black;
 }
 .main-title {
+  color : rgba(80, 72, 176, 1);
   font-size: 18px;
-  padding: 24px 40px;
-  margin-left: 12px;
+  padding: 24px 16px;
   text-align: left;
-  border-bottom: 1px solid rgba(238, 238, 238, 1);
   font-weight: 700;
+  margin-top: 134px;
 }
 .box-grid {
   display: flex;
 }
 .box {
-  border-radius: 12px;
-  border: 1px solid rgba(224, 232, 255, 1);
+  border: 1px solid rgba(195, 194, 194, 1);
   padding: 24px;
   margin: 16px;
   min-width: 460px;
@@ -111,7 +115,9 @@ p {
   font-size: 16px;
 }
 .nuxt-button {
-  background-color: rgba(101, 139, 255, 1);
+  background-color: rgba(96, 92, 255, 1);
+  color : white;
+  border-radius: 24px;
 }
 .prev-button {
   background-color: rgba(226, 233, 255, 1);
@@ -161,5 +167,13 @@ td {
 }
 .option-title {
   font-weight: 700;
+}
+.check-box-label {
+  display: flex;
+  margin-top: 36px;
+}
+.check-box {
+  margin-right: 12px;
+  width: 18px;
 }
 </style>

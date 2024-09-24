@@ -1,12 +1,6 @@
 <template>
   <div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <div style="display: flex; padding: 13px 40px;">
-      <p class="main-title" style="padding: 0; margin-top: 12px;">DB 생성</p>
-      <button @click="dialog = true" class="nuxt-button" style="margin-left: auto;">시뮬레이션 해보기</button>
-    </div>
-
-    <popup v-model="dialog" :dialog="dialog"/>
+    <p class="main-title">DB 생성</p>    
 
     <div class="box-grid">
       <div class="box" style="min-height: 643px;">
@@ -52,10 +46,7 @@
           </div>
         </div>
 
-        <div class="button-box">
-          <button class="prev-button">< 뒤로</button>
-          <button class="nuxt-button">DB 생성</button>
-        </div>
+        <button style="float: right;" class="nuxt-button">벡터 DB 생성</button>
       </div>
     </div>
   </div>
@@ -101,13 +92,3 @@ export default {
   },
 }
 </script>
-<style>
-.check-box-label {
-  margin-top: 36px;
-  display: flex;
-}
-.check-box {
-  width: 18px;
-  margin-right: 12px;
-}
-</style>

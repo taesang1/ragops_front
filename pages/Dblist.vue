@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="main-title">DB목록</p>
+    <p class="main-title">DB 관리</p>
     <div class="box">
       <table>
         <thead>
