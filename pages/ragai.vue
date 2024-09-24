@@ -6,7 +6,7 @@
     <div class="box-grid">
       <div>
         <div class="box">
-          <p class="box-title">청킹 옵션설정</p>
+          <p class="box-title">청킹 옵션 설정</p>
           <div class="option-box" v-for="option in Object.keys(chuncking)" :key="option.text">
             <label class="check-box-label">
               <input name="chuncking_popup" type="checkbox" v-model="chuncking[option].value" class="check-box">
