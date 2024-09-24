@@ -13,7 +13,7 @@
         <p class="box-title">청킹 옵션</p>
         <div class="option-box" v-for="option in [overlap, recursive, semantic]" :key="option.text">
           <label class="check-box-label">
-            <input  type="radio" :value="option.text" name="smp2" v-model="overlap.text" class="check-box">
+            <input type="radio" :value="option.text" name="chuncking" v-model="option.text" class="check-box">
             <p class="option-title">{{ option.text }}</p>
           </label>
           <template v-for="key in Object.keys(option)">
@@ -30,7 +30,7 @@
           <p class="box-title">임베딩 모델</p>
           <div class="option-box" v-for="option in Object.keys(model)" :key="option">
             <label class="check-box-label">
-              <input type="radio" :value="option" v-model="model[option]['value']" class="check-box">
+              <input type="radio" name="model" :value="option" v-model="model[option]['value']" class="check-box">
               <p class="option-title">{{ model[option]['text'] }}</p>
             </label>
           </div>
@@ -40,7 +40,7 @@
           <p class="box-title">Augmentation 옵션</p>
           <div class="option-box" v-for="option in Object.keys(augmentation)" :key="option">
             <label class="check-box-label">
-              <input type="radio" :value="option" v-model="augmentation[option]['value']" class="check-box">
+              <input type="radio" name="augmentation" :value="option" v-model="augmentation[option]['value']" class="check-box">
               <p class="option-title">{{ augmentation[option]['text'] }}</p>
             </label>
             <div v-if="option == 'chunk_window'" class="option">

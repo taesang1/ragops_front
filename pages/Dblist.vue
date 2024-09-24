@@ -6,7 +6,6 @@
         <thead>
           <tr>
             <th>DB version</th>
-            <th>시뮬레이션 version</th>
             <th>생성 시작 시간</th>
             <th>상태</th>
             <th>옵션</th>
@@ -18,7 +17,6 @@
         </thead>
         <tbody>
           <tr>
-            <td>1</td>
             <td>1</td>
             <td>2024-09-23 12:00</td>
             <td>생성완료</td>
