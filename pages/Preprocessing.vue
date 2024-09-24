@@ -92,7 +92,6 @@ export default {
 <style>
 .file_upload {
   border: 1px solid rgba(224, 232, 255, 1);
-  font-family: 'Pretendard-Regular';
   font-size: 14px;
   text-align: center;
   padding: 12px;

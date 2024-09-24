@@ -1,10 +1,6 @@
 <template>
   <v-app>
-    <div v-if="path.includes('login')">
-      <h2 class='logo' >RAGOps</h2>
-      <Nuxt />
-    </div>
-    <div v-else class='main'>
+    <div class='main'>
       <div class="navigation">
         <h2 class="logo" >RAGOps</h2>
         <div class="page-list">
@@ -24,8 +20,7 @@ export default {
     return {
       page_list : [
         {name: '전처리', link: '/Preprocessing'},
-        {name: '시뮬레이션', link: '/Simulation'},
-        {name: '결과', link: '/Result'},
+        {name: 'DB생성', link: '/Simulation'},
         {name: 'DB목록', link: '/Dblist'}       
       ],
       path : '/'
@@ -43,11 +38,8 @@ export default {
     font-weight: 400;
     font-style: normal;
 }
-@font-face {
-    font-family: 'SF_HailSnow';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/SF_HailSnow.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
+* {
+  font-family: 'Pretendard-Regular'
 }
 p {
   margin-bottom: 0px !important;
@@ -59,7 +51,6 @@ p {
 }
 .logo {
   text-align: center;
-  font-family: 'Pretendard-Regular' !important;
   margin-top: 24px;
   font-size: 24px;
 }
@@ -69,7 +60,6 @@ p {
   background: var(--Light-blue, rgba(242, 245, 249, 1));
 }
 .page-list {
-  font-family: 'SF_HailSnow' !important;
   padding: 0px 50px;
   margin-top: 150px;
 }
@@ -88,7 +78,6 @@ p {
   color: black;
 }
 .main-title {
-  font-family: 'SF_HailSnow' !important;
   font-size: 18px;
   padding: 24px 40px;
   margin-left: 12px;
@@ -107,7 +96,6 @@ p {
   min-width: 460px;
 }
 .box-title {
-  font-family: 'SF_HailSnow' !important;
   font-size: 18px;
   font-weight: 700;
   margin-bottom: 16px !important;
@@ -121,7 +109,6 @@ p {
   margin: 0 12px;
   border-radius: 12px;
   font-size: 16px;
-  font-family: 'Pretendard-Regular' !important;
 }
 .nuxt-button {
   background-color: rgba(101, 139, 255, 1);
@@ -131,7 +118,6 @@ p {
 }
 table {
   font-size: 12px;
-  font-family: 'Pretendard-Regular'
 }
 thead {
   table-layout: fixed;
@@ -172,7 +158,6 @@ td {
 }
 .option-box {
   font-size: 14px;
-  font-family: 'Pretendard-Regular' !important;
 }
 .option-title {
   font-weight: 700;

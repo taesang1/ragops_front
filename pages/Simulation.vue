@@ -1,42 +1,31 @@
 <template>
   <div>
-    <p class="main-title">시뮬레이션</p>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <div style="display: flex; padding: 13px 40px;">
+      <p class="main-title" style="padding: 0; margin-top: 12px;">DB 생성</p>
+      <button @click="dialog = true" class="nuxt-button" style="margin-left: auto;">시뮬레이션 해보기</button>
+    </div>
+
+    <popup v-model="dialog" :dialog="dialog"/>
 
     <div class="box-grid">
       <div class="box" style="min-height: 643px;">
         <p class="box-title">청킹 옵션</p>
         <div class="option-box" v-for="option in [overlap, recursive, semantic]" :key="option.text">
           <label class="check-box-label">
-            <input type="checkbox" v-model="option.value" class="check-box">
+            <input  type="radio" :value="option.text" name="smp2" v-model="overlap.text" class="check-box">
             <p class="option-title">{{ option.text }}</p>
           </label>
           <template v-for="key in Object.keys(option)">
             <div :key="key" v-if="key != 'text' && key !='value'" class="option">
               <p>{{ key }}</p>
-              <span>Min</span>
               <input v-model="option[key]['min']" type="text" class="text-field"/>
-              <span>Max</span>
-              <input v-model="option[key]['max']" type="text" class="text-field"/>
-              <span>Step</span>
-              <input v-model="option[key]['step']" type="text" class="text-field"/>
             </div>
           </template>
         </div>
       </div>
 
       <div>
-        <div class="box">
-          <p class="box-title">옵션 조합 정책</p>
-          <div class="option-box" v-for="option in Object.keys(smp_1)" :key="option">
-            <label class="check-box-label">
-              <input type="radio" name="smp1" :value="option" v-model="smp_1[option]['value']" class="check-box">
-              <p class="option-title">{{ smp_1[option]['text'] }}</p>
-              <hr style="width: 100px; margin: auto 12px; border: 1px solid rgba(197, 197, 197, 1)">
-              <p>개 조합</p>
-            </label>
-          </div>
-        </div>
-
         <div class="box">
           <p class="box-title">임베딩 모델</p>
           <div class="option-box" v-for="option in Object.keys(model)" :key="option">
@@ -65,16 +54,19 @@
 
         <div class="button-box">
           <button class="prev-button">< 뒤로</button>
-          <button class="nuxt-button">시뮬레이션 실행</button>
+          <button class="nuxt-button">DB 생성</button>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import popup from '@/components/popup.vue'
 export default {
+  components : {popup},
   data () {
     return {
+      dialog : false,
       overlap : {
         value : true,
         text : 'OVERLAP',
