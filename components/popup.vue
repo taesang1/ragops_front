@@ -50,7 +50,7 @@
             <p class="box-title">Augmentation 옵션</p>
             <div class="option-box" v-for="option in Object.keys(augmentation)" :key="option">
               <label class="check-box-label">
-                <input type="checkbox" :value="option" v-model="augmentation[option]['value']" class="check-box">
+                <input type="checkbox" onclick="this.checked=false" :value="option" v-model="augmentation[option]['value']" class="check-box">
                 <p class="option-title">{{ augmentation[option]['text'] }}</p>
               </label>
               <div v-if="option == 'chunk_window'" class="option">

@@ -26,10 +26,19 @@
             <td><a>보기</a></td>
             <td>2024-09-23 12:12</td>
             <td><button class="table-button">데이터 갱신</button></td>
-            <td><button class="table-button">테스트</button></td>
+            <td><button @click="test" class="table-button">테스트</button></td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
 </template>
+<script>
+export default {
+  methods: {
+    test() {
+      window.location.href = '/test'
+    }
+  }
+}
+</script>
