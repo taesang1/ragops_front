@@ -13,7 +13,7 @@
           </div>
         </div>
       </div>
-      <Nuxt style="width: 100%; padding: 0px 36px;"/>
+      <Nuxt style="width: 100%; padding: 0px 36px; overflow: auto;"/>
     </div>
   </v-app>
 </template>
@@ -58,7 +58,7 @@ p {
   font-size: 24px;
 }
 .navigation {
-  width: 284px;
+  min-width: 284px;
   height: 100%;
   background: rgba(57, 57, 75, 1)
 }

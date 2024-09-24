@@ -6,7 +6,7 @@
     <div class="box-grid">
       <div>
         <div class="box">
-          <p class="box-title">청킹 옵션</p>
+          <p class="box-title">청킹 옵션설정</p>
           <div class="option-box" v-for="option in Object.keys(chuncking)" :key="option.text">
             <label class="check-box-label">
               <input name="chuncking_popup" type="checkbox" v-model="chuncking[option].value" class="check-box">
@@ -29,7 +29,7 @@
 
       <div>
         <div class="box">
-          <p class="box-title">임베딩 모델</p>
+          <p class="box-title">임베딩 모델 선택</p>
           <div class="option-box" v-for="option in Object.keys(model)" :key="option">
             <label class="check-box-label">
               <input type="checkbox" name="model_popup" v-model="model[option]['value']" class="check-box">

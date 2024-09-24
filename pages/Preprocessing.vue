@@ -3,7 +3,7 @@
     <p class="main-title">전처리</p>
 
     <div class="box-grid">
-      <div class="box">
+      <div class="box" style="min-width: 350px;">
         <p class="box-title">데이터 업로드</p>
         <v-treeview
           v-model="tree"
@@ -25,21 +25,21 @@
         </v-treeview>
       </div>
 
-      <div class="box">
+      <div class="box" style="min-width: 350px;">
         <p class="box-title">원본파일</p>
         <iframe style="width: 100%; height: 90%;" v-if="view" :src="file_link[file]" type="application/pdf">
 
         </iframe>
       </div>
 
-      <div class="box">
+      <div class="box" style="min-width: 350px;">
         <p class="box-title">추출 결과</p>
         <p v-if="view">
           샘플
         </p>
       </div>
 
-      <div class="box">
+      <div class="box" style="min-width: 350px;">
         <p class="box-title">파싱 결과</p>
         <p v-if="view">
           샘플
