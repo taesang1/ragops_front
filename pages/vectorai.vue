@@ -19,7 +19,7 @@
           <button style="margin-left: 12px; border-radius: 12px; padding: 8px 24px; color: white; font-size: 14px; background-color: rgba(160, 157, 255, 1)">직접입력</button>
         </div>
 
-        <div class="sub-title" style="margin: 24px 0;">알고리즘 선택</div>
+        <div class="sub-title" style="margin: 48px 0 24px 0px;">알고리즘 선택</div>
           <div class="option-box" style="display: flex; margin-bottom: 12px">
           <label v-for="option in Object.keys(smp_1)" :key="option" class="check-box-label" style="width: 100%; font-size: 14px;">
             <input style="margin-bottom: 18px;" @click="check(smp_1, option)" type="checkbox" name="smp1_popup" v-model="smp_1[option]['value']" class="check-box">
@@ -30,7 +30,7 @@
           </label>
         </div>
   
-        <div class="sub-title" style="margin: 24px 0">범위 설정</div>
+        <div class="sub-title" style="margin: 48px 0 24px 0px;">범위 설정</div>
         <div style="display: flex;">
           <div class="box" style="margin-left: 0;">
             <p class="box-title">청킹 옵션 설정</p>
@@ -94,28 +94,38 @@
             </button>
           </a>
         </div>
-        <div class="box" style="margin-left: 0;">
+        <div class="box" style="margin-left: 0; margin-top: 0px; margin-bottom: 0px; padding: 12px 24px;">
           <div class="option-box">
-            <p class="box-title">청킹 옵션 : Recursive</p>
+            <p class="box-title">청킹 옵션 : <span style="color: rgba(96, 92, 255, 1);">Recursive</span></p>
             <div class="option">
-              <p>Chunk Size</p>
-              <input value="500" type="text" class="text-field"/>
-              <p>Overlap Size</p>
-              <input value="100" type="text" class="text-field"/>
+              <div style="display: flex; width: 100%;">
+                <p style="width: 70px;">Chunk Size</p>
+                <input style="color: rgba(96, 92, 255, 1);" value="500" type="text" class="text-field"/>
+              </div>
+              <div style="display: flex; width: 100%;">
+                <p style="width: 70px;">Overlap Size</p>
+                <input style="color: rgba(96, 92, 255, 1);" value="100" type="text" class="text-field"/>
+              </div>
             </div>
           </div>
 
           <div class="option-box">
-            <p class="box-title">임베딩 모델 : 모델1</p>
+            <p class="box-title">임베딩 모델 : <span style="color: rgba(96, 92, 255, 1);">모델1</span></p>
+            <div class="option" style="opacity: 0;">
+              <div style="display: flex; width: 100%;">
+                <p style="width: 70px;">Chunk Size</p>
+                <input readonly value="500" type="text" class="text-field"/>
+              </div>
+            </div>
           </div>
 
-          <div class="option-box" style="padding: 24px 0px;">
+          <div class="option-box">
             <p class="box-title">AUGMENT : Chunk window Window size: 3</p>
           </div>
           
         </div>
 
-        <div class="sub-title" style="margin-left: 0px; margin-bottom: 12px;">성능 비교</div>
+        <div class="sub-title" style="margin: 40px 0px 40px">성능 비교</div>
         <div class="box" style="margin-left: 0;">
           <canvas id="chart"></canvas>
           

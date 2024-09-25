@@ -107,6 +107,7 @@ p {
   text-decoration-line : none;
   color: white;
   font-size: 16px;
+  min-width: max-content
 }
 .main-title {
   font-size: 20px;
@@ -129,6 +130,7 @@ p {
   font-size: 14px;
   text-align: center;
   box-shadow: 0px 5px 6px #a7a3a3;
+  min-width: max-content
 }
 .box-grid {
   display: flex;
