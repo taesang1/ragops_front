@@ -1,9 +1,10 @@
 <template>
   <div style="width: max-content;">
+    <loadproject :dialog="dialog" v-model="dialog"/>
     <p class="main-title">데이터 전처리 > <span class="main-sub-title">데이터 업로드</span></p>
 
     <div style="display: flex; padding-left: 16px; margin-bottom: 24px;">
-      <button class="load-project">
+      <button @click="dialog = true" class="load-project">
         <img class="add-icon" src="@/assets/add.png">
         프로젝트 불러오기
       </button>
@@ -77,7 +78,7 @@
             <img src="@/assets/file_upload.png">
             <p style="padding: 8px 0px;">Drag your file here, of Click here to browse</p>
           </div>
-          <input type="file" id="zipFile" accept=".pdf, .hwp" style="display:none;">
+          <input @change="upload_files" type="file" id="upload_file" accept=".pdf, .hwp" style="display:none;">
         </div>
       </div>
 
@@ -85,11 +86,14 @@
   </div>
 </template>
 <script>
+import loadproject from '@/components/loadproject.vue';
+
 export default {
+  components : { loadproject },
   data () {
     return {
-      zipFileInput : null,
-      zipFile : null,
+      dialog : false,
+      upload_file : null,
       initiallyOpen: ['folder2'],
       files: {
         pdf: 'mdi-file-pdf-box',
@@ -144,7 +148,7 @@ export default {
       if (files.length > 0) {
         const file = files[0];
         if (file.type === 'application/pdf' || file.name.split('.')[1] === 'hwp') {
-          this.zipFile = files[0];
+          this.upload_file = files[0];
         } else {
           alert(".pdf 또는 .hwp 파일을 선택해주세요.")
         }
@@ -153,7 +157,10 @@ export default {
       }
     },
     triggerZipFileInput(){
-      document.querySelector('#zipFile').click()
+      document.querySelector('#upload_file').click()
+    },
+    upload_files(e) {
+      this.upload_file = e
     },
     onDragLeave(){
     },

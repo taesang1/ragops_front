@@ -3,12 +3,30 @@ export const state = () => ({
 })
 
 export const mutations = {
-  set_session_id(state, data) {
-    state.session_id = data
+  check_project_id(state, data) {
+    state.project_id = data
   }
 }
 
 export const actions = {
+  get_project_list( {state, commit}) {
+    return this.$axios.get(`/api/v1/projects`)
+    .then((res) => {
+      return res.data
+    })
+    .catch((res) => {
+      alert('예상치 못한 에러가 발생했습니다. 잠시후 다시 시도해주세요.')
+    })
+  },
+  new_project( {state, commit}, body) {
+    return this.$axios.post(`/api/v1/projects`, body)
+    .then((res) => {
+      return res.data
+    })
+    .catch((res) => {
+      alert('예상치 못한 에러가 발생했습니다. 잠시후 다시 시도해주세요.')
+    })
+  },
   get_server_file_base_list( {state, commit}, body) {
     return this.$axios.get(`/api/v1/server-files/base-dir`, {params : body})
     .then((res) => {
@@ -89,16 +107,18 @@ export const actions = {
     })
   },
   simulate_expected_time( {state, commit}, body) {
-    return this.$axios.get(`/api/v1/projects/${project_id}/simulate/expected-time`,  {params : body})
+    return this.$axios.get(`/api/v1/projects/${body['project_id']}/simulate/expected-time`,  {params : body})
     .then((res) => {
+      return res.data
     })
     .catch((res) => {
       alert('예상치 못한 에러가 발생했습니다. 잠시후 다시 시도해주세요.')
     })
   },
   simulate_run( {state, commit}, body) {
-    return this.$axios.post(`/api/v1/projects/${project_id}/sims`, body)
+    return this.$axios.post(`/api/v1/projects/${body['project_id']}/sims`, body)
     .then((res) => {
+      return res.data
     })
     .catch((res) => {
       alert('예상치 못한 에러가 발생했습니다. 잠시후 다시 시도해주세요.')

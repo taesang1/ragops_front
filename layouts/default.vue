@@ -38,8 +38,8 @@ export default {
         {name: '진행현황', link: '/dataprogress', style : 'margin-left : 24px'},
         {name: '백터DB 생성', link: null, text: 'vector'},
         {name: 'AI 자동최적화', link: '/vectorai', style : 'margin-left : 24px'},
-        {name: '파라미터 수동 설정', link: '/vectorhuman', style : 'margin-left : 24px'},
-        {name: '결과확인', link: '/vectordb', style : 'margin-left : 24px'}
+        // {name: '파라미터 수동 설정', link: '/vectorhuman', style : 'margin-left : 24px'},
+        // {name: '결과확인', link: '/vectordb', style : 'margin-left : 24px'}
       ],
       path : '/'
     }
@@ -141,7 +141,7 @@ p {
   border: 1px solid rgba(228, 228, 228, 1);
   padding: 24px;
   margin: 16px;
-  min-width: 460px;
+  min-width: 390px;
 }
 .box-title {
   font-size: 14px;

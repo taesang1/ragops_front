@@ -16,26 +16,19 @@
       <table>
         <thead>
           <tr>
-            <th>프로젝트</th>
-            <th>생성 시작 시간</th>
-            <th>상태</th>
-            <th>옵션</th>
-            <th>청킹 결과</th>
-            <th>생성 완료 시각</th>
-            <th>데이터 갱신</th>
-            <th>테스트</th>
+            <th v-for="header in headers" :key="header">{{ header }}</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>2024-09-23 12:00</td>
-            <td>생성완료</td>
+          <tr v-for="row in data" :key="row.id">
+            <td>{{ row.id }}</td>
+            <td>{{ row.start_dt }}</td>
+            <td>{{ row.status }}</td>
             <td><a>보기</a></td>
             <td><a>보기</a></td>
-            <td>2024-09-23 12:12</td>
+            <td>{{ row.end_dt }}</td>
             <td><button class="table-button">데이터 갱신</button></td>
-            <td><button @click="test" class="table-button">테스트</button></td>
+            <td><button @click="test" class="table-button">Playground</button></td>
           </tr>
         </tbody>
       </table>
@@ -44,9 +37,20 @@
 </template>
 <script>
 export default {
+  data () {
+    return {
+      headers : ['프로젝트', '생성 시작 시간', '상태', '옵션', '청킹 결과', '생성 완료 시각', '데이터 갱신', 'Playground'],
+      data : []
+    }
+  },
+  mounted() {
+    this.$store.dispatch('get_project_list').then((res) => {
+      this.data = res['projects']
+    })
+  },
   methods: {
     test() {
-      window.location.href = '/test'
+      window.location.href = '/Playground'
     }
   }
 }

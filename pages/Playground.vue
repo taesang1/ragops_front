@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="main-title">테스트</p>
+    <p class="main-title">Playground</p>
     <div class="box">
       <div id="target"></div>
     </div>

@@ -9,14 +9,6 @@
         <img class="arrow-right" src="@/assets/arrow_right.png">
       </button>
     </div>
-    <!-- <v-progress-linear
-      v-model="knowledge"
-      :active="true"
-      style="width: 100px; margin-left: 16px;"
-      height="25"
-    >
-      <strong>24%</strong>
-    </v-progress-linear> -->
 
     <div class="box-grid">
       <div>
@@ -67,7 +59,6 @@
 export default {
   data () {
     return {
-      knowledge : 22,
       view: false,
       chunking : null,
       initiallyOpen: ['folder2'],
