@@ -90,10 +90,15 @@
       <div v-show="is_chart" style="width: 40%; padding: 24px; margin: 16px;">
         <div style="display: flex;">
           <div class="sub-title" style="margin-left: 0px; margin-bottom: 24px; height: max-content;">추천 파라미터</div>
-          <a style="width: max-content; margin: 0px 0px 12px auto; display: block;">
+          <a v-if="!is_db_loading" @click="create_db" style="width: max-content; margin: 0px 0px 12px auto; display: block;">
             <button class="next-button">
               <a>벡터DB 생성하기</a>
               <img class="arrow-right" src="@/assets/arrow_right.png">
+            </button>
+          </a>
+          <a v-else style="width: max-content; margin: 0px 0px 12px auto; display: block;">
+            <button class="next-button">
+              <a>생성중...</a>
             </button>
           </a>
         </div>
@@ -152,26 +157,27 @@ export default {
   data () {
     return {
       is_simulate_loading : false,
+      is_db_loading : false,
       chuncking : {
         overlap : {
           value : true,
           param : 'char',
           text : 'OVERLAP',
-          chunk_size : {text : 'Chunk Size', min : 300, max : 500, step: 100},
-          overlap_size : {text: 'Overlap Size', min : 50, max : 100, step: 50},
+          chunk_size : {text : 'Chunk Size', min : 400, max : 500, step: 100},
+          overlap_size : {text: 'Overlap Size', min : 50, max : 50, step: 50},
         },
         recursive : {
           value : true,
           param : 'recu',
           text : 'RECURSIVE',
-          chunk_size : {text : 'Chunk Size', min : 300, max : 500, step: 100},
+          chunk_size : {text : 'Chunk Size', min : 400, max : 500, step: 100},
           overlap_size : {text: 'Overlap Size', min : 50, max : 100, step: 50},
         },
         semantic : {
           value : true,
           param : 'smea',
           text : 'SEMANTIC',
-          threshold : {text: 'Threshold' ,min : 40, max : 90, step: 10}
+          threshold : {text: 'Threshold' ,min : 70, max : 80, step: 10}
         }
       },
       expected : {
@@ -294,6 +300,13 @@ export default {
         }
       }
       return body
+    },
+    create_db() {
+      let body = this.make_body()
+      this.is_db_loading = true
+      this.$store.dispatch('create_db', body).then((res) => {
+        this.is_db_loading = false
+      })
     },
     check(e, ch) {
       for (var i of Object.keys(e)) {
