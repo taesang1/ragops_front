@@ -1,33 +1,54 @@
 <template>
   <div>
-    <p class="main-title">데이터업로드</p>
+    <p class="main-title">데이터 전처리 > <span class="main-sub-title">데이터 업로드</span></p>
+
+    <div style="display: flex; padding-left: 16px; margin-bottom: 24px;">
+      <button class="load-project">
+        <img class="add-icon" src="@/assets/add.png">
+        프로젝트 불러오기
+      </button>
+      <div class="project-name" style="margin: auto 0px auto 12px">#프로젝트 1</div>
+      <a href="/dataprogress" style="margin-left: auto;">
+        <button class="next-button">
+          <a>전처리 실행</a>
+          <img class="arrow-right" src="@/assets/arrow_right.png">
+        </button>
+      </a>
+    </div>
 
     <div class="box-grid">
 
-      <div class="box">
-        <p class="box-title">서버 파일 시스템 검색</p>
-        <v-treeview
-          v-model="tree"
-          :open="initiallyOpen"
-          :items="items"
-          activatable
-          item-key="name"
-          open-on-click
-        >
-          <template v-slot:prepend="{ item, open }">
-            <v-icon v-if="!item.file">
-              {{ open ? 'mdi-folder-open' : 'mdi-folder' }}
-            </v-icon>
-            <v-icon v-else>
-              {{ files[item.file] }}
-            </v-icon>
-          </template>
-        </v-treeview>
+      <div style="width: 100%;">
+        <div class="sub-title">
+          파일 검색
+        </div>
+        <div style="min-height: 450px;" class="box">
+          <v-treeview
+            v-model="tree"
+            :open="initiallyOpen"
+            :items="items"
+            activatable
+            item-key="name"
+            open-on-click
+          >
+            <template v-slot:prepend="{ item, open }">
+              <v-icon v-if="!item.file">
+                {{ open ? 'mdi-folder-open' : 'mdi-folder' }}
+              </v-icon>
+              <v-icon v-else>
+                {{ files[item.file] }}
+              </v-icon>
+            </template>
+          </v-treeview>
+        </div>
       </div>
 
-      <div>
-        <div class="box" style="min-height: 400px;">
-          <p class="box-title">작업 목록 리스트</p>
+
+      <div style="width: 100%;">
+        <div class="sub-title">
+          작업 목록
+        </div>
+        <div class="box" style="min-height: 300px;">
           <v-treeview
             v-model="tree"
             :open="initiallyOpen"
@@ -48,14 +69,13 @@
         </div>
 
         <div class="box">
-          <div class="file_upload"
+          <div class="file-upload"
             @dragover.prevent="onDragOver"
             @dragleave="onDragLeave"       
             @drop="onDrop"
             @click="triggerZipFileInput">
             <img src="@/assets/file_upload.png">
-            <p style="padding: 8px 0px;">드래그 앤 드롭으로 파일 업로드</p>
-            <p style="color: gray;">(HWP, PDF)</p>
+            <p style="padding: 8px 0px;">Drag your file here, of Click here to browse</p>
           </div>
           <input type="file" id="zipFile" accept=".pdf, .hwp" style="display:none;">
         </div>
@@ -129,14 +149,12 @@ export default {
 }
 </script>
 <style>
-.file_upload {
-  border: 1px solid rgba(224, 232, 255, 1);
+.file-upload {
   font-size: 14px;
   text-align: center;
-  padding: 12px;
 }
-.file_upload img{
-  width: 54px;
+.file-upload img{
+  width: 40px;
   object-fit: contain;
 }
 </style>

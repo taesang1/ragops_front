@@ -46,7 +46,7 @@
           </div>
         </div>
 
-        <button style="float: right;" class="nuxt-button">벡터 DB 생성</button>
+        <button style="float: right;" class="next-button">벡터 DB 생성</button>
       </div>
     </div>
   </div>

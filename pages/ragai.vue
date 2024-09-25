@@ -94,8 +94,8 @@
           <hr style="width: 100px; margin: auto 12px; border: 1px solid rgba(197, 197, 197, 1)">
           <p style="margin: auto !important;">{{ smp_1[option]['sub'] }}</p>
         </label>
-        <button @click="set_chart" class="nuxt-button">시뮬레이션 실행</button>
-        <button v-if="is_chart" class="nuxt-button">옵션 적용</button>
+        <button @click="set_chart" class="next-button">시뮬레이션 실행</button>
+        <button v-if="is_chart" class="next-button">옵션 적용</button>
       </div>
     </div>
 
