@@ -181,7 +181,7 @@ export default {
 </script>
 <style>
 .doc {
-  background-color: rgba(224, 224, 224, 1);
+  background-color: #e0e0e0;
   margin-bottom: 12px;
   padding: 24px;
 }
