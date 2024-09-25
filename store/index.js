@@ -46,7 +46,7 @@ export const actions = {
     })
   },
   upload_project_file( {state, commit}, body) {
-    return this.$axios.post(`/api/v1/projects/${project_id}/files/upload`, body)
+    return this.$axios.post(`/api/v1/projects/${state.project_id}/files/upload`, body)
     .then((res) => {
     })
     .catch((res) => {

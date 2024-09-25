@@ -50,23 +50,7 @@
           작업 목록
         </div>
         <div class="box" style="min-height: 300px;">
-          <v-treeview
-            v-model="tree"
-            :open="initiallyOpen"
-            :items="server_file_list"
-            activatable
-            item-key="name"
-            open-on-click
-          >
-            <template v-slot:prepend="{ item, open }">
-              <v-icon v-if="!item.file">
-                {{ open ? 'mdi-folder-open' : 'mdi-folder' }}
-              </v-icon>
-              <v-icon v-else>
-                {{ files[item.file] }}
-              </v-icon>
-            </template>
-          </v-treeview>
+          <div :id="i.type" v-for="i in server_file_list" :key="i" class="server_file">{{ i.name }}.{{ i.type }}</div>
         </div>
 
         <div class="box">
@@ -78,7 +62,7 @@
             <img src="@/assets/file_upload.png">
             <p style="padding: 8px 0px;">Drag your file here, of Click here to browse</p>
           </div>
-          <input @change="upload_files" type="file" id="upload_file" accept=".pdf, .hwp" style="display:none;">
+          <input @change="input_files" type="file" id="upload_file" accept=".pdf, .hwp" style="display:none;">
         </div>
       </div>
 
@@ -116,16 +100,7 @@ export default {
           ],
         },
       ],
-      server_file_list: [
-        {
-          name: 'folder1',
-        },
-        {
-          name: 'folder2',
-          children: [
-          ],
-        },
-      ]
+      server_file_list: []
     }
   },
   mounted() {
@@ -133,14 +108,7 @@ export default {
     this.$store.dispatch('get_server_file_base_list', body).then((res) => {
       console.log(res)
     })
-    body = {project_id : this.project_id, path: 'test'}
-    this.$store.dispatch('get_server_file_list', body).then((res) => {
-      let file = {}
-      file['name'] = res.files[0].file_name
-      file['file'] = res.files[0].file_type
-      this.server_file_list[1]['children'].push(file)
-      this.file_nos[file['name']] = res.files[0].file_no
-    })
+    this.get_server_file_list()
   },
   methods: {
     onDrop(e) {
@@ -154,13 +122,34 @@ export default {
         }
         e.preventDefault();
         e.stopPropagation();
+        this.upload_files()
       }
     },
     triggerZipFileInput(){
       document.querySelector('#upload_file').click()
     },
-    upload_files(e) {
-      this.upload_file = e
+    input_files(e) {
+      this.upload_file = e.target.files || e.dataTransfer.files;
+      if (!this.upload_file.length) return
+      this.upload_file = this.upload_file[0]
+      this.upload_files()
+    },
+    upload_files() {
+      const body = new FormData();
+      body.append("files", this.upload_file);
+      this.$store.dispatch('upload_project_file', body).then((res) => {
+        this.get_server_file_list()
+      })
+    },
+    get_server_file_list() {
+      let body = {project_id : this.project_id, path: 'test'}
+      this.$store.dispatch('get_server_file_list', body).then((res) => {
+        let file = {}
+        file['name'] = res.files[0].file_name
+        file['type'] = res.files[0].file_type
+        this.server_file_list.push(file)
+        this.file_nos[file['name']] = res.files[0].file_no
+      })
     },
     onDragLeave(){
     },
@@ -182,5 +171,14 @@ export default {
 .file-upload img{
   width: 40px;
   object-fit: contain;
+}
+.server_file {
+  padding: 6px 12px;
+}
+#pdf {
+  border: 1px solid red;
+}
+#hwp {
+  border: 1px solid blue
 }
 </style>
