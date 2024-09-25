@@ -54,7 +54,7 @@
 
       <div>
         <div class="sub-title">청킹 결과</div>
-        <div class="box" style="min-height: 450px; overflow-y: scroll; padding: 0;">
+        <div class="box" style="min-height: 450px; max-height: 450px; overflow-y: scroll; padding: 0;">
           <p id="chunking" v-show="view">
           </p>
         </div>
