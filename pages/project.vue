@@ -5,7 +5,7 @@
       <a href="/dataupload">
         <button style="margin-bottom: 100px;" class="next-button">
         <a>프로젝트 생성</a>
-        <img class="arrow_right" src="@/assets/arrow_right.png"></button>
+        <img class="arrow-right" src="@/assets/arrow_right.png"></button>
       </a>
     </div>
 

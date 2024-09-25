@@ -4,7 +4,7 @@
     <div class='main'>
       <div class="navigation">
         <div style="width: max-content; margin: 0 auto;">
-          <h2 class="logo-title" >RAGOps</h2>
+          <h2 class="logo-title" >RagBuilder</h2>
         </div>
         <div class="page-list">
           <div :style="`${i['style']}`" :id="path.includes(i.link) || path.includes(i.text) ? 'activate' : ''" :key="i.name" v-for="i in page_list" class="page">
@@ -34,10 +34,10 @@ export default {
         {name: '데이터 전처리', link: null,  text: 'data'},
         {name: '데이터 업로드', link: '/dataupload', style : 'margin-left : 24px'},
         {name: '진행현황', link: '/dataprogress', style : 'margin-left : 24px'},
-        {name: 'rag 설정', link: null, text: 'rag'},
-        {name: 'AI 자동최적화', link: '/ragai', style : 'margin-left : 24px'},
-        {name: '수동 설정', link: '/raghuman', style : 'margin-left : 24px'},
-        {name: '벡터DB 생성', link: '/vectordb'},
+        {name: '백터DB 생성', link: null, text: 'vector'},
+        {name: 'AI 자동최적화', link: '/vectorai', style : 'margin-left : 24px'},
+        {name: '파라미터 수동 설정', link: '/vectorhuman', style : 'margin-left : 24px'},
+        {name: '결과확인', link: '/vectordb', style : 'margin-left : 24px'},
         {name: 'DB관리', link: '/Dblist'}
       ],
       path : '/'
@@ -136,7 +136,7 @@ p {
   display: flex;
 }
 .box {
-  border: 1px solid rgba(195, 194, 194, 1);
+  border: 1px solid rgba(228, 228, 228, 1);
   padding: 24px;
   margin: 16px;
   min-width: 460px;
@@ -217,7 +217,7 @@ td {
 }
 .option {
   display: flex;
-  margin: 24px 30px;
+  margin: 16px 30px;
 }
 .option p {
   width: 100px;
@@ -241,7 +241,7 @@ td {
 }
 .check-box-label {
   display: flex;
-  margin-top: 36px;
+  /* margin-top: 36px; */
 }
 .check-box {
   margin-right: 12px;
