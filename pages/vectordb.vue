@@ -46,7 +46,7 @@
       <div>
         <div class="sub-title">원본파일</div>
         <div class="box" style="min-height: 450px;">
-          <iframe style="width: 100%; height: 90%;" v-if="view" :src="file_data[file]['src']" type="application/pdf">
+          <iframe style="width: 100%; height: 400px;" v-if="view" :src="file_data[file]['src']" type="application/pdf">
 
           </iframe>
         </div>
