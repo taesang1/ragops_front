@@ -37,7 +37,7 @@
           <div class="sub-title">임베딩모델 선택</div>
           <div class="box">
             <div class="option-box" v-for="option in Object.keys(model)" :key="option">
-              <label class="check-box-label" style="margin-bottom: 16px;">
+              <label class="check-box-label" style="margin-bottom: 12px;">
                 <input type="radio" name="model" :value="option" v-model="model[option]['value']" class="check-box">
                 <p class="option-title">{{ model[option]['text'] }}</p>
               </label>
@@ -49,7 +49,7 @@
           <div class="sub-title">Augmentation 옵션 설정</div>
           <div class="box">
             <div class="option-box" v-for="option in Object.keys(augmentation)" :key="option">
-              <label class="check-box-label" style="margin-bottom: 16px;">
+              <label class="check-box-label" style="margin-bottom: 12px;">
                 <input type="radio" name="augmentation" :value="option" v-model="augmentation[option]['value']" class="check-box">
                 <p class="option-title">{{ augmentation[option]['text'] }}</p>
               </label>

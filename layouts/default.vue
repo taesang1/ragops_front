@@ -144,7 +144,7 @@ p {
 .box-title {
   font-size: 18px;
   font-weight: 700;
-  margin-bottom: 16px !important;
+  margin-bottom: 12px !important;
 }
 .button-box {
   text-align: right;
@@ -217,7 +217,7 @@ td {
 }
 .option {
   display: flex;
-  margin: 16px 30px;
+  margin: 12px 30px;
 }
 .option p {
   width: 100px;

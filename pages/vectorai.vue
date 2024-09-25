@@ -6,73 +6,89 @@
     <div class="project-name" style="margin-left: 16px;">#프로젝트 1</div>
 
     <div class="box-grid">
-      <div class="box">
-        <div class="sub-title">알고리즘 선택</div>
-          <div class="option-box" style="display: flex;">
-          <label v-for="option in Object.keys(smp_1)" :key="option" class="check-box-label" style="margin: 0 12px;">
-            <input @click="check(smp_1, option)" type="checkbox" name="smp1_popup" v-model="smp_1[option]['value']" class="check-box">
+      <div class="box" style="width: 60%;">
+        <div style="display: flex;">
+          <div class="sub-title" style="margin-left: 0px;  height: max-content;">테스트 쿼리 입력</div>
+          <button @click="set_chart" class="next-button" style="margin-left: auto;">
+            <a>AI 분석 실행</a>
+            <img class="arrow-right" src="@/assets/arrow_right.png">
+          </button>
+        </div>
+        <div style="display: flex; margin-bottom: 12px;">
+          <button style="border-radius: 12px; padding: 8px 24px; color: white; font-size: 14px; background-color: rgba(255, 105, 180, 1)">AI 쿼리</button>
+          <button style="margin-left: 12px; border-radius: 12px; padding: 8px 24px; color: white; font-size: 14px; background-color: rgba(160, 157, 255, 1)">직접입력</button>
+        </div>
+
+        <div class="sub-title" style="margin-left: 0px; margin-bottom: 12px;">알고리즘 선택</div>
+          <div class="option-box" style="display: flex; margin-bottom: 12px">
+          <label v-for="option in Object.keys(smp_1)" :key="option" class="check-box-label" style="width: 100%;">
+            <input style="margin-bottom: 18px;" @click="check(smp_1, option)" type="checkbox" name="smp1_popup" v-model="smp_1[option]['value']" class="check-box">
             <div>
-              <p style="margin: auto !important;" class="option-title">{{ smp_1[option]['text'] }}</p>
-              <p style="margin: auto !important;">{{ smp_1[option]['sub'] }}</p>
+              <p class="option-title">{{ smp_1[option]['text'] }}</p>
+              <p style="font-size: 11px;">수행예정시간 : {{ smp_1[option]['sub'] }}</p>
             </div>
           </label>
         </div>
   
-        <div class="sub-title">범위 설정</div>
-        <div class="option-box" v-for="option in Object.keys(chuncking)" :key="option.text">
-          <label class="check-box-label">
-            <input name="chuncking_popup" type="checkbox" v-model="chuncking[option].value" class="check-box">
-            <p class="option-title">{{ chuncking[option].text }}</p>
-          </label>
-          <template v-for="key in Object.keys(chuncking[option])">
-            <div :key="key" v-if="key != 'text' && key !='value'" class="option">
-              <p>{{ key }}</p>
-              <span>Min</span>
-              <input v-model="chuncking[option][key]['min']" type="text" class="text-field"/>
-              <span>Max</span>
-              <input v-model="chuncking[option][key]['max']" type="text" class="text-field"/>
-              <span>Step</span>
-              <input v-model="chuncking[option][key]['step']" type="text" class="text-field"/>
+        <div class="sub-title" style="margin-left: 0px; margin-bottom: 12px">범위 설정</div>
+        <div style="display: flex;">
+          <div>
+            <p class="box-title">청킹 옵션 설정</p>
+            <div class="option-box" v-for="option in Object.keys(chuncking)" :key="option.text">
+              <label class="check-box-label">
+                <input name="chuncking_popup" type="checkbox" v-model="chuncking[option].value" class="check-box">
+                <p class="option-title">{{ chuncking[option].text }}</p>
+              </label>
+              <template v-for="key in Object.keys(chuncking[option])">
+                <div :key="key" v-if="key != 'text' && key !='value'" class="option">
+                  <p>{{ key }}</p>
+                  <span>Min</span>
+                  <input v-model="chuncking[option][key]['min']" type="text" class="text-field"/>
+                  <span>Max</span>
+                  <input v-model="chuncking[option][key]['max']" type="text" class="text-field"/>
+                  <span>Step</span>
+                  <input v-model="chuncking[option][key]['step']" type="text" class="text-field"/>
+                </div>
+              </template>
             </div>
-          </template>
-        </div>
-      </div>
-
-      <div class="box">
-        <p class="box-title">임베딩 모델 선택</p>
-        <div class="option-box" v-for="option in Object.keys(model)" :key="option">
-          <label class="check-box-label">
-            <input type="checkbox" name="model_popup" v-model="model[option]['value']" class="check-box">
-            <p class="option-title">{{ model[option]['text'] }}</p>
-          </label>
-        </div>
-      </div>
-
-      <div class="box">
-        <p class="box-title">Augmentation 옵션</p>
-        <div class="option-box" v-for="option in Object.keys(augmentation)" :key="option">
-          <label class="check-box-label">
-            <input type="checkbox" name="augmentation_popup" v-model="augmentation[option]['value']" class="check-box">
-            <p class="option-title">{{ augmentation[option]['text'] }}</p>
-          </label>
-          <div v-if="option == 'chunk_window'" class="option">
-            <p style="width: max-content;">
-              Max window size
-            </p>
-            <input v-model="augmentation[option]['size']" type="text" class="text-field"/>
           </div>
+
+          <div>
+            <p class="box-title">임베딩 모델 선택</p>
+            <div class="option-box" v-for="option in Object.keys(model)" :key="option">
+              <label class="check-box-label" style="margin-bottom: 12px;">
+                <input type="checkbox" name="model_popup" v-model="model[option]['value']" class="check-box">
+                <p class="option-title">{{ model[option]['text'] }}</p>
+              </label>
+            </div>
+
+            <p class="box-title" style="margin-top: 24px;">Augmentation 옵션</p>
+            <div class="option-box" v-for="option in Object.keys(augmentation)" :key="option">
+              <label class="check-box-label" style="margin-bottom: 12px;">
+                <input type="checkbox" name="augmentation_popup" v-model="augmentation[option]['value']" class="check-box">
+                <p class="option-title">{{ augmentation[option]['text'] }}</p>
+              </label>
+              <div v-if="option == 'chunk_window'" class="option">
+                <p style="width: max-content;">
+                  Max window size
+                </p>
+                <input v-model="augmentation[option]['size']" type="text" class="text-field"/>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <div v-show="is_chart">
-        <div class="box">
-          <p class="box-title">시뮬레이션 결과 HR 그래프</p>
-          <canvas id="chart"></canvas>
-        </div>
-        
-        <div class="box">
-          <p class="box-title">최적의 옵션</p>
-          
+      <div v-show="is_chart" class="box" style="width: 40%;">
+        <div>
+          <a href="/vectordb" style="width: max-content; margin: 0px 0px 12px auto; display: block;">
+            <button @click="set_chart" class="next-button">
+              <a>백터DB 생성하기</a>
+              <img class="arrow-right" src="@/assets/arrow_right.png">
+            </button>
+          </a>
+          <div class="sub-title" style="margin-left: 0px; margin-bottom: 12px;">추천 파라미터</div>
           <div class="option-box">
             <p>청킹 옵션 : Recursive</p>
             <div class="option">
@@ -90,10 +106,14 @@
           <div class="option-box" style="padding: 24px 0px;">
             <p>AUGMENT : Chunk window Window size: 3</p>
           </div>
+          
+          <div class="sub-title" style="margin-left: 0px; margin-bottom: 12px;">성능 비교</div>
+          <canvas id="chart"></canvas>
+          
         </div>
       </div>
-    </div>
 
+    </div>
   </div>
 </template>
 <script>
@@ -108,28 +128,28 @@ export default {
           overlap_size : {text: 'Overlap Size', min : 50, max : 100, step: 50},
         },
         recursive : {
-          value : false,
+          value : true,
           text : 'RECURSIVE',
           chunk_size : {text : 'Chunk Size', min : 300, max : 500, step: 100},
           overlap_size : {text: 'Overlap Size', min : 50, max : 100, step: 50},
         },
         semantic : {
-          value : false,
+          value : true,
           text : 'SEMANTIC',
           threshold : {text: 'Threshold' ,min : 40, max : 90, step: 10}
         }
       },
       smp_1 : {
-        1 : {value : false, text : 'Greedy Algorithm   ', sub :'~시간'},
-        2 : {value : false, text : 'AI 최적화', sub :'~시간'},
-        3 : {value : true, text : '빠른 최적화', sub :'~시간'},
+        1 : {value : true, text : 'Full Search', sub :'~시간'},
+        2 : {value : true, text : 'Adaptive Alg.', sub :'~시간'},
+        3 : {value : true, text : 'Greedy Alg.', sub :'~시간'},
       },
       model : {
-        1 : {value : false, text : '모델 1'},
+        1 : {value : true, text : '모델 1'},
         2 : {value : true, text : '모델 2'},
       },
       augmentation : {
-        no_augmentation : {text : 'No augmentation', value : false},
+        no_augmentation : {text : 'No augmentation', value : true},
         chunk_window : {text: 'Chunk window', value: true, size: 3}
       },
       is_chart : false
