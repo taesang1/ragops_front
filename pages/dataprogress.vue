@@ -51,18 +51,9 @@
 
       <div style="width: 100%;">
         <div class="sub-title">
-          추출결과
-        </div>
-        <div class="box" style="min-height: 200px; overflow-y: scroll;">
-          <pre v-if="view">
-            {{ file_data[file]['text'] }}
-          </pre>
-        </div>
-
-        <div class="sub-title">
           파싱결과
         </div>
-        <div class="box" style="min-height: 200px; overflow-y: scroll;">
+        <div class="box" style="min-height: 465px; max-height: 465px; overflow-y: scroll;">
           <pre v-if="view">
             {{ file_data[file]['parsing'] }}
           </pre>
