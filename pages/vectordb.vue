@@ -177,7 +177,6 @@ export default {
       this.view = true
     }
   },
-  set
 }
 </script>
 <style>
