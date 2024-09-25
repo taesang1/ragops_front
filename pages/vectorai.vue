@@ -90,15 +90,10 @@
       <div v-show="is_chart" style="width: 40%; padding: 24px; margin: 16px;">
         <div style="display: flex;">
           <div class="sub-title" style="margin-left: 0px; margin-bottom: 24px; height: max-content;">추천 파라미터</div>
-          <a v-if="!is_db_loading" @click="create_db" style="width: max-content; margin: 0px 0px 12px auto; display: block;">
+          <a @click="create_db" style="width: max-content; margin: 0px 0px 12px auto; display: block;">
             <button class="next-button">
               <a>벡터DB 생성하기</a>
               <img class="arrow-right" src="@/assets/arrow_right.png">
-            </button>
-          </a>
-          <a v-else style="width: max-content; margin: 0px 0px 12px auto; display: block;">
-            <button class="next-button">
-              <a>생성중...</a>
             </button>
           </a>
         </div>
@@ -157,7 +152,6 @@ export default {
   data () {
     return {
       is_simulate_loading : false,
-      is_db_loading : false,
       chuncking : {
         overlap : {
           value : true,
@@ -303,9 +297,8 @@ export default {
     },
     create_db() {
       let body = this.make_body()
-      this.is_db_loading = true
       this.$store.dispatch('create_db', body).then((res) => {
-        this.is_db_loading = false
+        alert('DB 생성중...')
       })
     },
     check(e, ch) {
