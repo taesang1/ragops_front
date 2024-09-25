@@ -49,7 +49,7 @@ export default {
 </script>
 <style>
 * {
-  font-family: 'Pretendard'
+  font-family: 'Pretendard' !important  
 }
 p {
   margin-bottom: 0px !important;

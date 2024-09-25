@@ -160,8 +160,8 @@ export default {
       },
       smp_1 : {
         1 : {value : true, text : 'Full Search', sub :'10분'},
-        2 : {value : true, text : 'Adaptive Alg.', sub :'5분'},
-        3 : {value : true, text : 'Greedy Alg.', sub :'1분'},
+        2 : {value : false, text : 'Adaptive Alg.', sub :'5분'},
+        3 : {value : false, text : 'Greedy Alg.', sub :'1분'},
       },
       model : {
         1 : {value : true, text : '모델 1'},
