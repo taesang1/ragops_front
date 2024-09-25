@@ -80,7 +80,7 @@ export default {
       file_data : {
         '예금업무방법(제3권 상품)(20240401)_일부개정' :{
         src : 'http://is-web.intellisys.co.kr:58580/files/pdf/예금업무방법(제3권 상품)(20240401)_일부개정.pdf?view=FitH&toolbar=0',
-          chunking : `<div class="doc">
+        chunking : `<div class="doc">
 예금업무방법(제3권 상품)<br>
 제1편 일반상품<br>
 제1장 입출금이자유로운예금<br>
@@ -169,7 +169,7 @@ export default {
       if (e.length > 0) {
         this.view = false
         this.file = e[0]
-        this.view = true
+        this.set_doc()
       }
     },
     set_doc() {
