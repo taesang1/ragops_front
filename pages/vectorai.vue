@@ -40,7 +40,7 @@
                 <p class="option-title">{{ chuncking[option].text }}</p>
               </label>
               <template v-for="key in Object.keys(chuncking[option])">
-                <div :key="key" v-if="key != 'text' && key !='value'" class="option">
+                <div :key="key" v-if="key != 'text' && key !='value' && key != 'param'" class="option">
                   <p>{{ key }}</p>
                   <span>Min</span>
                   <input v-model="chuncking[option][key]['min']" type="text" class="text-field"/>
@@ -198,9 +198,19 @@ export default {
         }
       }
       this.$store.dispatch('simulate_run', body).then((res) => {
-        console.log(res)
-        this.set_chart()
+        this.get_simulate_result(body)
       })
+    },
+    get_simulate_result(body) {
+      setTimeout(() => {
+        this.$store.dispatch('get_simulate_result', body).then((res) => {
+          if (res['sims'][0] != 'done') {
+            this.get_simulate_result(body)
+          } else {
+            this.set_chart()
+          }
+        })
+      }, "1000")
     },
     make_body() {
       let body = {project_id : this.project_id}

@@ -44,14 +44,20 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('get_project_list').then((res) => {
-      this.data = res['projects']
-    })
+    this.get_project_list()
   },
   methods: {
     test() {
       window.location.href = '/Playground'
-    }
+    },
+    get_project_list() {
+      setTimeout(() => {
+        this.$store.dispatch('get_project_list').then((res) => {
+          this.data = res['projects']
+        })
+        this.get_project_list()
+      }, "1000")
+    },
   }
 }
 </script>

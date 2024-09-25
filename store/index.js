@@ -116,7 +116,7 @@ export const actions = {
     })
   },
   simulate_run( {state, commit}, body) {
-    return this.$axios.post(`/api/v1/projects/${body['project_id']}/sims`, body)
+    return this.$axios.post(`/api/v1/projects/${body['project_id']}/sims`, null, {params : body})
     .then((res) => {
       return res.data
     })
@@ -125,8 +125,9 @@ export const actions = {
     })
   },
   get_simulate_result( {state, commit}, body) {
-    return this.$axios.get(`/api/v1/projects/${project_id}/sims`, body)
+    return this.$axios.get(`/api/v1/projects/${body['project_id']}/sims`)
     .then((res) => {
+      return res.data
     })
     .catch((res) => {
       alert('예상치 못한 에러가 발생했습니다. 잠시후 다시 시도해주세요.')
