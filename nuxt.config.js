@@ -41,7 +41,7 @@ export default {
     '@nuxtjs/axios',
   ],
   axios: {
-    baseURL: 'http://is-gpu.intellisys.co.kr:65522'
+    baseURL: 'http://34.64.84.88:50001'
     // baseURL: 'http://127.0.0.1:8000/'
   },
 

@@ -7,7 +7,7 @@
         <img class="add-icon" src="@/assets/add.png">
         프로젝트 불러오기
       </button>
-      <div class="project-name" style="margin: auto 0px auto 12px">#프로젝트 1</div>
+      <div class="project-name" style="margin: auto 0px auto 12px">#프로젝트 {{ project_id }}</div>
       <a href="/dataprogress" style="margin-left: auto;">
         <button class="next-button">
           <a>전처리 실행</a>
@@ -26,7 +26,7 @@
           <v-treeview
             v-model="tree"
             :open="initiallyOpen"
-            :items="items"
+            :items="server_base_file_list"
             activatable
             item-key="name"
             open-on-click
@@ -52,7 +52,7 @@
           <v-treeview
             v-model="tree"
             :open="initiallyOpen"
-            :items="items"
+            :items="server_file_list"
             activatable
             item-key="name"
             open-on-click
@@ -97,7 +97,8 @@ export default {
         txt: 'mdi-file-document-outline',
       },
       tree: [],
-      items: [
+      file_nos : {},
+      server_base_file_list: [
         {
           name: 'folder1',
         },
@@ -105,18 +106,41 @@ export default {
           name: 'folder2',
           children: [
             {
-              name: '예금업무방법(제3권 상품)(20240401)_일부개정',
-              file: 'pdf',
-            },
+              name : '예금업무방법 제1권',
+              file : 'pdf'
+            }
+          ],
+        },
+      ],
+      server_file_list: [
+        {
+          name: 'folder1',
+        },
+        {
+          name: 'folder2',
+          children: [
           ],
         },
       ]
     }
   },
+  mounted() {
+    let body = {project_id : this.project_id}
+    this.$store.dispatch('get_server_file_base_list', body).then((res) => {
+      console.log(res)
+    })
+    body = {project_id : this.project_id, path: 'test'}
+    this.$store.dispatch('get_server_file_list', body).then((res) => {
+      let file = {}
+      file['name'] = res.files[0].file_name
+      file['file'] = res.files[0].file_type
+      this.server_file_list[1]['children'].push(file)
+      this.file_nos[file['name']] = res.files[0].file_no
+    })
+  },
   methods: {
     onDrop(e) {
       const files = e.dataTransfer.files
-      console.log(files)
       if (files.length > 0) {
         const file = files[0];
         if (file.type === 'application/pdf' || file.name.split('.')[1] === 'hwp') {
@@ -132,10 +156,13 @@ export default {
       document.querySelector('#zipFile').click()
     },
     onDragLeave(){
-
     },
     onDragOver(){
-      
+    }
+  },
+  computed: {
+    project_id() {
+      return this.$store.state.project_id
     }
   }
 }
