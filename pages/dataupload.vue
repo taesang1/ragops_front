@@ -1,7 +1,7 @@
 <template>
   <div style="width: max-content;">
     <loadproject :dialog="dialog" v-model="dialog"/>
-    <p class="main-title">데이터 전처리 > <span class="main-sub-title">데이터 업로드</span></p>
+    <p class="main-title">데이터 전처리</p>
 
     <div style="display: flex; padding-left: 16px; margin-bottom: 24px;">
       <button @click="dialog = true" class="load-project">
@@ -9,9 +9,20 @@
         프로젝트 불러오기
       </button>
       <div class="project-name" style="margin: auto 0px auto 12px">#프로젝트 {{ project_id }}</div>
-      <a href="/dataprogress" style="margin-left: auto;">
+      <a v-if="is_loading" style="margin-left: auto;">
+        <button class="next-button">
+          <a>생성중...</a>
+        </button>
+      </a>
+      <a v-else-if="!is_vector" @click="[check_project_file(), is_loading = true]" style="margin-left: auto;">
         <button class="next-button">
           <a>전처리 실행</a>
+          <img class="arrow-right" src="@/assets/arrow_right.png">
+        </button>
+      </a>
+      <a v-else-if="is_vector" href="/vectorai" style="margin-left: auto;">
+        <button class="next-button">
+          <a>벡터 DB 생성</a>
           <img class="arrow-right" src="@/assets/arrow_right.png">
         </button>
       </a>
@@ -49,8 +60,8 @@
         <div class="sub-title">
           작업 목록
         </div>
-        <div class="box" style="min-height: 300px;">
-          <div :id="i.type" v-for="i in server_file_list" :key="i" class="server_file">{{ i.name }}.{{ i.type }}</div>
+        <div class="box" style="min-height: 300px; max-height: 300px; overflow-y: auto;">
+          <div :id="i.type" v-for="i in server_file_list" :key="i" class="server_file">{{ i.name }}</div>
         </div>
 
         <div class="box">
@@ -76,6 +87,9 @@ export default {
   components : { loadproject },
   data () {
     return {
+      count : 0,
+      is_vector : false,
+      is_loading : false,
       dialog : false,
       upload_file : null,
       initiallyOpen: ['folder2'],
@@ -93,10 +107,6 @@ export default {
         {
           name: 'folder2',
           children: [
-            {
-              name : '예금업무방법 제1권',
-              file : 'pdf'
-            }
           ],
         },
       ],
@@ -106,9 +116,16 @@ export default {
   mounted() {
     let body = {project_id : this.project_id}
     this.$store.dispatch('get_server_file_base_list', body).then((res) => {
-      console.log(res)
+      body['path'] = res
+      this.$store.dispatch('get_server_file_list', body).then((res) => {
+        let file = {}
+        file['name'] = res.files[0].file_name
+        file['file'] = res.files[0].file_type
+        this.server_base_file_list[1]['children'].push(file)
+        this.file_nos[file['name']] = res.files[0].file_no
+      })
     })
-    this.get_server_file_list()
+    this.get_project_file_list()
   },
   methods: {
     onDrop(e) {
@@ -138,18 +155,42 @@ export default {
       const body = new FormData();
       body.append("files", this.upload_file);
       this.$store.dispatch('upload_project_file', body).then((res) => {
-        this.get_server_file_list()
+        this.get_project_file_list()
+        this.check_count()
       })
     },
-    get_server_file_list() {
-      let body = {project_id : this.project_id, path: 'test'}
-      this.$store.dispatch('get_server_file_list', body).then((res) => {
+    get_project_file_list() {
+      let body = {project_id : this.project_id}
+      this.$store.dispatch('get_project_file_list', body).then((res) => {
         let file = {}
-        file['name'] = res.files[0].file_name
-        file['type'] = res.files[0].file_type
+        file['name'] = res.files[0].name
+        file['type'] = res.files[0].file
         this.server_file_list.push(file)
         this.file_nos[file['name']] = res.files[0].file_no
       })
+    },
+    check_project_file() {
+      setTimeout(() => {
+        if (this.count >= 10) {
+          let body = {project_id : this.project_id}
+          this.$store.dispatch('get_project_file_list', body).then((res) => {
+            if (res.files[0].status == 'FS06') {
+              this.is_loading = false
+              this.is_vector = true
+            }
+          })
+        } else {
+          this.check_project_file()
+        }
+      }, "1000")
+    },
+    check_count() {
+      if (this.count < 10) {
+        setTimeout(() => {
+          this.count += 1
+          this.check_count()
+        }, "1000")
+      }
     },
     onDragLeave(){
     },
@@ -174,6 +215,7 @@ export default {
 }
 .server_file {
   padding: 6px 12px;
+  margin-bottom: 12px;
 }
 #pdf {
   border: 1px solid red;

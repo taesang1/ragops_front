@@ -9,9 +9,12 @@
       <div style="width: 57%; padding: 24px; margin: 16px;">
         <div style="display: flex;">
           <div class="sub-title" style="margin-left: 0px;  height: max-content; margin-bottom: 24px;">테스트 쿼리 입력</div>
-          <button @click="simulate_run" class="next-button" style="margin-left: auto; height: max-content;">
+          <button v-if="!is_simulate_loading" @click="simulate_run" class="next-button" style="margin-left: auto; height: max-content;">
             <a>AI 분석 실행</a>
             <img class="arrow-right" src="@/assets/arrow_right.png">
+          </button>
+          <button v-else class="next-button" style="margin-left: auto; height: max-content;">
+            <a>생성중...</a>
           </button>
         </div>
         <div style="display: flex;">
@@ -94,23 +97,29 @@
             </button>
           </a>
         </div>
-        <div class="box" style="margin-left: 0; margin-top: 0px; margin-bottom: 0px; padding: 12px 24px;">
+        <div v-if="Object.keys(simulate_opt).length > 0" class="box" style="margin-left: 0; margin-top: 0px; margin-bottom: 0px; padding: 12px 24px;">
           <div class="option-box">
-            <p class="box-title">청킹 옵션 : <span style="color: rgba(96, 92, 255, 1);">Recursive</span></p>
-            <div class="option">
+            <p class="box-title">청킹 옵션 : <span style="color: rgba(96, 92, 255, 1);">{{ simulate_opt['chuncking'][0] }}</span></p>
+            <div v-if="simulate_opt['chuncking'][0] != 'SEMANTIC'" class="option">
               <div style="display: flex; width: 100%;">
                 <p style="width: 70px;">Chunk Size</p>
-                <input style="color: rgba(96, 92, 255, 1);" value="500" type="text" class="text-field"/>
+                <input style="color: rgba(96, 92, 255, 1);" :value="simulate_opt['chuncking'][1].split(',')[0]" type="text" class="text-field"/>
               </div>
               <div style="display: flex; width: 100%;">
                 <p style="width: 70px;">Overlap Size</p>
-                <input style="color: rgba(96, 92, 255, 1);" value="100" type="text" class="text-field"/>
+                <input style="color: rgba(96, 92, 255, 1);" :value="simulate_opt['chuncking'][1].split(',')[1]" type="text" class="text-field"/>
+              </div>
+            </div>
+            <div v-else class="option">
+              <div style="display: flex; width: 100%;">
+                <p style="width: 70px;">threshold</p>
+                <input style="color: rgba(96, 92, 255, 1);" :value="simulate_opt['chuncking'][1]" type="text" class="text-field"/>
               </div>
             </div>
           </div>
 
           <div class="option-box">
-            <p class="box-title">임베딩 모델 : <span style="color: rgba(96, 92, 255, 1);">모델1</span></p>
+            <p class="box-title">임베딩 모델 : <span style="color: rgba(96, 92, 255, 1);">{{ simulate_opt['model'] }}</span></p>
             <div class="option" style="opacity: 0;">
               <div style="display: flex; width: 100%;">
                 <p style="width: 70px;">Chunk Size</p>
@@ -120,7 +129,10 @@
           </div>
 
           <div class="option-box">
-            <p class="box-title">AUGMENT : Chunk window Window size: 3</p>
+            <p class="box-title">AUGMENT : 
+              <span v-if="simulate_opt['augmentation'][0].includes('Chunk')" style="color: rgba(96, 92, 255, 1);">Chunk window Window size: {{ simulate_opt['augmentation'][1] }}</span>
+              <span v-else style="color: rgba(96, 92, 255, 1);">{{ simulate_opt['augmentation'][0] }}</span>
+            </p>
           </div>
           
         </div>
@@ -139,6 +151,7 @@
 export default {
   data () {
     return {
+      is_simulate_loading : false,
       chuncking : {
         overlap : {
           value : true,
@@ -174,7 +187,18 @@ export default {
         no_augmentation : {text : 'No augmentation', value : true, param : 'aug_noaug_use'},
         chunk_window : {text: 'Chunk window', value: true, size: 3, param : 'aug_chwin_use'}
       },
-      is_chart : false
+      is_chart : false,
+      model_test : {},
+      simulate_opt_text : {
+        MD01:'모델 1',
+        MD01:'모델 2',
+        aug_noaug_use: 'No augmentation',
+        aug_chwin_use: "Chunk window",
+        char_use: 'OVERLAP',
+        recu_use: "RECURSIVE",
+        smea_use: 'SEMANTIC'
+      },
+      simulate_opt : {}
     }
   },
   mounted() {
@@ -199,15 +223,36 @@ export default {
       }
       this.$store.dispatch('simulate_run', body).then((res) => {
         this.get_simulate_result(body)
+        this.is_simulate_loading = true
       })
     },
     get_simulate_result(body) {
       setTimeout(() => {
         this.$store.dispatch('get_simulate_result', body).then((res) => {
-          if (res['sims'][0] != 'done') {
+          if (res['sims'][0]['status']['msg'] != 'done') {
             this.get_simulate_result(body)
           } else {
-            this.set_chart()
+            let data = []
+            for (let i of res['sims'][0]['combis']) {
+              data.push(i['metric']['HR'])
+            }
+            let simulate_opt = {augmentation : [], chuncking: []}
+            for (let i of Object.keys(res['sims'][0]['combis'][0]['opts'])) {
+              if (i == 'emb_model') {
+                simulate_opt['model'] = this.simulate_opt_text[res['sims'][0]['combis'][0]['opts'][i]]
+              } else if (i.includes('aug')) {
+                let data = res['sims'][0]['combis'][0]['opts'][i]
+                if (i.includes('use')) data = this.simulate_opt_text[i]
+                simulate_opt['augmentation'].push(data)
+              } else {
+                let data = res['sims'][0]['combis'][0]['opts'][i]
+                if (i.includes('use')) data = this.simulate_opt_text[i]
+                simulate_opt['chuncking'].push(data)
+              }
+            }
+            this.simulate_opt = simulate_opt
+            this.set_chart(data)
+            this.is_simulate_loading = false
           }
         })
       }, "1000")
@@ -257,7 +302,7 @@ export default {
         }
       }
     },
-    set_chart() {
+    set_chart(data) {
       if (this.is_chart) return
       var ctx = document.querySelector('#chart')
       new Chart(ctx, {
@@ -265,7 +310,7 @@ export default {
         data: {
           labels: ['1', '2', '3'],
           datasets: [{
-            data: [0.781231, 0.740987, 0.7098],
+            data: data,
             borderWidth: 1,
             backgroundColor: '#FF7DA8',
             maxBarThickness: 30

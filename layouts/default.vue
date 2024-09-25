@@ -33,13 +33,13 @@ export default {
     return {
       page_list : [
         {name: '프로젝트 목록', link: '/project'},
-        // {name: '데이터 전처리', link: null,  text: 'data'},
-        {name: '데이터 업로드', link: '/dataupload'},
-        // {name: '진행현황', link: '/dataprogress', style : 'margin-left : 24px'},
-        // {name: '백터DB 생성', link: null, text: 'vector'},
-        {name: 'AI 자동최적화', link: '/vectorai'},
-        // {name: '파라미터 수동 설정', link: '/vectorhuman', style : 'margin-left : 24px'},
-        // {name: '결과확인', link: '/vectordb', style : 'margin-left : 24px'}
+        {name: '데이터 전처리', link: null,  text: 'data'},
+        {name: '데이터 업로드', link: '/dataupload', style : 'margin-left : 24px'},
+        {name: '진행현황', link: '/dataprogress', style : 'margin-left : 24px'},
+        {name: '벡터DB 생성', link: null, text: 'vector'},
+        {name: 'AI 자동최적화', link: '/vectorai', style : 'margin-left : 24px'},
+        {name: '파라미터 수동 설정', link: '/vectorhuman', style : 'margin-left : 24px'},
+        {name: '결과확인', link: '/vectordb', style : 'margin-left : 24px'}
       ],
       path : '/'
     }
