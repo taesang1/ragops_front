@@ -4,7 +4,7 @@
 
     <div style="display: flex;margin-bottom: 24px;">
       <div class="project-name" style="margin: auto 0px auto 12px">#프로젝트 1</div>
-      <a href="/ragai" style="margin-left: auto;">
+      <a href="/vectorai" style="margin-left: auto;">
         <button class="next-button">
           <a>백터DB 생성</a>
           <img class="arrow-right" src="@/assets/arrow_right.png">
@@ -54,18 +54,18 @@
           추출결과
         </div>
         <div class="box" style="min-height: 200px; overflow-y: scroll;">
-          <p v-if="view">
-            샘플
-          </p>
+          <pre v-if="view">
+            {{ file_data[file]['text'] }}
+          </pre>
         </div>
 
         <div class="sub-title">
           파싱결과
         </div>
         <div class="box" style="min-height: 200px; overflow-y: scroll;">
-          <p v-if="view">
-            샘플
-          </p>
+          <pre v-if="view">
+            {{ file_data[file]['parsing'] }}
+          </pre>
         </div>
       </div>
 
@@ -73,6 +73,8 @@
   </div>
 </template>
 <script>
+import data from "../static/data.json"
+
 export default {
   data () {
     return {
@@ -85,9 +87,7 @@ export default {
       },
       tree: [],
       file : null,
-      file_data : {
-        '예금업무방법(제3권 상품)(20240401)_일부개정' :{src : 'http://is-web.intellisys.co.kr:58580/files/pdf/예금업무방법(제3권 상품)(20240401)_일부개정.pdf?view=FitH&toolbar=0'}
-      },
+      file_data : {},
       items: [
         {
           name: 'folder1',
@@ -112,6 +112,9 @@ export default {
         this.view = true
       }
     }
+  },
+  mounted() {
+    this.file_data = data
   }
 }
 </script>

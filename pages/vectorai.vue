@@ -15,8 +15,8 @@
           </button>
         </div>
         <div style="display: flex;">
-          <button style="border-radius: 12px; padding: 8px 24px; color: white; font-size: 14px; background-color: rgba(255, 105, 180, 1)">AI 쿼리</button>
-          <button style="margin-left: 12px; border-radius: 12px; padding: 8px 24px; color: white; font-size: 14px; background-color: rgba(160, 157, 255, 1)">직접입력</button>
+          <button style="padding: 8px 24px; color: white; font-size: 14px; background-color: rgba(255, 105, 180, 1)">AI 쿼리</button>
+          <button style="margin-left: 12px; padding: 8px 24px; color: black; font-size: 14px; background-color: #e0e0e0">직접입력</button>
         </div>
 
         <div class="sub-title" style="margin: 48px 0 24px 0px;">알고리즘 선택</div>

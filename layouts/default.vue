@@ -15,7 +15,7 @@
         <img class="logo" src="@/assets/logo.png">        
       </div>
       <div style="position: relative; width: 100%;">
-        <Nuxt style="height: calc(100% - 165px); padding: 0px 36px;"/>
+        <Nuxt style="height: calc(100% - 115px); padding: 0px 36px;"/>
         <v-footer style="align-items: baseline; margin-left: 50px; background-color: transparent">
           <p style="font-size: 16px; color: rgba(155, 155, 155, 1);">Intellisys  ⓒ 2023 IntelliSys All Rights Reserved.</p>&nbsp;&nbsp;
           <p style="font-size: 14px; color: rgba(11, 11, 11, 1);">(주)인텔리시스  ㅣ 대표이사 : 박은영 ㅣ 서울 관악구 관악로 1, 138동 111 -  113 호 (신림동, 서울대학교) <br>
@@ -101,7 +101,7 @@ p {
 .page a {
   font-size: 18px;
   text-decoration-line : none;
-  color: black;
+  color: rgb(224, 224, 224);;
 }
 .next-button a {
   text-decoration-line : none;
@@ -114,7 +114,7 @@ p {
   padding: 24px 16px;
   text-align: left;
   font-weight: 700;
-  margin-top: 93px;
+  margin-top: 40px;
 }
 .main-sub-title {
   font-size: 16px;

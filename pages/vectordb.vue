@@ -4,12 +4,10 @@
 
     <div style="display: flex;margin-bottom: 24px;">
       <div class="project-name" style="margin: auto 0px auto 12px">#프로젝트 1</div>
-      <a href="/ragai" style="margin-left: auto;">
-        <button class="next-button">
-          <a>백터DB 저장</a>
-          <img class="arrow-right" src="@/assets/arrow_right.png">
-        </button>
-      </a>
+      <button class="next-button">
+        <a>백터DB 저장</a>
+        <img class="arrow-right" src="@/assets/arrow_right.png">
+      </button>
     </div>
     <!-- <v-progress-linear
       v-model="knowledge"
@@ -48,7 +46,7 @@
       <div>
         <div class="sub-title">원본파일</div>
         <div class="box" style="min-height: 450px;">
-          <iframe style="width: 100%; height: 90%;" v-if="view" :src="file_link[file]" type="application/pdf">
+          <iframe style="width: 100%; height: 90%;" v-if="view" :src="file_data[file]['src']" type="application/pdf">
 
           </iframe>
         </div>
@@ -67,6 +65,8 @@
   </div>
 </template>
 <script>
+import data from "../static/data.json"
+
 export default {
   data () {
     return {
@@ -80,10 +80,7 @@ export default {
       },
       tree: [],
       file : null,
-      file_link : {
-        'pdf1' :'https://cdn.intellisys-saas.co.kr/pdf/sample_1.pdf?view=FitH&toolbar=0',
-        'pdf2' :'https://cdn.intellisys-saas.co.kr/pdf/sample_2.pdf?view=FitH&toolbar=0'
-      },
+      file_data : {},
       items: [
         {
           name: 'folder1',
@@ -92,7 +89,7 @@ export default {
           name: 'folder2',
           children: [
             {
-              name: 'pdf1',
+              name: '예금업무방법(제3권 상품)(20240401)_일부개정',
               file: 'pdf',
             }
           ],
@@ -110,6 +107,9 @@ export default {
         }
       }
     }
+  },
+  mounted() {
+    this.file_data = data
   }
 }
 </script>

@@ -105,7 +105,7 @@ export default {
           name: 'folder2',
           children: [
             {
-              name: 'pdf1',
+              name: '예금업무방법(제3권 상품)(20240401)_일부개정',
               file: 'pdf',
             },
           ],
