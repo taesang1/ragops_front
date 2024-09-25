@@ -6,22 +6,22 @@
     <div class="project-name" style="margin-left: 16px;">#프로젝트 1</div>
 
     <div class="box-grid">
-      <div class="box" style="width: 60%;">
+      <div style="width: 57%; padding: 24px; margin: 16px;">
         <div style="display: flex;">
-          <div class="sub-title" style="margin-left: 0px;  height: max-content;">테스트 쿼리 입력</div>
-          <button @click="set_chart" class="next-button" style="margin-left: auto;">
+          <div class="sub-title" style="margin-left: 0px;  height: max-content; margin-bottom: 24px;">테스트 쿼리 입력</div>
+          <button @click="set_chart" class="next-button" style="margin-left: auto; height: max-content;">
             <a>AI 분석 실행</a>
             <img class="arrow-right" src="@/assets/arrow_right.png">
           </button>
         </div>
-        <div style="display: flex; margin-bottom: 12px;">
+        <div style="display: flex;">
           <button style="border-radius: 12px; padding: 8px 24px; color: white; font-size: 14px; background-color: rgba(255, 105, 180, 1)">AI 쿼리</button>
           <button style="margin-left: 12px; border-radius: 12px; padding: 8px 24px; color: white; font-size: 14px; background-color: rgba(160, 157, 255, 1)">직접입력</button>
         </div>
 
-        <div class="sub-title" style="margin-left: 0px; margin-bottom: 12px;">알고리즘 선택</div>
+        <div class="sub-title" style="margin: 24px 0;">알고리즘 선택</div>
           <div class="option-box" style="display: flex; margin-bottom: 12px">
-          <label v-for="option in Object.keys(smp_1)" :key="option" class="check-box-label" style="width: 100%;">
+          <label v-for="option in Object.keys(smp_1)" :key="option" class="check-box-label" style="width: 100%; font-size: 14px;">
             <input style="margin-bottom: 18px;" @click="check(smp_1, option)" type="checkbox" name="smp1_popup" v-model="smp_1[option]['value']" class="check-box">
             <div>
               <p class="option-title">{{ smp_1[option]['text'] }}</p>
@@ -30,9 +30,9 @@
           </label>
         </div>
   
-        <div class="sub-title" style="margin-left: 0px; margin-bottom: 12px">범위 설정</div>
+        <div class="sub-title" style="margin: 24px 0">범위 설정</div>
         <div style="display: flex;">
-          <div>
+          <div class="box" style="margin-left: 0;">
             <p class="box-title">청킹 옵션 설정</p>
             <div class="option-box" v-for="option in Object.keys(chuncking)" :key="option.text">
               <label class="check-box-label">
@@ -53,26 +53,30 @@
             </div>
           </div>
 
-          <div>
-            <p class="box-title">임베딩 모델 선택</p>
-            <div class="option-box" v-for="option in Object.keys(model)" :key="option">
-              <label class="check-box-label" style="margin-bottom: 12px;">
-                <input type="checkbox" name="model_popup" v-model="model[option]['value']" class="check-box">
-                <p class="option-title">{{ model[option]['text'] }}</p>
-              </label>
+          <div style="margin-left: auto;">
+            <div class="box" style="min-width: 300px">
+              <p class="box-title">임베딩 모델 선택</p>
+              <div class="option-box" v-for="option in Object.keys(model)" :key="option">
+                <label class="check-box-label" style="margin-bottom: 12px;">
+                  <input type="checkbox" name="model_popup" v-model="model[option]['value']" class="check-box">
+                  <p class="option-title">{{ model[option]['text'] }}</p>
+                </label>
+              </div>
             </div>
 
-            <p class="box-title" style="margin-top: 24px;">Augmentation 옵션</p>
-            <div class="option-box" v-for="option in Object.keys(augmentation)" :key="option">
-              <label class="check-box-label" style="margin-bottom: 12px;">
-                <input type="checkbox" name="augmentation_popup" v-model="augmentation[option]['value']" class="check-box">
-                <p class="option-title">{{ augmentation[option]['text'] }}</p>
-              </label>
-              <div v-if="option == 'chunk_window'" class="option">
-                <p style="width: max-content;">
-                  Max window size
-                </p>
-                <input v-model="augmentation[option]['size']" type="text" class="text-field"/>
+            <div class="box" style="min-width: 300px">
+              <p class="box-title">Augmentation 옵션</p>
+              <div class="option-box" v-for="option in Object.keys(augmentation)" :key="option">
+                <label class="check-box-label" style="margin-bottom: 12px;">
+                  <input type="checkbox" name="augmentation_popup" v-model="augmentation[option]['value']" class="check-box">
+                  <p class="option-title">{{ augmentation[option]['text'] }}</p>
+                </label>
+                <div v-if="option == 'chunk_window'" class="option">
+                  <p style="width: max-content;">
+                    Max window size
+                  </p>
+                  <input v-model="augmentation[option]['size']" type="text" class="text-field"/>
+                </div>
               </div>
             </div>
           </div>
@@ -80,17 +84,19 @@
         </div>
       </div>
 
-      <div v-show="is_chart" class="box" style="width: 40%;">
-        <div>
+      <div v-show="is_chart" style="width: 40%; padding: 24px; margin: 16px;">
+        <div style="display: flex;">
+          <div class="sub-title" style="margin-left: 0px; margin-bottom: 24px; height: max-content;">추천 파라미터</div>
           <a href="/vectordb" style="width: max-content; margin: 0px 0px 12px auto; display: block;">
             <button @click="set_chart" class="next-button">
               <a>백터DB 생성하기</a>
               <img class="arrow-right" src="@/assets/arrow_right.png">
             </button>
           </a>
-          <div class="sub-title" style="margin-left: 0px; margin-bottom: 12px;">추천 파라미터</div>
+        </div>
+        <div class="box" style="margin-left: 0;">
           <div class="option-box">
-            <p>청킹 옵션 : Recursive</p>
+            <p class="box-title">청킹 옵션 : Recursive</p>
             <div class="option">
               <p>Chunk Size</p>
               <input value="500" type="text" class="text-field"/>
@@ -100,14 +106,17 @@
           </div>
 
           <div class="option-box">
-            <p>임베딩 모델 : 모델1</p>
+            <p class="box-title">임베딩 모델 : 모델1</p>
           </div>
 
           <div class="option-box" style="padding: 24px 0px;">
-            <p>AUGMENT : Chunk window Window size: 3</p>
+            <p class="box-title">AUGMENT : Chunk window Window size: 3</p>
           </div>
           
-          <div class="sub-title" style="margin-left: 0px; margin-bottom: 12px;">성능 비교</div>
+        </div>
+
+        <div class="sub-title" style="margin-left: 0px; margin-bottom: 12px;">성능 비교</div>
+        <div class="box" style="margin-left: 0;">
           <canvas id="chart"></canvas>
           
         </div>
@@ -140,9 +149,9 @@ export default {
         }
       },
       smp_1 : {
-        1 : {value : true, text : 'Full Search', sub :'~시간'},
-        2 : {value : true, text : 'Adaptive Alg.', sub :'~시간'},
-        3 : {value : true, text : 'Greedy Alg.', sub :'~시간'},
+        1 : {value : true, text : 'Full Search', sub :'10분'},
+        2 : {value : true, text : 'Adaptive Alg.', sub :'5분'},
+        3 : {value : true, text : 'Greedy Alg.', sub :'1분'},
       },
       model : {
         1 : {value : true, text : '모델 1'},

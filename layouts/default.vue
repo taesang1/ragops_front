@@ -37,8 +37,7 @@ export default {
         {name: '백터DB 생성', link: null, text: 'vector'},
         {name: 'AI 자동최적화', link: '/vectorai', style : 'margin-left : 24px'},
         {name: '파라미터 수동 설정', link: '/vectorhuman', style : 'margin-left : 24px'},
-        {name: '결과확인', link: '/vectordb', style : 'margin-left : 24px'},
-        {name: 'DB관리', link: '/Dblist'}
+        {name: '결과확인', link: '/vectordb', style : 'margin-left : 24px'}
       ],
       path : '/'
     }
@@ -110,15 +109,14 @@ p {
   font-size: 16px;
 }
 .main-title {
-  color : rgba(80, 72, 176, 1);
-  font-size: 24px;
+  font-size: 20px;
   padding: 24px 16px;
   text-align: left;
   font-weight: 700;
   margin-top: 93px;
 }
 .main-sub-title {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500
 }
 .sub-title {
@@ -142,7 +140,7 @@ p {
   min-width: 460px;
 }
 .box-title {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 700;
   margin-bottom: 12px !important;
 }
@@ -234,7 +232,7 @@ td {
   outline: none;
 }
 .option-box {
-  font-size: 14px;
+  font-size: 12px;
 }
 .option-title {
   font-weight: 700;

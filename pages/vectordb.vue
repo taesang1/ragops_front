@@ -56,7 +56,7 @@
 
       <div>
         <div class="sub-title">청킹 결과</div>
-        <div class="box" style="min-height: 450px;">
+        <div class="box" style="min-height: 450px; overflow-y: scroll;">
           <p v-if="view">
             샘플
           </p>
@@ -94,15 +94,7 @@ export default {
             {
               name: 'pdf1',
               file: 'pdf',
-            },
-            {
-              name: 'pdf2',
-              file: 'pdf',
-            },
-            {
-              name: 'hwp1',
-              file: 'word',
-            },
+            }
           ],
         },
       ]

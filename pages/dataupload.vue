@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width: max-content;">
     <p class="main-title">데이터 전처리 > <span class="main-sub-title">데이터 업로드</span></p>
 
     <div style="display: flex; padding-left: 16px; margin-bottom: 24px;">
@@ -107,14 +107,6 @@ export default {
             {
               name: 'pdf1',
               file: 'pdf',
-            },
-            {
-              name: 'pdf2',
-              file: 'pdf',
-            },
-            {
-              name: 'hwp1',
-              file: 'word',
             },
           ],
         },

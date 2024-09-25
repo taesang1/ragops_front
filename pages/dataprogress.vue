@@ -44,7 +44,7 @@
           원본파일
         </div>
         <div class="box" style="min-height: 465px;">
-          <iframe style="width: 100%; height: 400px;" v-if="view" :src="file_data[file].src" type="application/pdf">
+          <iframe style="width: 100%; height: 400px;" v-if="view" :src="file_data[file]['src']" type="application/pdf">
           </iframe>
         </div>
       </div>
@@ -53,7 +53,7 @@
         <div class="sub-title">
           추출결과
         </div>
-        <div class="box" style="min-height: 200px;">
+        <div class="box" style="min-height: 200px; overflow-y: scroll;">
           <p v-if="view">
             샘플
           </p>
@@ -62,7 +62,7 @@
         <div class="sub-title">
           파싱결과
         </div>
-        <div class="box" style="min-height: 200px;">
+        <div class="box" style="min-height: 200px; overflow-y: scroll;">
           <p v-if="view">
             샘플
           </p>
@@ -86,8 +86,7 @@ export default {
       tree: [],
       file : null,
       file_data : {
-        'pdf1' :{src : 'https://cdn.intellisys-saas.co.kr/pdf/sample_1.pdf?view=FitH&toolbar=0'},
-        'pdf2' :{src : 'https://cdn.intellisys-saas.co.kr/pdf/sample_2.pdf?view=FitH&toolbar=0'}
+        '예금업무방법(제3권 상품)(20240401)_일부개정' :{src : 'http://is-web.intellisys.co.kr:58580/files/pdf/예금업무방법(제3권 상품)(20240401)_일부개정.pdf?view=FitH&toolbar=0'}
       },
       items: [
         {
@@ -97,16 +96,8 @@ export default {
           name: 'folder2',
           children: [
             {
-              name: 'pdf1',
+              name: '예금업무방법(제3권 상품)(20240401)_일부개정',
               file: 'pdf',
-            },
-            {
-              name: 'pdf2',
-              file: 'pdf',
-            },
-            {
-              name: 'hwp1',
-              file: 'word',
             },
           ],
         },
@@ -118,9 +109,7 @@ export default {
       if (e.length > 0) {
         this.view = false
         this.file = e[0]
-        if (e[0].includes('pdf')) {
-          this.view = true
-        }
+        this.view = true
       }
     }
   }

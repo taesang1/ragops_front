@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <p class="main-title">프로젝트 생성 및 관리</p>
+  <div style="width: max-content;">
+    <p class="main-title">프로젝트 생성</p>
     <div style="width: max-content; margin-left: auto;">
       <a href="/dataupload">
-        <button style="margin-bottom: 100px;" class="next-button">
+        <button style="margin-bottom: 50px;" class="next-button">
         <a>프로젝트 생성</a>
         <img class="arrow-right" src="@/assets/arrow_right.png"></button>
       </a>
