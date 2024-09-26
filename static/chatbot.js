@@ -624,7 +624,7 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
     }
   
     window.localStorage.setItem(SESSION_EXPIRED_DTM_KEY, cur_dtm + (session_age_sec*1000));
-    return session_id;
+    return session_id+"-"+this.params['project_id'];
   }
 
   generate_new_session_id() {
