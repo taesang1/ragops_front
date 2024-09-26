@@ -36,7 +36,7 @@
         <div class="sub-title">
           파싱결과
         </div>
-        <div class="box" style="min-height: 465px; max-height: 465px; overflow-y: scroll; padding">
+        <div class="box" style="min-height: 465px; max-height: 465px; overflow-y: auto; padding">
           <p id="parsing" v-show="parsing">
           </p>
         </div>
