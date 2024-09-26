@@ -11,7 +11,7 @@
       <div class="project-name" style="margin: auto 0px auto 12px">#프로젝트 {{ project_id }}</div>
       <a v-if="is_loading" style="margin-left: auto;">
         <button class="next-button">
-          <a>생성중...</a>
+          <img class="loading" src="@/assets/loading.gif">
         </button>
       </a>
       <a v-else-if="!is_vector" @click="[check_project_file(), is_loading = true]" style="margin-left: auto;">
@@ -35,6 +35,8 @@
           파일 검색
         </div>
         <div style="min-height: 450px;" class="box">
+          <input v-model="path" type="text" class="search-field">
+
           <v-treeview
             v-model="tree"
             :open="initiallyOpen"
@@ -88,6 +90,7 @@ export default {
   data () {
     return {
       count : 0,
+      path : '',
       is_vector : false,
       is_loading : false,
       dialog : false,
@@ -117,6 +120,7 @@ export default {
     let body = {project_id : this.project_id}
     this.$store.dispatch('get_server_file_base_list', body).then((res) => {
       body['path'] = res
+      this.path = res
       this.$store.dispatch('get_server_file_list', body).then((res) => {
         let file = {}
         file['name'] = res.files[0].file_name
@@ -212,15 +216,5 @@ export default {
 .file-upload img{
   width: 40px;
   object-fit: contain;
-}
-.server_file {
-  padding: 6px 12px;
-  margin-bottom: 12px;
-}
-#pdf {
-  border: 1px solid red;
-}
-#hwp {
-  border: 1px solid blue
 }
 </style>

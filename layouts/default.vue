@@ -235,6 +235,11 @@ td {
 .option .text-field:focus {
   outline: none;
 }
+.search-field {
+  width: 100%;
+  background-color: rgba(224, 224, 224, 1);
+  padding: 6px;
+}
 .option-box {
   font-size: 12px;
 }
@@ -248,5 +253,19 @@ td {
 .check-box {
   margin-right: 12px;
   width: 18px;
+}
+.loading {
+  width: 24px;
+  object-fit: contain;
+}
+.server_file {
+  padding: 6px 12px;
+  margin-bottom: 12px;
+}
+#pdf {
+  border: 1px solid red;
+}
+#hwp {
+  border: 1px solid blue
 }
 </style>

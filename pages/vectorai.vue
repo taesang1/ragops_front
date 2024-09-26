@@ -14,7 +14,7 @@
             <img class="arrow-right" src="@/assets/arrow_right.png">
           </button>
           <button v-else class="next-button" style="margin-left: auto; height: max-content;">
-            <a>생성중...</a>
+            <img class="loading" src="@/assets/loading.gif">
           </button>
         </div>
         <div style="display: flex;">

@@ -38,13 +38,7 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
       'EN':'An unexpected error occurred. Please try again',
       'JP':'予期しないエラーが発生しました。 もう一度お試しください'
     }
-    // this.help = `&#9679; 학습 출처: <a href='https://www.tradenavi.or.kr'>https://www.tradenavi.or.kr</a>
-    // &#9679; 관련 문서: 무역규제
-    // &nbsp; &nbsp; &#9726; 비관세조치, 기술장벽, 환경규제, 해외인증, 해외규격, 수입요건, 전략물자, 수출장벽 > 통관거부사례, 수출장벽 > 통상마찰사례, 수입규제, 지재권 관리카드
-
-    // &#9679; 사용 예시: 일본에 의약품 판매할 때 절차를 알려줘`
-    this.api_url = window.BACKEND_ADDRESS
-    this.user_id_prefix = window.USER_ID_PREFIX
+    this.api_url = 'http://is-web.intellisys.co.kr:57102'
     this.minimum_size = 20;
     this.original_width = 0;
     this.original_height = 0;
@@ -54,6 +48,7 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
     this.original_mouse_y = 0;
     this.is_debug = false
     this.static_image = false
+    this.site_id = 'RagBuilder'
     this.get_params()
     this.create_chatbot()
   }
@@ -77,13 +72,7 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
     tag.innerHTML = html
     return tag
   }
-  // #intellisys_chatbot_icon {
-  //   width: 200px; cursor: pointer; position: fixed;
-  //   right: 0px; left: 0; margin: auto; bottom: 0; top: 0;  
-  // }
-  // #intellisys_chatbot {
-  //   position: fixed; right : 50px; bottom : 100px; z-index: 100000;
-  // }
+
   create_style() {
    let style = this.create_element('style')
    let overflow = 'hidden'
@@ -117,6 +106,12 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
       border-radius: 0px 24px 24px 24px; padding: 12px; word-break:break-all; background-color: #F2F4F5; margin: 0; font-size: 13px;
       min-width: 45%; max-width: 65%;
     }
+
+    .intellisys_chatbot_welcome{
+      border-radius: 0px 24px 24px 24px; padding: 12px; word-break:break-all; background-color: #F2F4F5; margin: 0; font-size: 13px;
+      min-width: 45%; max-width: 80% !important;
+    }
+
     #intellisys_chatbot_text_error > p{
       border-radius: 0px 24px 24px 24px; padding: 12px; word-break:break-all; background-color: #F2F4F5; margin: 0; font-size: 13px;
       min-width: 45%; max-width: 65%;
@@ -187,12 +182,12 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
     #intellisys_chatbot_image #intellisys_image_list { width: max-content; position:relative; margin:20px 0px; }
     #intellisys_chatbot_image #intellisys_image_list > ul > li {display:inline-block; -webkit-user-select: none;
       -khtml-user-select: none; -moz-user-select: none; 	-o-user-select: none; -ms-user-select: none; user-select: none; 
-      border: 1px solid #cfcdcd; margin: 0 6px; cursor: pointer;}
+      border: 1px solid #cfcdcd; margin: 0 6px; }
     #intellisys_chatbot_image #intellisys_image_list > ul > li div {width: 100px; display:block; font-size:18px; color: #000;}
     #intellisys_chatbot_image #intellisys_image_list > ul {
       display: flex; padding-left: 0;
     }
-    .top-left {
+    #intellisys_chatbot .top-left {
       left: 0px;
       top: 0px;
       width: 10px;
@@ -200,12 +195,13 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
       position: absolute;
       cursor: nwse-resize; /*resizer cursor*/
     }
+    .activate {
+      background-color : #eb063d !important
+    }
     `)
     return style
   }
-  // .color_row:hover {
-  //   background-color : #534BEE !important;
-  // }
+  
   get_params() {
     this.params = {}
     var searchParams = new URLSearchParams(location.search);
@@ -256,52 +252,8 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
       window.addEventListener('mouseup', INTELLISYS_CHATBOT_CREATE_CLASS_.stopResize)
     }
 
-    let popup = this.create_element('div')
-    popup = this.set_style(popup, 'position: absolute; top: 15%; left: 50%; width: 300px; z-index: 11000; background-color: #DAC8FF; padding: 20px; display: none;')
-    popup = this.set_attrs(popup,'id', 'popup')
-    popup = this.set_innerhtml(popup, `
-      <div id='rerank_scores'>
-      </div>
-    `)
-    this.element = popup
-    popup.appendChild(resize_icon)
-    popup.onmousedown = function(event) {
-
-      let shiftX = event.clientX - popup.getBoundingClientRect().left;
-      let shiftY = event.clientY - popup.getBoundingClientRect().top;
-
-      popup.style.position = 'absolute';
-      popup.style.zIndex = 1000;
-      document.body.append(popup);
-
-      moveAt(event.pageX, event.pageY);
-
-      function moveAt(pageX, pageY) {
-        popup.style.left = pageX - shiftX + 'px';
-        popup.style.top = pageY - shiftY + 'px';
-      }
-
-      function onMouseMove(event) {
-        moveAt(event.pageX, event.pageY);
-
-        popup.hidden = true;
-        let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
-        popup.hidden = false;
-
-        if (!elemBelow) return;
-      }
-
-      document.addEventListener('mousemove', onMouseMove);
-
-      popup.onmouseup = function() {
-        document.removeEventListener('mousemove', onMouseMove);
-        popup.onmouseup = null;
-      };
-    };
-
     let chatbot_box = this.create_element('div')
     chatbot_box = this.set_attrs(chatbot_box,'id','intellisys_chatbot_box')
-    // chatbot_box.style.display = 'none'
     chatbot.appendChild(chatbot_box)
 
     let style = this.create_style()
@@ -312,14 +264,10 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
     
     this.chatbot_text_box = this.create_element('div')
     this.chatbot_text_box = this.set_attrs(this.chatbot_text_box, 'id', 'intellisys_chatbox_text_box')
-    // this.chatbot_text_box = this.set_style(this.chatbot_text_box, `width: ${window.innerWidth / 5}px; height : ${window.innerHeight/2}px`)
-    // if (/Mobi/i.test(window.navigator.userAgent) == true) {
-    //   this.chatbot_text_box = this.set_style(this.chatbot_text_box, `width: ${window.innerWidth / 1.1}px; height : ${window.innerHeight/1.2}px`)
-    // } else {
-    this.chatbot_text_box = this.set_style(this.chatbot_text_box, `width: 800px; height : calc(90vh - 66px)`)
-    // }
-    // this.element = this.chatbot_text_box
-    // chatbot_box.appendChild(resize_icon)
+    this.chatbot_text_box = this.set_style(this.chatbot_text_box, `width: 25vw; height : calc(75vh - 66px)`)
+
+    this.element = this.chatbot_text_box
+  
     chatbot_box.appendChild(this.chatbot_text_box)
 
     this.create_chat_text('assistant', this.welcome[this.language],null,null,null,'intellisys_chatbot_welcome')
@@ -330,20 +278,9 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
     chatbot_icon.onclick = function () {
       INTELLISYS_CHATBOT_CREATE_CLASS_.click_chatbot_icon()
     }
-    // let chatbot_title = this.create_chatbot_title()
+
     let body = document.querySelector('#target')
-    // chatbot_box.prepend(chatbot_title)
 
-    // let p = this.create_element('p')
-    // p = this.set_innerhtml(p, '생성형 AI를 활용한 쇼핑 에이전트를 경험해 보세요')
-    // p = this.set_style(p, `position: fixed; top: 0px; bottom: 293px; left: 0; right: 0; margin: auto;
-    // width: max-content; font-size: 18px; height: max-content; font-weight: 700;`)
-    // chatbot.appendChild(p)
-    // chatbot.appendChild(chatbot_icon)
-
-    if (this.is_debug) {
-      body.appendChild(popup)
-    }
     if (/Mobi/i.test(window.navigator.userAgent) == true) {
       body.appendChild(chatbot)
     } else {
@@ -359,7 +296,6 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
     let input = document.querySelector('#intellisys_chatbot_input')
     let welcome = document.querySelector('.intellisys_chatbot_welcome')
     let error = document.querySelectorAll('#intellisys_chatbot_text_error')    
-    // intellisys_chatbot_text_error
     if (this.language == 'KO') {
       this.language = 'JP'
       document.querySelector('#language_jp').style = 'font-weight: 700;'
@@ -377,9 +313,6 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
     if (input.getAttribute('readonly') == 'answer') {
       placeholder = this.placeholder['answer'][this.language]
     } 
-    // else{
-    //   placeholder = this.placeholder['question'][this.language]
-    // }
 
     input.placeholder =  placeholder
     welcome = this.set_innerhtml(welcome, this.welcome[this.language])
@@ -505,9 +438,6 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
     } else if (status == 'qa_history'){
       title = '선택 상품을 저장하고 있습니다...'
       tag = this.set_attrs(tag,'readonly','answer')
-    } else if (status == 'rerank_scores'){
-      title = 'rerank_scores를 가져오고 있습니다...'
-      tag = this.set_attrs(tag,'readonly','answer')
     } else {
       tag.removeAttribute('readonly')
     }
@@ -517,8 +447,6 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
   }
 
   text_input_click(tag) {
-    window.event.returnValue = false;
-    return
     if (tag == null) {
       tag = document.querySelector('#intellisys_chatbot_input')
     }
@@ -599,11 +527,28 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
         }
         chat_text = document.querySelector(`#chat_${id}`)
         if (typeof(text) == 'string') {
-          chat_text.innerHTML = text
-          this.answer = text
+          if (this.create_image_list != false) {
+            chat_text.innerHTML = text
+            this.answer = text
+          }
         } else {
-          let image_list = this.create_chat_image_list(text)
-          this.chatbot_text_box.appendChild(image_list)
+          for (let t of text) {
+            let pdf = null
+            pdf = this.create_element('a')
+            pdf = this.set_innerhtml(pdf,`<br><br> <span style='color : blue; cursor: pointer;'>${t['link_label']}</span>`)
+            pdf.onclick = function() {
+              window.$nuxt.$root.$children[0].$children[0].$children[1].$children[0].is_doc_type = ''
+              if (t['reference_type'] == 'url') {
+                window.$nuxt.$root.$children[0].$children[0].$children[1].$children[0].doc_url = t['link']+'&view=FitH&toolbar=0'
+                window.$nuxt.$root.$children[0].$children[0].$children[1].$children[0].is_doc_type = 'url' 
+              } else {
+                window.$nuxt.$root.$children[0].$children[0].$children[1].$children[0].is_doc_type = 'doc'
+                document.querySelector('.doc_html').querySelector('.content').innerHTML = t['content']
+              }
+            }
+            chat_text.appendChild(pdf) 
+          }
+          this.create_image_list = false
         }
 
         let scroll_chatbox_text_box = document.querySelector('#intellisys_chatbox_text_box')
@@ -618,11 +563,6 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
         chat_text = this.set_innerhtml(chat_text, "<img style='width: 40px; padding: 0 12px;' src='/chatloading.gif'>")
         chat_box = this.set_attrs(chat_box, 'id', `intellisys_chatbot_text_assistant`)
         chat_box = this.set_style(chat_box, `width: max-content;`)
-      }
-      if (typeof(text) != 'string' && history != null) {
-        let image_list = this.create_chat_image_list(text)
-        this.chatbot_text_box.appendChild(image_list)
-        return
       }
       chatbot_icon = this.create_chatbot_icon()
       chatbot_icon = this.set_style(chatbot_icon, `width: 32px;
@@ -641,18 +581,15 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
         for (var i of document.querySelectorAll('.activate')) {
           i.classList.remove('activate')
         }
-        for (var i of document.querySelectorAll('.activate_check')) {
-          i.classList.remove('activate_check')
-        }
         if (history == null) {
           this.res_chat_timestamp = Date.now()
           this.current_query_id = 'query_' + Date.now().toString(32)
           chat_box = this.set_attrs(chat_box, 'class', this.current_query_id)
           this.create_image_list = true
-          if (document.querySelector('#more_btn') != null) document.querySelector('#more_btn').style = 'display: none'
-          if (document.querySelector('#more_list') != null) document.querySelector('#more_list').style = 'display: none'
-          if (document.querySelector('#save_btn') != null) document.querySelector('#save_btn').style = 'display: none'
           assistant_id = this.req_question(text)
+          console.log(window.$nuxt.$root.$children[0].$children[0].$children[1].$children[0])
+          window.$nuxt.$root.$children[0].$children[0].$children[1].$children[0].is_doc_type = ''
+          document.querySelector('.doc_html').querySelector('.content').innerHTML = ''
         }
       }
     this.chatbot_text_box.appendChild(chat_box)
@@ -660,186 +597,6 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
     if (scroll_chatbox_text_box == null) return
     scroll_chatbox_text_box.scrollTop = scroll_chatbox_text_box.scrollHeight
     return assistant_id
-  }
-
-  set_rerank_scores(res) {
-    let popup = document.querySelector('#popup')
-    let rerank_scores = document.querySelector('#rerank_scores')
-    let tag = ''
-    for (let i of Object.keys(res)) {
-      tag += `
-        <p style='font-size: 13px;'>${i} : ${res[i]}</p>
-      `
-    }
-    rerank_scores = this.set_innerhtml(rerank_scores, tag)
-    popup.style.display = 'block'
-  }
-
-  create_chat_image_list(res) {
-    this.create_image_list = false
-    let intellisys_chatbot_image = this.create_element('div')
-    intellisys_chatbot_image = this.set_attrs(intellisys_chatbot_image, 'id', 'intellisys_chatbot_image')
-
-    intellisys_chatbot_image.onmouseleave = function() {
-      INTELLISYS_CHATBOT_CREATE_CLASS_.bMove = false
-    }
-    intellisys_chatbot_image.onmouseup = function() {
-      INTELLISYS_CHATBOT_CREATE_CLASS_.bMove = false
-    }
-    intellisys_chatbot_image.onmousedown = function() {
-      INTELLISYS_CHATBOT_CREATE_CLASS_.bMove = true;
-      INTELLISYS_CHATBOT_CREATE_CLASS_.startX = window.event.pageX - intellisys_chatbot_image.offsetLeft;
-      INTELLISYS_CHATBOT_CREATE_CLASS_.scrollLeft = intellisys_chatbot_image.scrollLeft;
-    }
-    intellisys_chatbot_image.onmousemove = function() {
-      if( INTELLISYS_CHATBOT_CREATE_CLASS_.bMove ) {
-        const x = window.event.pageX - intellisys_chatbot_image.offsetLeft;
-        const walk = x - INTELLISYS_CHATBOT_CREATE_CLASS_.startX;
-        intellisys_chatbot_image.scrollLeft = INTELLISYS_CHATBOT_CREATE_CLASS_.scrollLeft - walk;
-      }
-    }
-
-    let intellisys_image_list = this.create_element('div')
-    intellisys_image_list = this.set_attrs(intellisys_image_list, 'id', 'intellisys_image_list')
-    
-    // if (document.querySelector('#more_list') != null) document.querySelector('#more_list').style = 'display: flex'
-    // if (document.querySelector('#save_btn') != null) document.querySelector('#save_btn').style = 'display: flex'
-    // if (document.querySelector('#more_btn') != null) document.querySelector('#more_btn').style = 'display: block !important'
-    
-    window.res_sku_cds = []
-    for (var i of res) {
-      i['old_index'] = res.indexOf(i)
-      // i['rvw'] = Math.floor(Math.random() * 100)
-      // i['sales_start_date'] = `2018-04-08 03:25:${Math.floor(Math.random() * 60)}`
-      // i['ranking'] = Math.floor(Math.random() * 100)
-      window.res_sku_cds.push(i['item_id'])
-    }
-
-    document.querySelector('select').value = ''
-    window.$nuxt.$root.$children[1].$children[0].$children[0].item_list = res
-    window.$nuxt.$root.$children[1].$children[0].$children[0].check_list = []
-    window.is_check = false
-    window.item_list = res.slice()
-
-    let image_list = this.create_element('ul')
-    let item_list = res.slice(0,10)
-    for (var i of item_list) {
-      let row = this.create_element('li')
-      let price_row = ''
-      // if (i['price'] != i['retail_price']) {
-      //   price_row = `
-      //   <p style='font-size: 12px; text-decoration: line-through; color: gray;'>${i['price']}원</p>
-      //   <div style='display: flex; margin-top: 12px'>
-      //     <p style='margin-right: 12px; font-size: 12px; color: red;'>${Math.round((i['price'] - i['retail_price']) / i['price'] * 100)}%</p>
-      //     <p style='font-size: 12px;'>${i['retail_price']}원</p>
-      //   </div>`
-      // } else {
-      //   price_row = `<p style='font-size: 12px;'>${i['retail_price']}원</P>`
-      // }
-      // for (var key of Object.keys(i)) {
-      //   if (key == 'price' || key == 'title' || key == 'goods_url' || key == 'image_path' || key == 'retail_price') continue
-      //   tag += `<p style='font-size: 12px; white-space: normal;
-      //   word-wrap: break-word;
-      //   display: -webkit-box;
-      //   -webkit-box-orient: vertical;
-      //   line-height: 1.2em;
-      //   text-overflow: ellipsis;
-      //   overflow: hidden;'>${key} : ${i[key]}</p><br>`
-      // }
-      if (this.static_image) i['image_path'] = 'https://img.ssfshop.com/cmd/LB_750x1000/src/https://img.ssfshop.com/goods/MCBR/24/03/25/GM0024032501807_0_THNAIL_ORGINL_20240329095214248.jpg'
-      let color_code = 'rgb(11, 34, 111)'
-      if (this.is_debug) {
-        let tag = ''
-        for (var key of Object.keys(i)) {
-          if (key == 'goods_url' || key == 'image_path' || key =='old_index') continue
-          tag += `<p style='font-size: 12px; white-space: normal;
-          word-wrap: break-word;
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          line-height: 1.2em; font-size: 10px;
-          text-overflow: ellipsis; color : white;
-          overflow: hidden;'>${key} : ${i[key]}</p><br>`
-        }
-        // price_row = `<p style='font-size: 12px; color : white;'>${i['price']}원</P>`
-        // <p style='white-space: normal;
-        // word-wrap: break-word;
-        // display: -webkit-box;
-        // -webkit-box-orient: vertical;
-        // -webkit-line-clamp: 3;
-        // line-height: 1.2em;
-        // max-height: 3.6em;
-        // text-overflow: ellipsis;
-        // overflow: hidden;
-        // font-size: 10px; margin: 12px 0; color : white;'>${i['title']}</p>
-        row = this.set_innerhtml(row, `<div style='height: 100%;'>
-          <div style="width: max-content;margin: auto; height: 120px;">
-            <img style='height: 120px; object-fit: contain; -webkit-user-drag: none; -khtml-user-drag: none; -moz-user-drag: none; -o-user-drag: none; user-drag: none;' src='${i['image_path']}'><img>
-          </div>
-          <div class='color_row' style='padding:7px; height: calc(100% - 134px); width: calc(100% - 14px); background-color: ${color_code};'>
-            ${tag}
-          </div>
-        </div>`)
-      } else {
-        row = this.set_innerhtml(row, `<div style='height: 100%'>
-          <div style="width: max-content;margin: auto; height: 120px; padding:0 7px;">
-            <img style='height: 120px; object-fit: contain; -webkit-user-drag: none; -khtml-user-drag: none; -moz-user-drag: none; -o-user-drag: none; user-drag: none;' src='${i['image_path']}'><img>
-          </div>
-          <div class='color_row' style='padding:7px; height: calc(100% - 134px); width: calc(100% - 14px); background-color: ${color_code};'>
-            <p style='font-size: 10px; white-space: normal;
-            word-wrap: break-word;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            line-height: 1.2em;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            color : white;'>브랜드: ${i['brand']}</p>
-            <p style='white-space: normal;
-            word-wrap: break-word;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 3;
-            line-height: 1.2em;
-            max-height: 3.6em;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            font-size: 10px;
-            color : white;'>상품명: ${i['title']}</p>
-          </div>
-        </div>`)
-      }
-      let url = i['goods_url']
-      let item_id = i['item_id']
-      let index = item_list.indexOf(i)
-      let row_el = intellisys_image_list
-      row = this.set_attrs(row, 'id',`item_row_${index}`)
-      // row = this.set_attrs(row, 'class',`item`)
-      image_list.appendChild(row)
-      row.onclick = function() {
-        if (window.event.pageX - INTELLISYS_CHATBOT_CREATE_CLASS_.startX == 12) {
-          window.open(url)
-      //     if (!row_el.classList.contains('latest')) return
-
-      //     row_el.querySelector(`#item_row_${index}`).querySelector('.color_row').classList.add('activate')
-      //     let more_item = document.querySelector('#more_list').querySelector(`#item_row_${index}`)
-
-      //     let item_index = window.check_sku_cds.indexOf(item_id)
-      //     if (item_index == -1) {
-      //       window.check_sku_cds.push(item_id)
-      //     } else {
-      //       window.check_sku_cds.splice(item_index, 1)
-      //       row_el.querySelector(`#item_row_${index}`).querySelector('.color_row').classList.remove('activate')
-      //       if (more_item != null ) more_item.querySelector('.color_row').classList.remove('activate')
-      //     }
-        }
-      }
-    }
-    for (var i of document.querySelectorAll('.latest')) {
-      i.classList.remove('latest')
-    }
-    intellisys_image_list = this.set_attrs(intellisys_image_list, 'class', 'latest')
-    intellisys_image_list.appendChild(image_list)
-    intellisys_chatbot_image.appendChild(intellisys_image_list)
-    return intellisys_chatbot_image
   }
 
   click_chatbot_icon() {
@@ -888,20 +645,16 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
     const xhr = new XMLHttpRequest();
     if (assistant_id == null) assistant_id = Date.now().toString(32)
     let assistant_id_ = assistant_id
-    let recent = window.recent
-    let personal = window.personal
-    let body = {'query_id':this.question_id,'question':question,'site_id':'ssf','user_id':this.user_id_prefix+'user1','session_id':session_id, 'language':this.language, 'timestamp':INTELLISYS_CHATBOT_CREATE_CLASS_.res_chat_timestamp}
-    if (recent != null) {
-      body['recent'] = recent
-    }
-    if (personal != null) {
-      body['personal'] = personal
-    }
+    let body = {'question':question,'site_id':this.site_id,'user_id':'rag' ,
+      'session_id':session_id, 'language':this.language, 'timestamp': Date.now(),
+      'model': 'LLAMA3 70B', 'category': 'latest',
+      }
     body = Object.assign(body,this.params)
     let is_retry = true
+    let is_doc = false
     xhr.timeout = 125000;
     // xhr.timeout = 45000;
-    xhr.open('POST', this.api_url + '/stream_json');
+    xhr.open('POST', this.api_url + '/stream');
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.onreadystatechange = function (event) {
       if (this.readyState >= 3 && this.status == 200) {
@@ -909,10 +662,7 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
         xhr.timeout = xhr.timeout + 1000
         var res_text = this.responseText.split('}{')
         let text = ''
-        let text_2 = ''
         let content = ''
-        let sequence =''
-        let prod_list = []
         for (var i of res_text) {
           if (i[0] == '{' && i[i.length -1] !='}') {
             i = i + '}'
@@ -922,33 +672,31 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
             i = '{' + i + '}'
           }
           content = JSON.parse(i)
-          if (content['prod_list'] != null) {
-            prod_list = content['prod_list']
-          }
           if (content['answer'] != null && content['answer'] != 'null') {
             text = text + content['answer']
           }
-          if (content['sequence'] > 1) {
-            text_2 = text_2 + content['answer']
-            text = text_2
-            sequence = content['sequence']
-          }
         }
-        if (content['error'] == null && INTELLISYS_CHATBOT_CREATE_CLASS_.create_image_list && prod_list.length > 0) {
-          INTELLISYS_CHATBOT_CREATE_CLASS_.create_chat_text('assistant', prod_list , null, assistant_id);
-          if (INTELLISYS_CHATBOT_CREATE_CLASS_.is_debug) {
-            INTELLISYS_CHATBOT_CREATE_CLASS_.rerank_scores()
+
+        if (text !='' && content['error'] == null) {
+          INTELLISYS_CHATBOT_CREATE_CLASS_.create_chat_text('assistant', text , null, assistant_id);
+        }
+        if (content['reference'].length != 0 && is_doc == false) {
+          if (content['reference'][0]['reference_type'] == 'url') {
+            window.$nuxt.$root.$children[0].$children[0].$children[1].$children[0].doc_url = content['reference'][0]['link']+'&view=FitH&toolbar=0'
+            window.$nuxt.$root.$children[0].$children[0].$children[1].$children[0].is_doc_type = 'url'
+          } else {
+            window.$nuxt.$root.$children[0].$children[0].$children[1].$children[0].is_doc_type = 'doc'
+            document.querySelector('.doc_html').querySelector('.content').innerHTML = content['reference'][0]['content']
           }
+          is_doc = true
+        }
+        if (content['is_finished'] == true && content['error'] == null && INTELLISYS_CHATBOT_CREATE_CLASS_.create_image_list ) {
+          INTELLISYS_CHATBOT_CREATE_CLASS_.create_chat_text('assistant', content['reference'] , null, assistant_id);
           INTELLISYS_CHATBOT_CREATE_CLASS_.text_input_readonly(null, false);
         } else if (content['error'] != null) {
           INTELLISYS_CHATBOT_CREATE_CLASS_.create_chat_text('error', INTELLISYS_CHATBOT_CREATE_CLASS_.error_msg[INTELLISYS_CHATBOT_CREATE_CLASS_.language], null, assistant_id);
           INTELLISYS_CHATBOT_CREATE_CLASS_.text_input_readonly(null, false);
           xhr.abort()
-        }
-        assistant_id = assistant_id_
-        assistant_id += sequence
-        if (text !='' && content['error'] == null) {
-          INTELLISYS_CHATBOT_CREATE_CLASS_.create_chat_text('assistant', text , null, assistant_id);
         }
       } else if (this.status != 0){
         is_retry = false
@@ -987,7 +735,7 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
     }
     const session_id = this.get_session_id()
     const xhr = new XMLHttpRequest();
-    let body = {'site_id':'ssf','user_id':this.user_id_prefix+'user1','session_id':session_id}
+    let body = {'site_id':this.site_id,'user_id':'rag','session_id':session_id}
     let is_retry = true
     body = Object.assign(body,this.params)
     xhr.open('POST', this.api_url + '/get_history');
@@ -1035,73 +783,6 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
     xhr.send(JSON.stringify(body));
   }
 
-  qa_history(retry_count) {
-    if (this.is_history == false) return
-    if (retry_count == 5) {
-      this.create_chat_text('error', this.error_msg[this.language])
-      this.text_input_readonly(null, false);
-      return
-    }
-    this.text_input_readonly(null, 'qa_history');
-    const session_id = this.get_session_id()
-    const xhr = new XMLHttpRequest();
-    let check_sku_cds = window.check_sku_cds
-    let is_all = false
-    if (window.check_sku_cds.length == 0) {
-      check_sku_cds = window.res_sku_cds
-      is_all = true
-    }
-    let body = {'site_id':'ssf','user_id':this.user_id_prefix+'user1', 'session_id':session_id,
-    question : this.question, answer : this.answer, res_sku_cds: window.res_sku_cds, check_sku_cds: check_sku_cds,
-    question_id : this.question_id}
-    let is_retry = true
-    body = Object.assign(body,this.params)
-    xhr.open('POST', this.api_url + '/qa_history');
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr.onreadystatechange = function (event) {
-      const { target } = event;
-      if (target.readyState === XMLHttpRequest.DONE) {
-        const { status } = target;
-        if (status >= 200 && status < 400) {
-          let res = JSON.parse(xhr.response)
-          INTELLISYS_CHATBOT_CREATE_CLASS_.text_input_readonly(null, false);
-          // let more_list = document.querySelector('#more_list')
-          // for (let i of check_sku_cds) {
-          //   let item_row = more_list.querySelector(`#item_row_${window.res_sku_cds.indexOf(i)}`)
-          //   item_row.querySelector('.color_row').setAttribute('id','save_row')
-          //   item_row.querySelector('input').classList.add('id','save_check_box')
-          //   item_row.querySelector('input').setAttribute('checked','')
-          // }
-          window.is_check = true
-          document.querySelector('#save_btn').style.backgroundColor = 'rgb(235, 6, 61)'
-          if (is_all) {
-            alert('모든 상품이 저장되었습니다.')
-          } else {
-            alert('선택한 상품이 저장되었습니다.')
-          }
-        } else if (status != 0){
-          is_retry = false
-          INTELLISYS_CHATBOT_CREATE_CLASS_.text_input_readonly(null, false);
-          alert('예상치 못한 에러가 발생했습니다. 다시 시도해 주십시오')
-          // INTELLISYS_CHATBOT_CREATE_CLASS_.create_chat_text('error', INTELLISYS_CHATBOT_CREATE_CLASS_.error_msg[INTELLISYS_CHATBOT_CREATE_CLASS_.language])
-        }
-      }
-    }
-    xhr.onerror = function(event) {
-      if (!is_retry) return
-      if (retry_count == null) {
-        retry_count = 1
-      } else {
-        retry_count = retry_count + 1
-      }
-      INTELLISYS_CHATBOT_CREATE_CLASS_.qa_history(
-        retry_count
-      )
-    }
-
-    xhr.send(JSON.stringify(body));
-  }
-
   req_clear(retry_count) {
     if (this.is_history == false) return
     if (retry_count == 5) {
@@ -1112,7 +793,7 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
     this.text_input_readonly(null, 'clear');
     const session_id = this.get_session_id()
     const xhr = new XMLHttpRequest();
-    let body = {'site_id':'ssf','user_id':this.user_id_prefix+'user1', 'session_id':session_id}
+    let body = {'site_id':this.site_id,'user_id':'rag', 'session_id':session_id}
     let is_retry = true
     body = Object.assign(body,this.params)
     xhr.open('POST', this.api_url + '/clear');
@@ -1126,9 +807,6 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
           if (res['status'] == 'SUCCESS') {
             INTELLISYS_CHATBOT_CREATE_CLASS_.chat_clear()
             INTELLISYS_CHATBOT_CREATE_CLASS_.text_input_readonly(null, false);
-            if (document.querySelector('#more_list') != null) document.querySelector('#more_list').style = 'display: none'
-            if (document.querySelector('#save_btn') != null) document.querySelector('#save_btn').style = 'display: none'
-            if (document.querySelector('#more_btn') != null) document.querySelector('#more_btn').style = 'display: none'
           }
         } else if (status != 0){
           is_retry = false
@@ -1145,52 +823,6 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
         retry_count = retry_count + 1
       }
       INTELLISYS_CHATBOT_CREATE_CLASS_.req_clear(
-        retry_count
-      )
-    }
-
-    xhr.send(JSON.stringify(body));
-  }
-
-  rerank_scores(retry_count) {
-    if (this.is_history == false) return
-    if (retry_count == 5) {
-      this.create_chat_text('error', this.error_msg[this.language])
-      this.text_input_readonly(null, false);
-      return
-    }
-    this.text_input_readonly(null, 'rerank_scores');
-    const xhr = new XMLHttpRequest();
-    let body = {'question_id':this.question_id}
-    let is_retry = true
-    body = Object.assign(body,this.params)
-    xhr.open('POST', this.api_url + '/rerank_scores');
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr.onreadystatechange = function (event) {
-      const { target } = event;
-      if (target.readyState === XMLHttpRequest.DONE) {
-        const { status } = target;
-        if (status >= 200 && status < 400) {
-          let res = JSON.parse(xhr.response)
-          if (res['status'] == 'SUCCESS') {
-            INTELLISYS_CHATBOT_CREATE_CLASS_.text_input_readonly(null, false);
-            INTELLISYS_CHATBOT_CREATE_CLASS_.set_rerank_scores(res['result'])
-          }
-        } else if (status != 0){
-          is_retry = false
-          INTELLISYS_CHATBOT_CREATE_CLASS_.text_input_readonly(null, false);
-          INTELLISYS_CHATBOT_CREATE_CLASS_.create_chat_text('error', INTELLISYS_CHATBOT_CREATE_CLASS_.error_msg[INTELLISYS_CHATBOT_CREATE_CLASS_.language])
-        }
-      }
-    }
-    xhr.onerror = function(event) {
-      if (!is_retry) return
-      if (retry_count == null) {
-        retry_count = 1
-      } else {
-        retry_count = retry_count + 1
-      }
-      INTELLISYS_CHATBOT_CREATE_CLASS_.rerank_scores(
         retry_count
       )
     }

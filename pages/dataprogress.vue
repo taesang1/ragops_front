@@ -18,24 +18,7 @@
           작업 목록
         </div>
         <div class="box" style="min-height: 465px;">
-          <v-treeview
-            v-model="tree"
-            :open="initiallyOpen"
-            :items="server_file_list"
-            activatable
-            item-key="name"
-            open-on-click
-            @update:active="test"
-          >
-            <template v-slot:prepend="{ item, open }">
-              <v-icon v-if="!item.file">
-                {{ open ? 'mdi-folder-open' : 'mdi-folder' }}
-              </v-icon>
-              <v-icon v-else>
-                {{ files[item.file] }}
-              </v-icon>
-            </template>
-          </v-treeview>
+          <div :id="i.type" v-for="i in server_file_list" :key="i" class="server_file">{{ i.name }}</div>
         </div>
       </div>
 
@@ -77,16 +60,7 @@ export default {
       tree: [],
       file : null,
       file_nos : {},
-      server_file_list: [
-        {
-          name: 'folder1',
-        },
-        {
-          name: 'folder2',
-          children: [
-          ],
-        },
-      ]
+      server_file_list: []
     }
   },
   mounted() {
@@ -94,8 +68,8 @@ export default {
     this.$store.dispatch('get_project_file_list', body).then((res) => {
       let file = {}
       file['name'] = res.files[0].name
-      file['file'] = res.files[0].file
-      this.server_file_list[1]['children'].push(file)
+      file['type'] = res.files[0].file
+      this.server_file_list.push(file)
       this.file_nos[file['name']] = res.files[0].file_no
     })
   },
