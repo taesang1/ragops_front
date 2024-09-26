@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="main-title">데이터 전처리 > <span class="main-sub-title">진행현황</span></p>
+    <p class="main-title">데이터 전처리 > <span class="main-sub-title">결과 확인</span></p>
 
     <div class="content">
       <div style="display: flex;margin-bottom: 24px;">

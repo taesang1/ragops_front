@@ -1,6 +1,6 @@
 <template>
   <div style="width: max-content;">
-    <p class="main-title">데이터 전처리</p>
+    <p class="main-title">데이터 전처리 > <span class="main-sub-title">데이터 업로드</span></p>
 
     <div class="content">
       <loadproject :dialog="dialog" v-model="dialog"/>
@@ -16,18 +16,24 @@
             <img class="loading" src="@/assets/loading.gif">
           </button>
         </a>
-        <a v-else-if="!is_vector" @click="[check_project_file(), is_loading = true]" style="margin-left: auto;">
+        <a v-else-if="!is_vector" href="/dataprogress" style="margin-left: auto;">
           <button class="next-button">
             <a>전처리 실행</a>
             <img class="arrow-right" src="@/assets/arrow_right.png">
           </button>
         </a>
-        <a v-else-if="is_vector" href="/vectorai" style="margin-left: auto;">
+        <!-- <a v-else-if="!is_vector"  @click="[check_project_file(), is_loading = true]" style="margin-left: auto;">
+          <button class="next-button">
+            <a>전처리 실행</a>
+            <img class="arrow-right" src="@/assets/arrow_right.png">
+          </button>
+        </a> -->
+        <!-- <a v-else-if="is_vector" href="/vectorai" style="margin-left: auto;">
           <button class="next-button">
             <a>벡터 DB 생성</a>
             <img class="arrow-right" src="@/assets/arrow_right.png">
           </button>
-        </a>
+        </a> -->
       </div>
 
       <div class="box-grid">
@@ -181,31 +187,17 @@ export default {
       })
     },
     check_project_file() {
-      if (this.count >= 5) {
-        setTimeout(() => {
-          let body = {project_id : this.project_id}
-          this.$store.dispatch('get_project_file_list', body).then((res) => {
-            if (res.files[0].status == 'FS06') {
-              this.is_loading = false
-              this.is_vector = true
-            } else {
-              this.check_project_file()
-            }
-          })
-        }, "1000") 
-      } else {
-        this.check_count()
-      }
-    },
-    check_count() {
-      if (this.count < 5) {
-        setTimeout(() => {
-          this.count += 1
-          this.check_count()
-        }, "1000")
-      } else {
-        this.check_project_file()
-      }
+      setTimeout(() => {
+        let body = {project_id : this.project_id}
+        this.$store.dispatch('get_project_file_list', body).then((res) => {
+          if (res.files[0].status == 'FS06') {
+            this.is_loading = false
+            this.is_vector = true
+          } else {
+            this.check_project_file()
+          }
+        })
+      }, "1000") 
     },
     onDragLeave(){
     },

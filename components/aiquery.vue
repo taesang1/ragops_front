@@ -106,7 +106,7 @@ export default {
       // for (let i of this.query_input) {
       //   body['samples'][i.text] = i.value
       // }
-      this.is_query_loading = true
+      // this.is_query_loading = true
       this.$store.dispatch('create_query').then((res) => {
         this.query_list = []
         for (let i of res['files']) {

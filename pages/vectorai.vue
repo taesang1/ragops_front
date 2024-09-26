@@ -92,10 +92,15 @@
         <div v-if="is_chart" style="width: 40%; padding: 24px; margin: 16px;">
           <div style="display: flex;">
             <div class="sub-title" style="margin-left: 0px; margin-bottom: 24px; height: max-content;">추천 파라미터</div>
-            <a @click="create_db" style="width: max-content; margin: 0px 0px 12px auto; display: block;">
+            <a v-if="!is_vectordb_loading" @click="create_db" style="width: max-content; margin: 0px 0px 12px auto; display: block;">
               <button class="next-button">
                 <a>벡터DB 생성하기</a>
                 <img class="arrow-right" src="@/assets/arrow_right.png">
+              </button>
+            </a>
+            <a v-else style="width: max-content; margin: 0px 0px 12px auto; display: block;">
+              <button class="next-button">
+                <a>벡터DB 생성 요청 완료!</a>
               </button>
             </a>
           </div>
@@ -160,6 +165,7 @@ export default {
     return {
       dialog: false,
       is_simulate_loading : false,
+      is_vectordb_loading : false,
       chuncking : {
         overlap : {
           value : true,
@@ -223,6 +229,7 @@ export default {
     },
     simulate_run() {
       let body = this.make_body()
+      this.is_chart = false
       for (let i of Object.keys(this.expected)) {
         if (this.expected[i].value) {
           body['combi_policy'] = i
@@ -306,7 +313,7 @@ export default {
     create_db() {
       let body = this.make_body()
       this.$store.dispatch('create_db', body).then((res) => {
-        alert('DB 생성중...')
+        this.is_vectordb_loading = true
       })
     },
     check(e, ch) {
