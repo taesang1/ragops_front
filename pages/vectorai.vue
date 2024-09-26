@@ -330,7 +330,7 @@ export default {
       if (ctx == null) {
         setTimeout(() => {
           this.set_chart(data, title)
-        }, "1000")
+        }, "100")
         return
       }
       new Chart(ctx, {
