@@ -38,7 +38,7 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
       'EN':'An unexpected error occurred. Please try again',
       'JP':'予期しないエラーが発生しました。 もう一度お試しください'
     }
-    this.api_url = 'http://is-web.intellisys.co.kr:57102'
+    this.api_url = 'http://34.64.84.88:50001'
     this.minimum_size = 20;
     this.original_width = 0;
     this.original_height = 0;
