@@ -142,4 +142,13 @@ export const actions = {
       alert('예상치 못한 에러가 발생했습니다. 잠시후 다시 시도해주세요.')
     })
   },
+  create_query( {state, commit}) {
+    return this.$axios.get(`/api/v1/projects/${state.project_id}/queries`)
+    .then((res) => {
+      return res.data
+    })
+    .catch((res) => {
+      alert('예상치 못한 에러가 발생했습니다. 잠시후 다시 시도해주세요.')
+    })
+  },
 }

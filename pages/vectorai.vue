@@ -3,12 +3,12 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <p class="main-title">벡터 DB 생성 > <span class="main-sub-title">AI 자동 최적화</span></p>
 
-    <div class="content">
+    <div class="content" style="width: max-content;">
       <aiquery :dialog="dialog" v-model="dialog"/>
       <div class="project-name" style="margin-left: 16px;">#프로젝트 {{ project_id }}</div>
 
       <div class="box-grid">
-        <div style="width: 57%; padding: 24px; margin: 16px;">
+        <div style="width: 57%; padding: 24px; margin: 16px; min-width: max-content;">
           <div style="display: flex;">
             <div class="sub-title" style="margin-left: 0px;  height: max-content; margin-bottom: 24px;">테스트 쿼리 입력</div>
             <button v-if="!is_simulate_loading" @click="simulate_run" class="next-button" style="margin-left: auto; height: max-content;">
@@ -89,7 +89,7 @@
           </div>
         </div>
 
-        <div v-show="is_chart" style="width: 40%; padding: 24px; margin: 16px;">
+        <div v-if="is_chart" style="width: 40%; padding: 24px; margin: 16px;">
           <div style="display: flex;">
             <div class="sub-title" style="margin-left: 0px; margin-bottom: 24px; height: max-content;">추천 파라미터</div>
             <a @click="create_db" style="width: max-content; margin: 0px 0px 12px auto; display: block;">
@@ -317,8 +317,14 @@ export default {
       }
     },
     set_chart(data) {
-      if (this.is_chart) return
+      this.is_chart = true
       var ctx = document.querySelector('#chart')
+      if (ctx == null) {
+        setTimeout(() => {
+          this.set_chart(data)
+        }, "1000")
+        return
+      }
       new Chart(ctx, {
         type: 'bar',
         data: {
@@ -344,7 +350,6 @@ export default {
           }
         }
       });
-      this.is_chart = true
     }
   },
   computed: {
