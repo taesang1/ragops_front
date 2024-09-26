@@ -11,7 +11,7 @@
         <div style="width: 57%; padding: 24px; margin: 16px; min-width: max-content;">
           <div style="display: flex;">
             <div class="sub-title" style="margin-left: 0px;  height: max-content; margin-bottom: 24px;">테스트 쿼리 입력</div>
-            <button v-if="!is_simulate_loading" @click="simulate_run" class="next-button" style="margin-left: auto; height: max-content;">
+            <button v-if="!is_simulate_loading" @click="get_simulate_result" class="next-button" style="margin-left: auto; height: max-content;">
               <a>AI 분석 실행</a>
               <img class="arrow-right" src="@/assets/arrow_right.png">
             </button>
@@ -241,37 +241,38 @@ export default {
         this.is_simulate_loading = true
       })
     },
-    get_simulate_result(body) {
-      setTimeout(() => {
-        this.$store.dispatch('get_simulate_result', body).then((res) => {
-          if (res['sims'][0]['status']['msg'] != 'done') {
-            this.get_simulate_result(body)
-          } else {
-            let data = []
-            for (let i of res['sims'][0]['combis']) {
-              data.push(i['metric']['HR'])
-            }
-            let simulate_opt = {augmentation : [], chuncking: []}
-            for (let i of Object.keys(res['sims'][0]['combis'][0]['opts'])) {
-              if (i == 'emb_model') {
-                simulate_opt['model'] = this.simulate_opt_text[res['sims'][0]['combis'][0]['opts'][i]]
-              } else if (i.includes('aug')) {
-                let data = res['sims'][0]['combis'][0]['opts'][i]
-                if (i.includes('use')) data = this.simulate_opt_text[i]
-                simulate_opt['augmentation'].push(data)
-              } else {
-                let data = res['sims'][0]['combis'][0]['opts'][i]
-                if (i.includes('use')) data = this.simulate_opt_text[i]
-                simulate_opt['chuncking'].push(data)
-              }
-            }
-            this.simulate_opt = simulate_opt
-            this.set_chart(data)
-            this.is_simulate_loading = false
+    get_simulate_result() {
+      let body = this.make_body()
+      this.$store.dispatch('get_simulate_result', body).then((res) => {
+        if (res['sims'][0]['status']['msg'] != 'done') {
+          this.get_simulate_result(body)
+        } else {
+          let data = []
+          let title = []
+          for (let [index,i] of res['sims'][0]['combis'].entries()) {
+            title.push(index + 1)
+            data.push(i['metric']['HR'])
           }
-        })
-      }, "1000")
-    },
+          let simulate_opt = {augmentation : [], chuncking: []}
+          for (let i of Object.keys(res['sims'][0]['combis'][0]['opts'])) {
+            if (i == 'emb_model') {
+              simulate_opt['model'] = this.simulate_opt_text[res['sims'][0]['combis'][0]['opts'][i]]
+            } else if (i.includes('aug')) {
+              let data = res['sims'][0]['combis'][0]['opts'][i]
+              if (i.includes('use')) data = this.simulate_opt_text[i]
+              simulate_opt['augmentation'].push(data)
+            } else {
+              let data = res['sims'][0]['combis'][0]['opts'][i]
+              if (i.includes('use')) data = this.simulate_opt_text[i]
+              simulate_opt['chuncking'].push(data)
+            }
+          }
+          this.simulate_opt = simulate_opt
+          this.set_chart(data, title)
+          this.is_simulate_loading = false
+        }
+      })
+  },
     make_body() {
       let body = {project_id : this.project_id}
       for (let i of Object.keys(this.chuncking)) {
@@ -323,19 +324,19 @@ export default {
         }
       }
     },
-    set_chart(data) {
+    set_chart(data, title) {
       this.is_chart = true
       var ctx = document.querySelector('#chart')
       if (ctx == null) {
         setTimeout(() => {
-          this.set_chart(data)
+          this.set_chart(data, title)
         }, "1000")
         return
       }
       new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: ['1', '2', '3'],
+          labels: title,
           datasets: [{
             data: data,
             borderWidth: 1,
