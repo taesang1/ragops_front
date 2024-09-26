@@ -13,7 +13,7 @@
     <div class="box-grid">
       <div>
         <div class="sub-title">작업목록</div>
-          <div class="box" style="min-height: 450px;">
+          <div class="box" style="min-height: 450px; max-height: 450px; overflow-y: auto;">
             <div :id="i.type" v-for="i in server_file_list" :key="i" class="server_file">{{ i.name }}</div>
         </div>
       </div>
@@ -59,11 +59,13 @@ export default {
   mounted() {
     let body = {project_id : this.project_id}
     this.$store.dispatch('get_project_file_list', body).then((res) => {
-      let file = {}
-      file['name'] = res.files[0].name
-      file['type'] = res.files[0].file
-      this.server_file_list.push(file)
-      this.file_nos[file['name']] = res.files[0].file_no
+      for (let i of res.files) {
+        let file = {}
+        file['name'] = i.name
+        file['type'] = i.file
+        this.server_file_list.push(file)
+        this.file_nos[file['name']] = i.file_no
+      }
     })
   },
   methods: {

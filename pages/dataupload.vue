@@ -178,7 +178,7 @@ export default {
       })
     },
     check_project_file() {
-      if (this.count >= 10) {
+      if (this.count >= 5) {
         setTimeout(() => {
           let body = {project_id : this.project_id}
           this.$store.dispatch('get_project_file_list', body).then((res) => {
@@ -195,7 +195,7 @@ export default {
       }
     },
     check_count() {
-      if (this.count < 10) {
+      if (this.count < 5) {
         setTimeout(() => {
           this.count += 1
           this.check_count()
