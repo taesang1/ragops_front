@@ -106,10 +106,3 @@ export default {
   }
 }
 </script>
-<style>
-.doc {
-  background-color: #e0e0e0;
-  margin-bottom: 12px;
-  padding: 24px;
-}
-</style>

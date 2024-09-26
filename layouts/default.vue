@@ -272,4 +272,9 @@ td {
   white-space: nowrap;
   border-bottom: 1px solid rgba(224, 224, 224, 1);
 }
+.doc {
+  background-color: rgba(241, 244, 250, 0.5);
+  margin-bottom: 12px;
+  padding: 24px;
+}
 </style>
