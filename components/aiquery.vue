@@ -108,6 +108,7 @@ export default {
       // }
       this.is_query_loading = true
       this.$store.dispatch('create_query').then((res) => {
+        this.query_list = []
         for (let i of res['files']) {
           let query_list = {}
           query_list['name'] = i.name
