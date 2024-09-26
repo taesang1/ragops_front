@@ -169,7 +169,7 @@ export default {
         },
         semantic : {
           value : true,
-          param : 'smea',
+          param : 'sema',
           text : 'SEMANTIC',
           threshold : {text: 'Threshold' ,min : 70, max : 80, step: 10}
         }
@@ -196,7 +196,7 @@ export default {
         aug_chwin_use: "Chunk window",
         char_use: 'OVERLAP',
         recu_use: "RECURSIVE",
-        smea_use: 'SEMANTIC'
+        sema_use: 'SEMANTIC'
       },
       simulate_opt : {}
     }
@@ -262,7 +262,7 @@ export default {
       for (let i of Object.keys(this.chuncking)) {
         if (this.chuncking[i].value) {
           body[`${this.chuncking[i]['param']}_use`] = 'Y'
-          if (this.chuncking[i]['param'] != 'smea') {
+          if (this.chuncking[i]['param'] != 'sema') {
             let chunk_size = this.chuncking[i]['chunk_size']
             let overlap_size = this.chuncking[i]['overlap_size']
             body[`${this.chuncking[i]['param']}_opt`] = 
@@ -273,8 +273,8 @@ export default {
           }
         }
       }
+      let model = ''
       for (let i of Object.keys(this.model)) {
-        let model = ''
         if (this.model[i].value) {
           if (model == '') {
             model += i
