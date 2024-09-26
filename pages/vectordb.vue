@@ -13,14 +13,14 @@
     <div class="box-grid">
       <div>
         <div class="sub-title">작업목록</div>
-          <div class="box" style="min-height: 450px; max-height: 450px; overflow-y: auto;">
+          <div class="box" style="min-height: 450px; max-height: 450px; overflow-y: auto; max-width: 25vw;">
             <div @click="test(i.name)" :id="i.type" v-for="i in server_file_list" :key="i" class="server_file">{{ i.name }}</div>
         </div>
       </div>
 
       <div>
         <div class="sub-title">원본파일</div>
-        <div class="box" style="min-height: 450px;">
+        <div class="box" style="min-height: 450px; max-width: 25vw;">
           <iframe style="width: 100%; height: 400px;" v-if="view" :src="''" type="application/pdf">
 
           </iframe>
@@ -29,7 +29,7 @@
 
       <div>
         <div class="sub-title">청킹 결과</div>
-        <div class="box" style="min-height: 450px; max-height: 450px; overflow-y: auto; padding: 0;">
+        <div class="box" style="min-height: 450px; max-height: 450px; overflow-y: auto; padding: 0; max-width: 25vw;">
           <p id="chunking" v-show="chunking">
           </p>
         </div>

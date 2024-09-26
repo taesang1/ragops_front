@@ -587,7 +587,6 @@ class INTELLISYS_CHATBOT_CREATE_CLASS {
           chat_box = this.set_attrs(chat_box, 'class', this.current_query_id)
           this.create_image_list = true
           assistant_id = this.req_question(text)
-          console.log(window.$nuxt.$root.$children[0].$children[0].$children[1].$children[0])
           window.$nuxt.$root.$children[0].$children[0].$children[1].$children[0].is_doc_type = ''
           document.querySelector('.doc_html').querySelector('.content').innerHTML = ''
         }

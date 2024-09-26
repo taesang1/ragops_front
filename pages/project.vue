@@ -1,39 +1,43 @@
 <template>
   <div style="width: max-content;">
     <p class="main-title">프로젝트 생성</p>
-    <div style="width: max-content; margin-left: auto;">
-      <a href="/dataupload">
-        <button style="margin-bottom: 50px;" class="next-button">
-        <a>프로젝트 생성</a>
-        <img class="arrow-right" src="@/assets/arrow_right.png"></button>
-      </a>
-    </div>
 
-    <div class="sub-title">
-      프로젝트 목록
+    <div class="content">
+      <div style="width: max-content; margin-left: auto;">
+        <a href="/dataupload">
+          <button style="margin-bottom: 50px;" class="next-button">
+          <a>프로젝트 생성</a>
+          <img class="arrow-right" src="@/assets/arrow_right.png"></button>
+        </a>
+      </div>
+
+      <div class="sub-title">
+        프로젝트 목록
+      </div>
+      <div class="box">
+        <table>
+          <thead>
+            <tr>
+              <th v-for="header in headers" :key="header">{{ header }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="row in data" :key="row.id">
+              <td>{{ row.id }}</td>
+              <td>{{ row.start_dt }}</td>
+              <td>{{ row.status }}</td>
+              <td><a>보기</a></td>
+              <td><a>보기</a></td>
+              <td>{{ row.end_dt }}</td>
+              <td><button v-if="row.status == '생성 완료'" class="table-button">데이터 갱신</button></td>
+              <td><button @click="test" class="table-button">Playground</button></td>
+              <!-- <td><button v-if="row.status == '생성 완료'" @click="test" class="table-button">Playground</button></td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="box">
-      <table>
-        <thead>
-          <tr>
-            <th v-for="header in headers" :key="header">{{ header }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="row in data" :key="row.id">
-            <td>{{ row.id }}</td>
-            <td>{{ row.start_dt }}</td>
-            <td>{{ row.status }}</td>
-            <td><a>보기</a></td>
-            <td><a>보기</a></td>
-            <td>{{ row.end_dt }}</td>
-            <td><button v-if="row.status == '생성 완료'" class="table-button">데이터 갱신</button></td>
-            <td><button @click="test" class="table-button">Playground</button></td>
-            <!-- <td><button v-if="row.status == '생성 완료'" @click="test" class="table-button">Playground</button></td> -->
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  
   </div>
 </template>
 <script>

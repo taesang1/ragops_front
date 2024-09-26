@@ -14,9 +14,9 @@
         </div>
         <img class="logo" src="@/assets/logo.png">        
       </div>
-      <div style="position: relative; width: 100%;">
+      <div style="position: relative; width: 100%; background-color: rgba(241, 244, 250, 0.5);">
         <client-only>
-          <nuxt style="height: calc(100% - 115px); padding: 0px 36px;"/>
+          <nuxt style="height: calc(100% - 115px); margin: 0px 36px;"/>
         </client-only>
         <v-footer style="align-items: baseline; margin-left: 50px; background-color: transparent">
           <p style="font-size: 16px; color: rgba(155, 155, 155, 1);">Intellisys  ⓒ 2023 IntelliSys All Rights Reserved.</p>&nbsp;&nbsp;
@@ -62,6 +62,12 @@ p {
   height: 100%;
   overflow: auto;
 }
+.content {
+  background-color: white;
+  padding-top: 24px;
+  margin-bottom: 12px;
+  box-shadow: 0px 4px 4px #a7a3a3;
+}
 .logo-title {
   color: white;
   text-align: right;;
@@ -72,7 +78,7 @@ p {
   width: 50%;
   object-fit: contain;
   position: absolute;
-  bottom: 24px;
+  bottom: 18px;
   left: 0;
   right: 0;
   margin: auto;
@@ -261,11 +267,9 @@ td {
 .server_file {
   padding: 6px 12px;
   margin-bottom: 12px;
-}
-#pdf {
-  border: 1px solid red;
-}
-#hwp {
-  border: 1px solid blue
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
 }
 </style>

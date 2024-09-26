@@ -3,149 +3,152 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <p class="main-title">벡터 DB 생성 > <span class="main-sub-title">AI 자동 최적화</span></p>
 
-    <aiquery :dialog="dialog" v-model="dialog"/>
-    <div class="project-name" style="margin-left: 16px;">#프로젝트 {{ project_id }}</div>
+    <div class="content">
+      <aiquery :dialog="dialog" v-model="dialog"/>
+      <div class="project-name" style="margin-left: 16px;">#프로젝트 {{ project_id }}</div>
 
-    <div class="box-grid">
-      <div style="width: 57%; padding: 24px; margin: 16px;">
-        <div style="display: flex;">
-          <div class="sub-title" style="margin-left: 0px;  height: max-content; margin-bottom: 24px;">테스트 쿼리 입력</div>
-          <button v-if="!is_simulate_loading" @click="simulate_run" class="next-button" style="margin-left: auto; height: max-content;">
-            <a>AI 분석 실행</a>
-            <img class="arrow-right" src="@/assets/arrow_right.png">
-          </button>
-          <button v-else class="next-button" style="margin-left: auto; height: max-content;">
-            <img class="loading" src="@/assets/loading.gif">
-          </button>
-        </div>
-        <div style="display: flex;">
-          <button @click="dialog = true" style="padding: 8px 24px; color: white; font-size: 14px; background-color: rgba(255, 105, 180, 1)">AI 쿼리</button>
-          <button style="margin-left: 12px; padding: 8px 24px; color: black; font-size: 14px; background-color: #e0e0e0">직접입력</button>
-        </div>
-
-        <div class="sub-title" style="margin: 48px 0 24px 0px;">알고리즘 선택</div>
-          <div class="option-box" style="display: flex; margin-bottom: 12px">
-          <label v-for="option in Object.keys(expected)" :key="option" class="check-box-label" style="width: 100%; font-size: 14px;">
-            <input style="margin-bottom: 18px;" @click="check(expected, option)" type="checkbox" name="smp1_popup" v-model="expected[option]['value']" class="check-box">
-            <div>
-              <p class="option-title">{{ expected[option]['text'] }}</p>
-              <p style="font-size: 11px;">수행예정시간 : {{ expected[option]['sub'] }}</p>
-            </div>
-          </label>
-        </div>
-  
-        <div class="sub-title" style="margin: 48px 0 24px 0px;">범위 설정</div>
-        <div style="display: flex;">
-          <div class="box" style="margin-left: 0;">
-            <p class="box-title">청킹 옵션 설정</p>
-            <div class="option-box" v-for="option in Object.keys(chuncking)" :key="option.text">
-              <label class="check-box-label">
-                <input name="chuncking_popup" type="checkbox" v-model="chuncking[option].value" class="check-box">
-                <p class="option-title">{{ chuncking[option].text }}</p>
-              </label>
-              <template v-for="key in Object.keys(chuncking[option])">
-                <div :key="key" v-if="key != 'text' && key !='value' && key != 'param'" class="option">
-                  <p>{{ key }}</p>
-                  <span>Min</span>
-                  <input v-model="chuncking[option][key]['min']" type="text" class="text-field"/>
-                  <span>Max</span>
-                  <input v-model="chuncking[option][key]['max']" type="text" class="text-field"/>
-                  <span>Step</span>
-                  <input v-model="chuncking[option][key]['step']" type="text" class="text-field"/>
-                </div>
-              </template>
-            </div>
-          </div>
-
-          <div style="margin-left: auto;">
-            <div class="box" style="min-width: 300px">
-              <p class="box-title">임베딩 모델 선택</p>
-              <div class="option-box" v-for="option in Object.keys(model)" :key="option">
-                <label class="check-box-label" style="margin-bottom: 12px;">
-                  <input type="checkbox" name="model_popup" v-model="model[option]['value']" class="check-box">
-                  <p class="option-title">{{ model[option]['text'] }}</p>
-                </label>
-              </div>
-            </div>
-
-            <div class="box" style="min-width: 300px">
-              <p class="box-title">Augmentation 옵션</p>
-              <div class="option-box" v-for="option in Object.keys(augmentation)" :key="option">
-                <label class="check-box-label" style="margin-bottom: 12px;">
-                  <input type="checkbox" name="augmentation_popup" v-model="augmentation[option]['value']" class="check-box">
-                  <p class="option-title">{{ augmentation[option]['text'] }}</p>
-                </label>
-                <div v-if="option == 'chunk_window'" class="option">
-                  <p style="width: max-content;">
-                    Max window size
-                  </p>
-                  <input v-model="augmentation[option]['size']" type="text" class="text-field"/>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div v-show="is_chart" style="width: 40%; padding: 24px; margin: 16px;">
-        <div style="display: flex;">
-          <div class="sub-title" style="margin-left: 0px; margin-bottom: 24px; height: max-content;">추천 파라미터</div>
-          <a @click="create_db" style="width: max-content; margin: 0px 0px 12px auto; display: block;">
-            <button class="next-button">
-              <a>벡터DB 생성하기</a>
+      <div class="box-grid">
+        <div style="width: 57%; padding: 24px; margin: 16px;">
+          <div style="display: flex;">
+            <div class="sub-title" style="margin-left: 0px;  height: max-content; margin-bottom: 24px;">테스트 쿼리 입력</div>
+            <button v-if="!is_simulate_loading" @click="simulate_run" class="next-button" style="margin-left: auto; height: max-content;">
+              <a>AI 분석 실행</a>
               <img class="arrow-right" src="@/assets/arrow_right.png">
             </button>
-          </a>
-        </div>
-        <div v-if="Object.keys(simulate_opt).length > 0" class="box" style="margin-left: 0; margin-top: 0px; margin-bottom: 0px; padding: 12px 24px;">
-          <div class="option-box">
-            <p class="box-title">청킹 옵션 : <span style="color: rgba(96, 92, 255, 1);">{{ simulate_opt['chuncking'][0] }}</span></p>
-            <div v-if="simulate_opt['chuncking'][0] != 'SEMANTIC'" class="option">
-              <div style="display: flex; width: 100%;">
-                <p style="width: 70px;">Chunk Size</p>
-                <input style="color: rgba(96, 92, 255, 1);" :value="simulate_opt['chuncking'][1].split(',')[0]" type="text" class="text-field"/>
-              </div>
-              <div style="display: flex; width: 100%;">
-                <p style="width: 70px;">Overlap Size</p>
-                <input style="color: rgba(96, 92, 255, 1);" :value="simulate_opt['chuncking'][1].split(',')[1]" type="text" class="text-field"/>
-              </div>
-            </div>
-            <div v-else class="option">
-              <div style="display: flex; width: 100%;">
-                <p style="width: 70px;">threshold</p>
-                <input style="color: rgba(96, 92, 255, 1);" :value="simulate_opt['chuncking'][1]" type="text" class="text-field"/>
-              </div>
-            </div>
+            <button v-else class="next-button" style="margin-left: auto; height: max-content;">
+              <img class="loading" src="@/assets/loading.gif">
+            </button>
+          </div>
+          <div style="display: flex;">
+            <button @click="dialog = true" style="padding: 8px 24px; color: white; font-size: 14px; background-color: rgba(255, 105, 180, 1)">AI 쿼리</button>
+            <button style="margin-left: 12px; padding: 8px 24px; color: black; font-size: 14px; background-color: #e0e0e0">직접입력</button>
           </div>
 
-          <div class="option-box">
-            <p class="box-title">임베딩 모델 : <span style="color: rgba(96, 92, 255, 1);">{{ simulate_opt['model'] }}</span></p>
-            <div class="option" style="opacity: 0;">
-              <div style="display: flex; width: 100%;">
-                <p style="width: 70px;">Chunk Size</p>
-                <input readonly value="500" type="text" class="text-field"/>
+          <div class="sub-title" style="margin: 48px 0 24px 0px;">알고리즘 선택</div>
+            <div class="option-box" style="display: flex; margin-bottom: 12px">
+            <label v-for="option in Object.keys(expected)" :key="option" class="check-box-label" style="width: 100%; font-size: 14px;">
+              <input style="margin-bottom: 18px;" @click="check(expected, option)" type="checkbox" name="smp1_popup" v-model="expected[option]['value']" class="check-box">
+              <div>
+                <p class="option-title">{{ expected[option]['text'] }}</p>
+                <p style="font-size: 11px;">수행예정시간 : {{ expected[option]['sub'] }}</p>
+              </div>
+            </label>
+          </div>
+    
+          <div class="sub-title" style="margin: 48px 0 24px 0px;">범위 설정</div>
+          <div style="display: flex;">
+            <div class="box" style="margin-left: 0;">
+              <p class="box-title">청킹 옵션 설정</p>
+              <div class="option-box" v-for="option in Object.keys(chuncking)" :key="option.text">
+                <label class="check-box-label">
+                  <input name="chuncking_popup" type="checkbox" v-model="chuncking[option].value" class="check-box">
+                  <p class="option-title">{{ chuncking[option].text }}</p>
+                </label>
+                <template v-for="key in Object.keys(chuncking[option])">
+                  <div :key="key" v-if="key != 'text' && key !='value' && key != 'param'" class="option">
+                    <p>{{ key }}</p>
+                    <span>Min</span>
+                    <input v-model="chuncking[option][key]['min']" type="text" class="text-field"/>
+                    <span>Max</span>
+                    <input v-model="chuncking[option][key]['max']" type="text" class="text-field"/>
+                    <span>Step</span>
+                    <input v-model="chuncking[option][key]['step']" type="text" class="text-field"/>
+                  </div>
+                </template>
               </div>
             </div>
-          </div>
 
-          <div class="option-box">
-            <p class="box-title">AUGMENT : 
-              <span v-if="simulate_opt['augmentation'][0].includes('Chunk')" style="color: rgba(96, 92, 255, 1);">Chunk window Window size: {{ simulate_opt['augmentation'][1] }}</span>
-              <span v-else style="color: rgba(96, 92, 255, 1);">{{ simulate_opt['augmentation'][0] }}</span>
-            </p>
+            <div style="margin-left: auto;">
+              <div class="box" style="min-width: 300px">
+                <p class="box-title">임베딩 모델 선택</p>
+                <div class="option-box" v-for="option in Object.keys(model)" :key="option">
+                  <label class="check-box-label" style="margin-bottom: 12px;">
+                    <input type="checkbox" name="model_popup" v-model="model[option]['value']" class="check-box">
+                    <p class="option-title">{{ model[option]['text'] }}</p>
+                  </label>
+                </div>
+              </div>
+
+              <div class="box" style="min-width: 300px">
+                <p class="box-title">Augmentation 옵션</p>
+                <div class="option-box" v-for="option in Object.keys(augmentation)" :key="option">
+                  <label class="check-box-label" style="margin-bottom: 12px;">
+                    <input type="checkbox" name="augmentation_popup" v-model="augmentation[option]['value']" class="check-box">
+                    <p class="option-title">{{ augmentation[option]['text'] }}</p>
+                  </label>
+                  <div v-if="option == 'chunk_window'" class="option">
+                    <p style="width: max-content;">
+                      Max window size
+                    </p>
+                    <input v-model="augmentation[option]['size']" type="text" class="text-field"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
-          
         </div>
 
-        <div class="sub-title" style="margin: 40px 0px 40px">성능 비교</div>
-        <div class="box" style="margin-left: 0;">
-          <canvas id="chart"></canvas>
-          
+        <div v-show="is_chart" style="width: 40%; padding: 24px; margin: 16px;">
+          <div style="display: flex;">
+            <div class="sub-title" style="margin-left: 0px; margin-bottom: 24px; height: max-content;">추천 파라미터</div>
+            <a @click="create_db" style="width: max-content; margin: 0px 0px 12px auto; display: block;">
+              <button class="next-button">
+                <a>벡터DB 생성하기</a>
+                <img class="arrow-right" src="@/assets/arrow_right.png">
+              </button>
+            </a>
+          </div>
+          <div v-if="Object.keys(simulate_opt).length > 0" class="box" style="margin-left: 0; margin-top: 0px; margin-bottom: 0px; padding: 12px 24px;">
+            <div class="option-box">
+              <p class="box-title">청킹 옵션 : <span style="color: rgba(96, 92, 255, 1);">{{ simulate_opt['chuncking'][0] }}</span></p>
+              <div v-if="simulate_opt['chuncking'][0] != 'SEMANTIC'" class="option">
+                <div style="display: flex; width: 100%;">
+                  <p style="width: 70px;">Chunk Size</p>
+                  <input style="color: rgba(96, 92, 255, 1);" :value="simulate_opt['chuncking'][1].split(',')[0]" type="text" class="text-field"/>
+                </div>
+                <div style="display: flex; width: 100%;">
+                  <p style="width: 70px;">Overlap Size</p>
+                  <input style="color: rgba(96, 92, 255, 1);" :value="simulate_opt['chuncking'][1].split(',')[1]" type="text" class="text-field"/>
+                </div>
+              </div>
+              <div v-else class="option">
+                <div style="display: flex; width: 100%;">
+                  <p style="width: 70px;">threshold</p>
+                  <input style="color: rgba(96, 92, 255, 1);" :value="simulate_opt['chuncking'][1]" type="text" class="text-field"/>
+                </div>
+              </div>
+            </div>
+
+            <div class="option-box">
+              <p class="box-title">임베딩 모델 : <span style="color: rgba(96, 92, 255, 1);">{{ simulate_opt['model'] }}</span></p>
+              <div class="option" style="opacity: 0;">
+                <div style="display: flex; width: 100%;">
+                  <p style="width: 70px;">Chunk Size</p>
+                  <input readonly value="500" type="text" class="text-field"/>
+                </div>
+              </div>
+            </div>
+
+            <div class="option-box">
+              <p class="box-title">AUGMENT : 
+                <span v-if="simulate_opt['augmentation'][0].includes('Chunk')" style="color: rgba(96, 92, 255, 1);">Chunk window Window size: {{ simulate_opt['augmentation'][1] }}</span>
+                <span v-else style="color: rgba(96, 92, 255, 1);">{{ simulate_opt['augmentation'][0] }}</span>
+              </p>
+            </div>
+            
+          </div>
+
+          <div class="sub-title" style="margin: 40px 0px 40px">성능 비교</div>
+          <div class="box" style="margin-left: 0;">
+            <canvas id="chart"></canvas>
+            
+          </div>
         </div>
+
       </div>
-
     </div>
+
   </div>
 </template>
 <script>

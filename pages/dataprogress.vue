@@ -2,43 +2,45 @@
   <div>
     <p class="main-title">데이터 전처리 > <span class="main-sub-title">진행현황</span></p>
 
-    <div style="display: flex;margin-bottom: 24px;">
-      <div class="project-name" style="margin: auto 0px auto 12px">#프로젝트 {{ project_id }}</div>
-      <a href="/vectorai" style="margin-left: auto;">
-        <button class="next-button">
-          <a>백터DB 생성</a>
-          <img class="arrow-right" src="@/assets/arrow_right.png">
-        </button>
-      </a>
-    </div>
-
-    <div class="box-grid">
-      <div style="width: 100%;">
-        <div class="sub-title">
-          작업 목록
-        </div>
-        <div class="box" style="min-height: 465px; max-height: 465px; overflow-y: auto;">
-          <div @click="test(i.name)" :id="i.type" v-for="i in server_file_list" :key="i" class="server_file">{{ i.name }}</div>
-        </div>
+    <div class="content">
+      <div style="display: flex;margin-bottom: 24px;">
+        <div class="project-name" style="margin: auto 0px auto 12px">#프로젝트 {{ project_id }}</div>
+        <a href="/vectorai" style="margin-left: auto;">
+          <button class="next-button">
+            <a>백터DB 생성</a>
+            <img class="arrow-right" src="@/assets/arrow_right.png">
+          </button>
+        </a>
       </div>
 
-      <div style="width: 100%;">
-        <div class="sub-title">
-          원본파일
+      <div class="box-grid">
+        <div style="width: 100%;">
+          <div class="sub-title">
+            작업 목록
+          </div>
+          <div class="box" style="min-height: 465px; max-height: 465px; overflow-y: auto; max-width: 25vw;">
+            <div @click="test(i.name)" :id="i.type" v-for="i in server_file_list" :key="i" class="server_file">{{ i.name }}</div>
+          </div>
         </div>
-        <div class="box" style="min-height: 465px;">
-          <iframe style="width: 100%; height: 400px;" v-if="view" :src="''" type="application/pdf">
-          </iframe>
-        </div>
-      </div>
 
-      <div style="width: 100%;">
-        <div class="sub-title">
-          파싱결과
+        <div style="width: 100%;">
+          <div class="sub-title">
+            원본파일
+          </div>
+          <div class="box" style="min-height: 465px; max-width: 25vw;">
+            <iframe style="width: 100%; height: 400px;" v-if="view" :src="''" type="application/pdf">
+            </iframe>
+          </div>
         </div>
-        <div class="box" style="min-height: 465px; max-height: 465px; overflow-y: auto; padding">
-          <p id="parsing" v-show="parsing">
-          </p>
+
+        <div style="width: 100%;">
+          <div class="sub-title">
+            파싱결과
+          </div>
+          <div class="box" style="min-height: 465px; max-height: 465px; overflow-y: auto; max-width: 25vw;">
+            <p id="parsing" v-show="parsing">
+            </p>
+          </div>
         </div>
       </div>
 
