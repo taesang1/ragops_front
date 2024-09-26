@@ -2,39 +2,41 @@
   <div>
     <p class="main-title">벡터 DB 생성 > <span class="main-sub-title">결과 확인</span></p>
 
-    <div style="display: flex;margin-bottom: 24px;">
-      <div class="project-name" style="margin: auto 0px auto 12px">#프로젝트 {{ project_id }}</div>
-      <button class="next-button">
-        <a>백터DB 저장</a>
-        <img class="arrow-right" src="@/assets/arrow_right.png">
-      </button>
-    </div>
-
-    <div class="box-grid">
-      <div>
-        <div class="sub-title">작업목록</div>
-          <div class="box" style="min-height: 450px; max-height: 450px; overflow-y: auto; max-width: 25vw;">
-            <div @click="test(i.name)" :id="i.type" v-for="i in server_file_list" :key="i" class="server_file">{{ i.name }}</div>
-        </div>
+    <div class="content">
+      <div style="display: flex;margin-bottom: 24px;">
+        <div class="project-name" style="margin: auto 0px auto 12px">#프로젝트 {{ project_id }}</div>
+        <button class="next-button" style="margin-left: auto;">
+          <a>백터DB 저장</a>
+          <img class="arrow-right" src="@/assets/arrow_right.png">
+        </button>
       </div>
 
-      <div>
-        <div class="sub-title">원본파일</div>
-        <div class="box" style="min-height: 450px; max-width: 25vw;">
-          <iframe style="width: 100%; height: 400px;" v-if="view" :src="file_src" type="application/pdf">
-
-          </iframe>
+      <div class="box-grid">
+        <div>
+          <div class="sub-title">작업목록</div>
+            <div class="box" style="min-height: 450px; max-height: 450px; overflow-y: auto; max-width: 25vw;">
+              <div @click="test(i.name)" :id="i.type" v-for="i in server_file_list" :key="i" class="server_file">{{ i.name }}</div>
+          </div>
         </div>
-      </div>
 
-      <div>
-        <div class="sub-title">청킹 결과</div>
-        <div class="box" style="min-height: 450px; max-height: 450px; overflow-y: auto; padding: 0; max-width: 25vw;">
-          <p id="chunking" v-show="chunking">
-          </p>
+        <div>
+          <div class="sub-title">원본파일</div>
+          <div class="box" style="min-height: 450px; max-width: 25vw;">
+            <iframe style="width: 100%; height: 400px;" v-if="view" :src="file_src" type="application/pdf">
+
+            </iframe>
+          </div>
         </div>
-      </div>
 
+        <div>
+          <div class="sub-title">청킹 결과</div>
+          <div class="box" style="min-height: 450px; max-height: 450px; overflow-y: auto; padding: 0; max-width: 25vw;">
+            <p id="chunking" v-show="chunking">
+            </p>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 </template>
