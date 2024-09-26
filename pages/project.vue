@@ -27,8 +27,9 @@
             <td><a>보기</a></td>
             <td><a>보기</a></td>
             <td>{{ row.end_dt }}</td>
-            <td><button class="table-button">데이터 갱신</button></td>
+            <td><button v-if="row.status == '생성 완료'" class="table-button">데이터 갱신</button></td>
             <td><button @click="test" class="table-button">Playground</button></td>
+            <!-- <td><button v-if="row.status == '생성 완료'" @click="test" class="table-button">Playground</button></td> -->
           </tr>
         </tbody>
       </table>

@@ -75,7 +75,7 @@
             <img src="@/assets/file_upload.png">
             <p style="padding: 8px 0px;">Drag your file here, of Click here to browse</p>
           </div>
-          <input @change="input_files" type="file" id="upload_file" accept=".pdf, .hwp" style="display:none;">
+          <input multiple @change="input_files" type="file" id="upload_file" accept=".pdf, .hwp" style="display:none;">
         </div>
       </div>
 
@@ -133,16 +133,17 @@ export default {
   },
   methods: {
     onDrop(e) {
-      const files = e.dataTransfer.files
+      let files = e.target.files || e.dataTransfer.files;
       if (files.length > 0) {
-        const file = files[0];
-        if (file.type === 'application/pdf' || file.name.split('.')[1] === 'hwp') {
-          this.upload_file = files[0];
-        } else {
-          alert(".pdf 또는 .hwp 파일을 선택해주세요.")
+        for (let i of files) {
+          if (i.type != 'application/pdf' && i.name.split('.')[1] != 'hwp') {
+            alert(".pdf 또는 .hwp 파일을 선택해주세요.")
+            e.preventDefault();
+            e.stopPropagation();
+            return
+          }
         }
-        e.preventDefault();
-        e.stopPropagation();
+        this.upload_file = files;
         this.upload_files()
       }
     },
@@ -152,12 +153,14 @@ export default {
     input_files(e) {
       this.upload_file = e.target.files || e.dataTransfer.files;
       if (!this.upload_file.length) return
-      this.upload_file = this.upload_file[0]
+      this.upload_file = this.upload_file
       this.upload_files()
     },
     upload_files() {
       const body = new FormData();
-      body.append("files", this.upload_file);
+      for (let i of this.upload_file) {
+        body.append("files", i);
+      }
       this.$store.dispatch('upload_project_file', body).then((res) => {
         this.get_project_file_list()
         this.check_count()
@@ -166,11 +169,13 @@ export default {
     get_project_file_list() {
       let body = {project_id : this.project_id}
       this.$store.dispatch('get_project_file_list', body).then((res) => {
-        let file = {}
-        file['name'] = res.files[0].name
-        file['type'] = res.files[0].file
-        this.server_file_list.push(file)
-        this.file_nos[file['name']] = res.files[0].file_no
+        for (let i of res.files) {
+          let file = {}
+          file['name'] = i.name
+          file['type'] = i.file
+          this.server_file_list.push(file)
+          this.file_nos[file['name']] = i.file_no
+        }
       })
     },
     check_project_file() {

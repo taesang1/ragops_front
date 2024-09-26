@@ -3,6 +3,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <p class="main-title">벡터 DB 생성 > <span class="main-sub-title">AI 자동 최적화</span></p>
 
+    <aiquery :dialog="dialog" v-model="dialog"/>
     <div class="project-name" style="margin-left: 16px;">#프로젝트 {{ project_id }}</div>
 
     <div class="box-grid">
@@ -18,7 +19,7 @@
           </button>
         </div>
         <div style="display: flex;">
-          <button style="padding: 8px 24px; color: white; font-size: 14px; background-color: rgba(255, 105, 180, 1)">AI 쿼리</button>
+          <button @click="dialog = true" style="padding: 8px 24px; color: white; font-size: 14px; background-color: rgba(255, 105, 180, 1)">AI 쿼리</button>
           <button style="margin-left: 12px; padding: 8px 24px; color: black; font-size: 14px; background-color: #e0e0e0">직접입력</button>
         </div>
 
@@ -148,9 +149,13 @@
   </div>
 </template>
 <script>
+import aiquery from '@/components/aiquery.vue';
+
 export default {
+  components : { aiquery },
   data () {
     return {
+      dialog: false,
       is_simulate_loading : false,
       chuncking : {
         overlap : {
