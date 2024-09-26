@@ -28,7 +28,7 @@
             원본파일
           </div>
           <div class="box" style="min-height: 465px; max-width: 25vw;">
-            <iframe style="width: 100%; height: 400px;" v-if="view" :src="''" type="application/pdf">
+            <iframe style="width: 100%; height: 400px;" v-if="view" :src="file_src" type="application/pdf">
             </iframe>
           </div>
         </div>
@@ -53,6 +53,7 @@ export default {
     return {
       view: false,
       parsing : null,
+      file_src : null,
       initiallyOpen: ['folder2'],
       files: {
         pdf: 'mdi-file-pdf-box',
@@ -86,9 +87,8 @@ export default {
     },
     set_doc() {
       let body = {project_id : this.project_id, file_no : this.file_nos[this.file]}
-      this.$store.dispatch('get_file', body).then((res) => {
-        this.view = true
-      })
+      this.view = true
+        this.file_src = 'http://is-web.intellisys.co.kr:58580/files/pdf/예금업무방법(제3권 상품)(20240401)_일부개정.pdf?view=FitH&toolbar=0'
       this.$store.dispatch('get_file_parsing', body).then((res) => {
         let html = ''
         for (let i of res['docs']) {
