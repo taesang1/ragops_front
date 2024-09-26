@@ -18,7 +18,7 @@
           작업 목록
         </div>
         <div class="box" style="min-height: 465px; max-height: 465px; overflow-y: auto;">
-          <div @click="test" :id="i.type" v-for="i in server_file_list" :key="i" class="server_file">{{ i.name }}</div>
+          <div @click="test(i.name)" :id="i.type" v-for="i in server_file_list" :key="i" class="server_file">{{ i.name }}</div>
         </div>
       </div>
 
@@ -77,12 +77,10 @@ export default {
   },
   methods: {
     test(e) {
-      if (e.length > 0) {
-        this.view = false
-        this.parsing = null
-        this.file = e[0]
-        this.set_doc()
-      }
+      this.view = false
+      this.parsing = null
+      this.file = e
+      this.set_doc()
     },
     set_doc() {
       let body = {project_id : this.project_id, file_no : this.file_nos[this.file]}
