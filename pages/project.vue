@@ -49,7 +49,9 @@ export default {
     }
   },
   mounted() {
-    this.get_project_list()
+    this.$store.dispatch('get_project_list').then((res) => {
+      this.data = res['projects']
+    })
   },
   methods: {
     test() {
