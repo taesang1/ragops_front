@@ -163,7 +163,6 @@ export default {
       }
       this.$store.dispatch('upload_project_file', body).then((res) => {
         this.get_project_file_list()
-        this.check_count()
       })
     },
     get_project_file_list() {
@@ -179,19 +178,21 @@ export default {
       })
     },
     check_project_file() {
-      setTimeout(() => {
-        if (this.count >= 10) {
+      if (this.count >= 10) {
+        setTimeout(() => {
           let body = {project_id : this.project_id}
           this.$store.dispatch('get_project_file_list', body).then((res) => {
             if (res.files[0].status == 'FS06') {
               this.is_loading = false
               this.is_vector = true
+            } else {
+              this.check_project_file()
             }
           })
-        } else {
-          this.check_project_file()
-        }
-      }, "1000")
+        }, "1000") 
+      } else {
+        this.check_count()
+      }
     },
     check_count() {
       if (this.count < 10) {
@@ -199,6 +200,8 @@ export default {
           this.count += 1
           this.check_count()
         }, "1000")
+      } else {
+        this.check_project_file()
       }
     },
     onDragLeave(){
