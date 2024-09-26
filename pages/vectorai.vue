@@ -188,7 +188,7 @@ export default {
         CP03 : {value : false, text : 'Greedy Alg.', sub :'1분'},
       },
       model : {
-        MO01 : {value : true, text : '모델 1'},
+        MD01 : {value : true, text : '모델 1'},
         MD02 : {value : true, text : '모델 2'},
       },
       augmentation : {
@@ -199,7 +199,7 @@ export default {
       model_test : {},
       simulate_opt_text : {
         MD01:'모델 1',
-        MD01:'모델 2',
+        MD02:'모델 2',
         aug_noaug_use: 'No augmentation',
         aug_chwin_use: "Chunk window",
         char_use: 'OVERLAP',
