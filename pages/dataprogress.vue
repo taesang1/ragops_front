@@ -18,7 +18,7 @@
           작업 목록
         </div>
         <div class="box" style="min-height: 465px; max-height: 465px; overflow-y: auto;">
-          <div :id="i.type" v-for="i in server_file_list" :key="i" class="server_file">{{ i.name }}</div>
+          <div @click="test" :id="i.type" v-for="i in server_file_list" :key="i" class="server_file">{{ i.name }}</div>
         </div>
       </div>
 

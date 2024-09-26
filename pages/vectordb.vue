@@ -14,7 +14,7 @@
       <div>
         <div class="sub-title">작업목록</div>
           <div class="box" style="min-height: 450px; max-height: 450px; overflow-y: auto;">
-            <div :id="i.type" v-for="i in server_file_list" :key="i" class="server_file">{{ i.name }}</div>
+            <div @click="test" :id="i.type" v-for="i in server_file_list" :key="i" class="server_file">{{ i.name }}</div>
         </div>
       </div>
 
