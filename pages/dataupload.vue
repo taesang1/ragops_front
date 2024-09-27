@@ -3,13 +3,13 @@
     <p class="main-title">데이터 전처리 > <span class="main-sub-title">데이터 업로드</span></p>
 
     <div class="content">
-      <loadproject :dialog="dialog" v-model="dialog"/>
+      <!-- <loadproject :dialog="dialog" v-model="dialog"/> -->
 
       <div style="display: flex; padding-left: 16px; margin-bottom: 24px;">
-        <button @click="dialog = true" class="load-project">
+        <!-- <button @click="dialog = true" class="load-project">
           <img class="add-icon" src="@/assets/add.png">
           프로젝트 불러오기
-        </button>
+        </button> -->
         <div class="project-name" style="margin: auto 0px auto 12px">#프로젝트 {{ project_id }}</div>
         <a v-if="is_loading" style="margin-left: auto;">
           <button class="next-button">
@@ -92,17 +92,17 @@
   </div>
 </template>
 <script>
-import loadproject from '@/components/loadproject.vue';
+// import loadproject from '@/components/loadproject.vue';
 
 export default {
-  components : { loadproject },
+  // components : { loadproject },
   data () {
     return {
       count : 0,
       path : '',
       is_vector : false,
       is_loading : false,
-      dialog : false,
+      // dialog : false,
       upload_file : null,
       initiallyOpen: ['folder2'],
       files: {
