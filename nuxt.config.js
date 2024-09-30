@@ -42,7 +42,7 @@ export default {
     '@nuxtjs/axios',
   ],
   axios: {
-    baseURL: 'http://34.64.84.88:50001'
+    baseURL: 'http://is-web.intellisys.co.kr:50001'
     // baseURL: 'http://127.0.0.1:8000/'
   },
 
