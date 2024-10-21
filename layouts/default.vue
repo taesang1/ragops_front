@@ -8,6 +8,7 @@
         </div>
         <div class="page-list">
           <div :style="`${i['style']}`" :id="path.includes(i.link) || path.includes(i.text) ? 'activate' : ''" :key="i.name" v-for="i in page_list" class="page">
+            <div v-if="i.link == null"></div>
             <a v-if="i.link != null" :href="i.link">{{ i.name }}</a>
             <a v-else>{{ i.name }}</a>
           </div>
@@ -99,7 +100,28 @@ p {
   padding: 12px 0px
 }
 #activate a{
-  color: rgba(98, 84, 255, 1);
+  color: #A09DFF;
+  margin: auto 0;
+}
+@keyframes fadeIn-up{
+    0%{
+        transform:translateX(-40px);
+        opacity:0;
+    }
+    100%{
+        transform:translateX(0);
+        opacity:1;
+    }
+}
+#activate div {
+  opacity:0;
+  border-radius: 0px 6px 6px 0px;
+  background-color: rgb(255, 255, 255, 0.1);
+  width: 40px;
+  height: 40px;
+  margin-left: -50px;
+  margin-right: 10px;
+  animation: fadeIn-up 0.75s ease forwards;
 }
 .page_icon {
   width: 26px;
