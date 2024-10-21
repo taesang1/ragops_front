@@ -8,7 +8,7 @@
         </div>
         <div class="page-list">
           <div :style="`${i['style']}`" :id="path.includes(i.link) || path.includes(i.text) ? 'activate' : ''" :key="i.name" v-for="i in page_list" class="page">
-            <div v-if="i.link == null"></div>
+            <div v-if="i.link == null || i.link.includes('project')"></div>
             <a v-if="i.link != null" :href="i.link">{{ i.name }}</a>
             <a v-else>{{ i.name }}</a>
           </div>
@@ -95,7 +95,7 @@ p {
   margin-top: 50px;
 }
 .page {
-  color: gray;
+  color: white;
   display: flex;
   padding: 12px 0px
 }
@@ -131,7 +131,7 @@ p {
 .page a {
   font-size: 18px;
   text-decoration-line : none;
-  color: rgb(224, 224, 224);;
+  color: white;
 }
 .next-button a {
   text-decoration-line : none;
