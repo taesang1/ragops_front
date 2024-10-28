@@ -102,10 +102,12 @@ export default {
       this.$emit('input',false)
     },
     create_query() {
-      let body = {samples : {}}
+      let body = {samples : []}
+      let oj = {}
       for (let i of this.query_input) {
-        body['samples'][i.text] = i.value
+        oj[i.text] = i.value
       }
+      body.samples.push(oj)
       this.is_query_loading = true
       this.$store.dispatch('create_query', body).then((res) => {
         this.get_query()

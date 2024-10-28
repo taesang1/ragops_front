@@ -151,7 +151,7 @@ export const actions = {
       alert('예상치 못한 에러가 발생했습니다. 잠시후 다시 시도해주세요.')
     })
   },
-  create_query( {state, commit, body}) {
+  create_query( {state, commit}, body) {
     return this.$axios.post(`/api/v1/projects/${state.project_id}/queries`, body)
     .then((res) => {
       return res.data
