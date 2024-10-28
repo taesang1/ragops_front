@@ -11,7 +11,7 @@
         <div style="width: 57%; padding: 24px; margin: 16px; min-width: max-content;">
           <div style="display: flex;">
             <div class="sub-title" style="margin-left: 0px;  height: max-content; margin-bottom: 24px;">테스트 쿼리 입력</div>
-            <button v-if="!is_simulate_loading" @click="get_simulate_result" class="next-button" style="margin-left: auto; height: max-content;">
+            <button v-if="!is_simulate_loading" @click="simulate_run" class="next-button" style="margin-left: auto; height: max-content;">
               <a>AI 분석 실행</a>
               <img class="arrow-right" src="@/assets/arrow_right.png">
             </button>
@@ -237,7 +237,7 @@ export default {
         }
       }
       this.$store.dispatch('simulate_run', body).then((res) => {
-        this.get_simulate_result(body)
+        this.get_simulate_result()
         this.is_simulate_loading = true
       })
     },
@@ -245,7 +245,7 @@ export default {
       let body = this.make_body()
       this.$store.dispatch('get_simulate_result', body).then((res) => {
         if (res['sims'][0]['status']['msg'] != 'done') {
-          this.get_simulate_result(body)
+          this.get_simulate_result()
         } else {
           let data = []
           let title = []

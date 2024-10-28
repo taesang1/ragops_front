@@ -83,7 +83,7 @@
               <img src="@/assets/file_upload.png">
               <p style="padding: 8px 0px;">Drag your file here, of Click here to browse</p>
             </div>
-            <input multiple @change="input_files" type="file" id="upload_file" accept=".pdf, .hwp" style="display:none;">
+            <input multiple @change="input_files" type="file" id="upload_file" accept=".pdf, .hwp, .xlsx" style="display:none;">
           </div>
         </div>
 
