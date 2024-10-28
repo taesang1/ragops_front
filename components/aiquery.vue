@@ -102,12 +102,23 @@ export default {
       this.$emit('input',false)
     },
     create_query() {
-      // let body = {samples : {}}
-      // for (let i of this.query_input) {
-      //   body['samples'][i.text] = i.value
-      // }
-      // this.is_query_loading = true
-      this.$store.dispatch('create_query').then((res) => {
+      let body = {samples : {}}
+      for (let i of this.query_input) {
+        body['samples'][i.text] = i.value
+      }
+      this.is_query_loading = true
+      this.$store.dispatch('create_query', body).then((res) => {
+        this.get_query()
+      })
+    },
+    get_query() {
+      this.$store.dispatch('get_query').then((res) => {
+        if (res['status']['msg'] != 'done') { 
+          setTimeout(() => {
+            this.get_query()
+          }, 1000);
+          return
+        }
         this.query_list = []
         for (let i of res['files']) {
           let query_list = {}
