@@ -268,6 +268,7 @@ td {
   padding: 6px 12px;
   margin-bottom: 12px;
   overflow: hidden;
+  cursor: pointer;
   text-overflow: ellipsis;
   white-space: nowrap;
   border-bottom: 1px solid rgba(224, 224, 224, 1);

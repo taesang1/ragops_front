@@ -71,7 +71,7 @@ export const actions = {
     })
   },
   get_file( {state, commit}, body) {
-    return this.$axios.get(`/api/v1/projects/${body['project_id']}/files/${body['file_no']}/download`)
+    return this.$axios.get(`/api/v1/projects/${body['project_id']}/files/${body['file_no']}/download`, {responseType: "blob",})
     .then((res) => {
       return res.data
     })

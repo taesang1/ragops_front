@@ -27,9 +27,12 @@
           <div class="sub-title">
             원본파일
           </div>
-          <div class="box" style="min-height: 465px; max-width: 25vw;">
-            <iframe style="width: 100%; height: 400px;" v-if="view" :src="file_src" type="application/pdf">
-            </iframe>
+          <div class="box" style="min-height: 465px; max-width: 25vw; max-height: 24vw; overflow: auto;">
+            <div id="preview_file">
+
+            </div>
+            <!-- <iframe style="width: 100%; height: 400px;" v-if="view" :src="file_src" type="application/pdf">
+            </iframe> -->
           </div>
         </div>
 
@@ -48,6 +51,8 @@
   </div>
 </template>
 <script>
+import * as XLSX from "xlsx"
+
 export default {
   data () {
     return {
@@ -85,10 +90,33 @@ export default {
       this.file = e
       this.set_doc()
     },
+    gridExcelToWeb(file, target) {
+      var reader = new FileReader();
+      reader.onload = function (evt) {
+          if (evt.target.readyState == FileReader.DONE) {
+              var data = evt.target.result;
+              data = new Uint8Array(data);
+              var workbook = XLSX.read(data, { type: 'array' });
+              var sheetName = '';
+              workbook.SheetNames.forEach( function(data, idx){
+                  if(idx == 0){
+                      sheetName = data;
+                  }
+              });
+              var toHtml = XLSX.utils.sheet_to_html(workbook.Sheets[sheetName], { header: '' });
+              target.innerHTML = toHtml;
+          }
+      };
+      reader.readAsArrayBuffer(file);
+    },
     set_doc() {
       let body = {project_id : this.project_id, file_no : this.file_nos[this.file]}
       this.view = true
-        this.file_src = 'http://is-web.intellisys.co.kr:58580/files/pdf/예금업무방법(제3권 상품)(20240401)_일부개정.pdf?view=FitH&toolbar=0'
+      this.$store.dispatch('get_file', body).then((res) => {
+          this.gridExcelToWeb(res, document.querySelector('#preview_file'))
+          // console.log()
+      })
+        // this.file_src = 'http://is-web.intellisys.co.kr:58580/files/pdf/예금업무방법(제3권 상품)(20240401)_일부개정.pdf?view=FitH&toolbar=0'
       this.$store.dispatch('get_file_parsing', body).then((res) => {
         let html = ''
         for (let i of res['docs']) {
