@@ -254,6 +254,7 @@ td {
 }
 .check-box-label {
   display: flex;
+  width: max-content;
   /* margin-top: 36px; */
 }
 .check-box {
