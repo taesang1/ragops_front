@@ -171,21 +171,21 @@ export default {
           value : true,
           param : 'char',
           text : 'OVERLAP',
-          chunk_size : {text : 'Chunk Size', min : 400, max : 500, step: 100},
-          overlap_size : {text: 'Overlap Size', min : 50, max : 50, step: 50},
+          chunk_size : {text : 'Chunk Size', min : 300, max : 500, step: 200},
+          overlap_size : {text: 'Overlap Size', min : 0, max : 100, step: 100},
         },
         recursive : {
           value : true,
           param : 'recu',
           text : 'RECURSIVE',
-          chunk_size : {text : 'Chunk Size', min : 400, max : 500, step: 100},
-          overlap_size : {text: 'Overlap Size', min : 50, max : 100, step: 50},
+          chunk_size : {text : 'Chunk Size', min : 300, max : 500, step: 200},
+          overlap_size : {text: 'Overlap Size', min : 0, max : 100, step: 100},
         },
         semantic : {
           value : true,
           param : 'sema',
           text : 'SEMANTIC',
-          threshold : {text: 'Threshold' ,min : 70, max : 80, step: 10}
+          threshold : {text: 'Threshold' ,min : 70, max : 90, step: 10}
         }
       },
       expected : {
@@ -199,7 +199,7 @@ export default {
       },
       augmentation : {
         no_augmentation : {text : 'No augmentation', value : true, param : 'aug_noaug_use'},
-        chunk_window : {text: 'Chunk window', value: true, size: 3, param : 'aug_chwin_use'}
+        chunk_window : {text: 'Chunk window', value: true, size: 1, param : 'aug_chwin_use'}
       },
       is_chart : false,
       model_test : {},
@@ -318,6 +318,16 @@ export default {
       let body = this.make_body()
       this.$store.dispatch('create_db', body).then((res) => {
         this.is_vectordb_loading = true
+        this.get_db()
+      })
+    },
+    get_db() {
+      this.$store.dispatch('get_db').then((res) => {
+        if (res['status']['msg'] != 'done') {
+          this.get_db()
+          return
+        }
+        this.is_vectordb_loading = false
       })
     },
     check(e, ch) {
