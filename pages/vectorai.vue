@@ -190,8 +190,8 @@ export default {
       },
       expected : {
         CP01 : {value : true, text : 'Full Search', sub :'10분'},
-        CP02 : {value : false, text : 'Adaptive Alg.', sub :'5분'},
-        CP03 : {value : false, text : 'Greedy Alg.', sub :'1분'},
+        // CP02 : {value : false, text : 'Adaptive Alg.', sub :'5분'},
+        CP03 : {value : false, text : 'Adaptive Alg.', sub :'1분'},
       },
       model : {
         MD01 : {value : true, text : '모델 1'},
@@ -224,6 +224,7 @@ export default {
       let body = this.make_body()
       this.$store.dispatch('simulate_expected_time', body).then((res) => {
         for (let i of Object.keys(res['expected'])) {
+          if (this.expected[i] == null) continue
           this.expected[i]['sub'] = `${res['expected'][i]['duration_min']}분`
         }
       })
