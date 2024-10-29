@@ -14,7 +14,8 @@
           <div class="sub-title" style="margin-left: 0">데이터 설정</div>
           <span class="query-sub-title">쿼리 생성에 이용할 작업목록 데이터의 비율을 입력해 주세요</span>
           <label class="query-option-box" for="inputName">활용 비율 설정
-            <input style="width: 45px; margin-left: 12px; height: 30px; text-align: left;" value="5" id="inputName" type="text">
+            <input style="width: 45px; margin: 0px 0px 0px 12px; height: 30px; text-align: left;" value="5" id="inputName" type="text">
+            %
           </label>
 
           <div style="display: flex; margin-top: 50px;">
