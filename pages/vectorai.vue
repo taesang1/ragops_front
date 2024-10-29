@@ -217,6 +217,7 @@ export default {
     }
   },
   mounted() {
+    this.get_simulate_result()
     // this.simulate_expected_time()
   },
   methods: {
@@ -248,6 +249,7 @@ export default {
       let body = this.make_body()
       this.$store.dispatch('get_simulate_result', body).then((res) => {
         if (res['sims'][0]['status']['msg'] != 'done') {
+          this.is_simulate_loading = true
           setTimeout(() => {
             this.get_simulate_result()
           }, 1000);
