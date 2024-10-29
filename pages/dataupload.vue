@@ -145,8 +145,8 @@ export default {
       let files = e.target.files || e.dataTransfer.files;
       if (files.length > 0) {
         for (let i of files) {
-          if (i.type != 'application/pdf' && i.name.split('.')[1] != 'hwp') {
-            alert(".pdf 또는 .hwp 파일을 선택해주세요.")
+          if (i.type != 'application/pdf' && i.name.split('.')[1] != 'hwp' && i.name.split('.')[1] != 'xlsx') {
+            alert(".pdf, .hwp, .xlsx 파일을 선택해주세요.")
             e.preventDefault();
             e.stopPropagation();
             return
