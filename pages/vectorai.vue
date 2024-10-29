@@ -318,9 +318,9 @@ export default {
     },
     create_db() {
       this.ai_opts['project_id'] = this.project_id
-      this.is_vectordb_loading = true
       this.$store.dispatch('create_db', this.ai_opts).then((res) => {
-        this.is_vectordb_loading = false
+        this.is_vectordb_loading = true
+        // this.is_vectordb_loading = false
         // this.get_db()
       })
     },
