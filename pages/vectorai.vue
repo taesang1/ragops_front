@@ -212,7 +212,8 @@ export default {
         recu_use: "RECURSIVE",
         sema_use: 'SEMANTIC'
       },
-      simulate_opt : {}
+      simulate_opt : {},
+      ai_opts : {}
     }
   },
   mounted() {
@@ -257,6 +258,7 @@ export default {
             data.push(i['metric']['HR'])
           }
           let simulate_opt = {augmentation : [], chuncking: []}
+          this.ai_opts = res['sims'][0]['combis'][0]['opts']
           for (let i of Object.keys(res['sims'][0]['combis'][0]['opts'])) {
             if (i == 'emb_model') {
               simulate_opt['model'] = this.simulate_opt_text[res['sims'][0]['combis'][0]['opts'][i]]
@@ -315,10 +317,11 @@ export default {
       return body
     },
     create_db() {
-      let body = this.make_body()
-      this.$store.dispatch('create_db', body).then((res) => {
-        this.is_vectordb_loading = true
-        this.get_db()
+      this.ai_opts['project_id'] = this.project_id
+      this.is_vectordb_loading = true
+      this.$store.dispatch('create_db', this.ai_opts).then((res) => {
+        this.is_vectordb_loading = false
+        // this.get_db()
       })
     },
     get_db() {

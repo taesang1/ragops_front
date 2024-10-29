@@ -54,7 +54,7 @@ export const actions = {
     })
   },
   copy_project_file( {state, commit}, body) {
-    return this.$axios.post(`/api/v1/projects/${project_id}/files/copy`, body)
+    return this.$axios.post(`/api/v1/projects/${state.project_id}/files/copy`, body)
     .then((res) => {
     })
     .catch((res) => {
@@ -134,7 +134,7 @@ export const actions = {
     })
   },
   get_db( {state, commit}) {
-    return this.$axios.get(`/api/v1/projects/${body['project_id']}/dbs`)
+    return this.$axios.get(`/api/v1/projects/${state.project_id}/dbs`)
     .then((res) => {
       return res.data
     })
