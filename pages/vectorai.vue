@@ -194,12 +194,12 @@ export default {
         CP03 : {value : false, text : 'Adaptive Alg.', sub :'1분'},
       },
       model : {
-        MD01 : {value : true, text : '모델 1'},
+        MD01 : {value : false, text : '모델 1'},
         MD02 : {value : true, text : '모델 2'},
       },
       augmentation : {
         no_augmentation : {text : 'No augmentation', value : true, param : 'aug_noaug_use'},
-        chunk_window : {text: 'Chunk window', value: true, size: 1, param : 'aug_chwin_use'}
+        chunk_window : {text: 'Chunk window', value: false, size: 1, param : 'aug_chwin_use'}
       },
       is_chart : false,
       model_test : {},
@@ -217,10 +217,11 @@ export default {
     }
   },
   mounted() {
-    this.simulate_expected_time()
+    // this.simulate_expected_time()
   },
   methods: {
     simulate_expected_time() {
+      return
       let body = this.make_body()
       this.$store.dispatch('simulate_expected_time', body).then((res) => {
         for (let i of Object.keys(res['expected'])) {
