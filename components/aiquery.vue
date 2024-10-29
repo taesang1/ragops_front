@@ -116,6 +116,8 @@ export default {
           setTimeout(() => {
             this.get_query()
           }, 1000);
+        } else {
+          this.is_query_loading = false
         }
         this.query_list = []
         for (let i of res['files']) {
@@ -127,7 +129,6 @@ export default {
           }
           this.query_list.push(query_list)
         }
-        this.is_query_loading = false
       })
     }
   },
