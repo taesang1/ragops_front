@@ -51,6 +51,8 @@ export default {
   mounted() {
     this.$store.dispatch('get_project_list').then((res) => {
       this.data = res['projects']
+    }).catch((res) => {
+      alert('예상치 못한 에러가 발생했습니다. 잠시후 다시 시도해주세요.')
     })
     this.get_project_list()
   },
