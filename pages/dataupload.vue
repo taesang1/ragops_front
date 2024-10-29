@@ -177,6 +177,7 @@ export default {
     get_project_file_list() {
       let body = {project_id : this.project_id}
       this.$store.dispatch('get_project_file_list', body).then((res) => {
+        this.server_file_list = []
         for (let i of res.files) {
           let file = {}
           file['name'] = i.name
