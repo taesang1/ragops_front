@@ -15,7 +15,7 @@ export const actions = {
       return res.data
     })
     .catch((res) => {
-      alert('예상치 못한 에러가 발생했습니다. 잠시후 다시 시도해주세요.')
+      // alert('예상치 못한 에러가 발생했습니다. 잠시후 다시 시도해주세요.')
     })
   },
   new_project( {state, commit}, body) {
