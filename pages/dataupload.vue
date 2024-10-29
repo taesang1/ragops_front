@@ -147,13 +147,13 @@ export default {
         for (let i of files) {
           if (i.type != 'application/pdf' && i.name.split('.')[1] != 'hwp' && i.name.split('.')[1] != 'xlsx') {
             alert(".pdf, .hwp, .xlsx 파일을 선택해주세요.")
-            e.preventDefault();
-            e.stopPropagation();
             return
           }
         }
         this.upload_file = files;
         this.upload_files()
+        e.preventDefault();
+        e.stopPropagation();
       }
     },
     triggerZipFileInput(){
