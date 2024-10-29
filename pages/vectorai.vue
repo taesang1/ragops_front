@@ -41,18 +41,18 @@
               <p class="box-title">청킹 옵션 설정</p>
               <div class="option-box" v-for="option in Object.keys(chuncking)" :key="option.text">
                 <label class="check-box-label">
-                  <input name="chuncking_popup" type="checkbox" v-model="chuncking[option].value" class="check-box">
+                  <input v-model="chuncking[option].value" @change="simulate_expected_time" name="chuncking_popup" type="checkbox" class="check-box">
                   <p class="option-title">{{ chuncking[option].text }}</p>
                 </label>
                 <template v-for="key in Object.keys(chuncking[option])">
                   <div :key="key" v-if="key != 'text' && key !='value' && key != 'param'" class="option">
                     <p>{{ key }}</p>
                     <span>Min</span>
-                    <input v-model="chuncking[option][key]['min']" type="text" class="text-field"/>
+                    <input v-model="chuncking[option][key]['min']" @change="simulate_expected_time" type="text" class="text-field"/>
                     <span>Max</span>
-                    <input v-model="chuncking[option][key]['max']" type="text" class="text-field"/>
+                    <input v-model="chuncking[option][key]['max']" @change="simulate_expected_time" type="text" class="text-field"/>
                     <span>Step</span>
-                    <input v-model="chuncking[option][key]['step']" type="text" class="text-field"/>
+                    <input v-model="chuncking[option][key]['step']" @change="simulate_expected_time" type="text" class="text-field"/>
                   </div>
                 </template>
               </div>
@@ -63,7 +63,7 @@
                 <p class="box-title">임베딩 모델 선택</p>
                 <div class="option-box" v-for="option in Object.keys(model)" :key="option">
                   <label class="check-box-label" style="margin-bottom: 12px;">
-                    <input type="checkbox" name="model_popup" v-model="model[option]['value']" class="check-box">
+                    <input v-model="model[option]['value']" @change="simulate_expected_time" type="checkbox" name="model_popup" class="check-box">
                     <p class="option-title">{{ model[option]['text'] }}</p>
                   </label>
                 </div>
@@ -73,14 +73,14 @@
                 <p class="box-title">Augmentation 옵션</p>
                 <div class="option-box" v-for="option in Object.keys(augmentation)" :key="option">
                   <label class="check-box-label" style="margin-bottom: 12px;">
-                    <input type="checkbox" name="augmentation_popup" v-model="augmentation[option]['value']" class="check-box">
+                    <input v-model="augmentation[option]['value']" @change="simulate_expected_time" type="checkbox" name="augmentation_popup" class="check-box">
                     <p class="option-title">{{ augmentation[option]['text'] }}</p>
                   </label>
                   <div v-if="option == 'chunk_window'" class="option">
                     <p style="width: max-content;">
                       Max window size
                     </p>
-                    <input v-model="augmentation[option]['size']" type="text" class="text-field"/>
+                    <input v-model="augmentation[option]['size']"  @change="simulate_expected_time" type="text" class="text-field"/>
                   </div>
                 </div>
               </div>
