@@ -83,7 +83,9 @@
               <img src="@/assets/file_upload.png">
               <p style="padding: 8px 0px;">Drag your file here, of Click here to browse</p>
             </div>
-            <input multiple @change="input_files" type="file" id="upload_file" accept=".pdf, .hwp, .xlsx" style="display:none;">
+            <input multiple @change="input_files" type="file" id="upload_file"
+              accept=".pdf, .hwp, .xlsx, .doc, .docx, .hwpx, .csv, .html, .xhtml, .jpg, .jpeg, .png, .webp, .txt, .json"
+              style="display:none;">
           </div>
         </div>
 
@@ -122,7 +124,24 @@ export default {
           ],
         },
       ],
-      server_file_list: []
+      server_file_list: [],
+      allowance : [
+        'pdf',
+        'hwp',
+        'xlsx',
+        'doc',
+        'docx',
+        'hwpx',
+        'csv',
+        'html',
+        'xhtml',
+        'jpg',
+        'jpeg',
+        'png',
+        'webp',
+        'txt',
+        'json'
+      ],
     }
   },
   mounted() {
@@ -145,8 +164,8 @@ export default {
       let files = e.target.files || e.dataTransfer.files;
       if (files.length > 0) {
         for (let i of files) {
-          if (i.type != 'application/pdf' && i.name.split('.')[1] != 'hwp' && i.name.split('.')[1] != 'xlsx') {
-            alert(".pdf, .hwp, .xlsx 파일을 선택해주세요.")
+          if (allowance.indexOf(i.type) < 0) {
+            alert(`${this.allowance.join(' ,')} 파일을 선택해주세요.`)
             return
           }
         }
