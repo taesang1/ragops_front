@@ -55,8 +55,8 @@ export default {
       },
       path : '/',
       check_page : {
-        online: true,
-        offline : false,
+        Online: true,
+        Offline : false,
       }
     }
   },
