@@ -27,6 +27,14 @@ export const actions = {
     .catch((res) => {
     })
   },
+  delete_project( {state, commit}, id) {
+    return this.$axios.delete(`/api/v1/projects/${id}`)
+    .then((res) => {
+      return res.data
+    })
+    .catch((res) => {
+    })
+  },
   new_project( {state, commit}, name) {
     return this.$axios.post(`/api/v1/projects?name=${name}`,)
     .then((res) => {

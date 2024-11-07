@@ -40,8 +40,9 @@ export default {
   data () {
     return {
       page_list : {
-        Online :  [
-          {name: 'RAG 목록', link: '/raglist'},
+        RAG :
+          [{name: 'RAG 목록', link: '/raglist'}],
+        Offline :  [
           {name: '백터DB 생성', link: null,},
           {name: '데이터 전처리', style : 'margin-left : 12px',  text: 'data'},
           {name: '데이터 업로드', link: '/dataupload', style : 'margin-left : 24px'},
@@ -51,14 +52,15 @@ export default {
           {name: '파라미터 수동 설정', link: '/vectorhuman', style : 'margin-left : 24px'},
           {name: '결과 확인', link: '/result', style : 'margin-left : 12px'},
           {name: '배포', link: null, style : 'margin-left : 12px'}],
-        Offline : [
+        Online : [
           {name: '검색설정', link: null, style : 'color: gray'},
         ]
       },
       path : '/',
       check_page : {
+        RAG : true,
         Online: true,
-        Offline : false,
+        Offline : true,
       }
     }
   },
