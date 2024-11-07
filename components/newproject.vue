@@ -1,10 +1,10 @@
 <template>
   <v-dialog content-class="aiquery" @keydown.esc="close" @click:outside="close" v-model="dialog">
     <v-card style="padding: 24px !important; background-color: rgba(241, 244, 250, 1); height: 100%;">
-      <p class="main-title" style="margin-top: 0px;">신규 프로젝트 생성</p>
+      <p class="main-title" style="margin-top: 0px;">신규 RAG 생성</p>
 
       <v-text-field
-        label="프로젝트명을 입력해주세요."
+        label="RAG명을 입력해주세요."
         dense
         v-model="name"
         outlined
@@ -47,7 +47,7 @@ export default {
   methods: {
     new_project() {
       if (this.name == '') {
-        alert('프로젝트명을 입력해주세요.')
+        alert('RAG명을 입력해주세요.')
         return
       }
       this.$store.dispatch('new_project', this.name).then((res)=> {

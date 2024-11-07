@@ -72,7 +72,7 @@ export default {
     let project_id = JSON.parse(localStorage.getItem('check_project'))
     if (project_id == null) {
       if (!window.location.pathname.includes('project')) {
-        alert('프로젝트를 선택해주세요')
+        alert('RAG를 선택해주세요')
         window.location.href = '/project'
       }
     } else {

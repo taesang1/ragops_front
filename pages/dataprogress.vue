@@ -1,5 +1,6 @@
 <template>
   <div>
+    <script src="https://cdn.jsdelivr.net/npm/hwp.js@1.0.0/dist/hwp.js"></script>
     <p class="main-title">데이터 전처리 > <span class="main-sub-title">결과 확인</span></p>
 
     <div class="content">
@@ -28,7 +29,7 @@
             원본파일
           </div>
           <div class="box" style="min-height: 465px; max-width: 25vw; max-height: 24vw; overflow: auto;">
-            <div id="preview_file">
+            <div ref="hwpContent" id="preview_file">
 
             </div>
             <!-- <iframe style="width: 100%; height: 400px;" v-if="view" :src="file_src" type="application/pdf">
@@ -53,7 +54,7 @@
 <script>
 import * as XLSX from "xlsx"
 import project from '@/components/project.vue';
-// import Viewer from 'hwp.js'
+import { Viewer } from 'hwp.js';
 
 export default {
   components : { project },
@@ -75,6 +76,12 @@ export default {
     }
   },
   mounted() {
+    // this.hwp_viewer()
+    let bodys = {project_id : 1, file_no : 1}
+    this.$store.dispatch('get_file', bodys).then((res) => {
+      this.hwp_viewer(res)
+      // console.log()
+    })
     let body = {project_id : this.project_id}
     this.$store.dispatch('get_project_file_list', body).then((res) => {
       for (let i of res.files) {
@@ -87,6 +94,18 @@ export default {
     })
   },
   methods: {
+    hwp_viewer(file) {
+      let new_file = new File([file], 'random')
+      const reader = new FileReader();
+      reader.onload = (result) => {
+        const bstr = result.target?.result
+        new Viewer(this.$refs.hwpContent, bstr)
+      };
+      reader.readAsBinaryString(new_file)
+    },
+    renderHwpText(data) {
+      this.$refs.hwpContent.innerHTML = data.text || '내용을 로드할 수 없습니다.';
+    },
     test(e) {
       this.view = false
       this.parsing = null
