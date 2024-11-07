@@ -17,6 +17,7 @@ export default {
   },
   methods: {
     change_project(e) {
+      localStorage.setItem('check_project', JSON.stringify(e))
       this.$store.commit('check_project_id', e)
       this.check_project_id = false
     }
