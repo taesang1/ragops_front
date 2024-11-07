@@ -8,7 +8,7 @@ export default {
     }
   },
   mounted() {
-    window.location.href = '/project'
+    window.location.href = '/raglist'
   }
 }
 </script>

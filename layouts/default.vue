@@ -73,9 +73,9 @@ export default {
     if (window.location.pathname == '/') return
     let project_id = JSON.parse(localStorage.getItem('check_project'))
     if (project_id == null) {
-      if (!window.location.pathname.includes('project')) {
+      if (!window.location.pathname.includes('raglist')) {
         alert('RAG를 선택해주세요')
-        window.location.href = '/project'
+        window.location.href = '/raglist'
       }
     } else {
       this.$store.commit('check_project_id', project_id)  
