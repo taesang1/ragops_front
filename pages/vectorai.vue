@@ -219,11 +219,10 @@ export default {
   },
   mounted() {
     this.get_simulate_result()
-    // this.simulate_expected_time()
+    this.simulate_expected_time()
   },
   methods: {
     simulate_expected_time() {
-      return
       let body = this.make_body()
       this.$store.dispatch('simulate_expected_time', body).then((res) => {
         for (let i of Object.keys(res['expected'])) {
