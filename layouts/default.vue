@@ -7,7 +7,11 @@
           <h2 class="logo-title" >RagBuilder</h2>
         </div>
         <div class="page-list">
-          <div style="border-bottom: 1px solid burlywood;" v-for="key in Object.keys(page_list)" :key="key">
+          <div :id="path.includes('/raglist') ? 'activate' : ''"  class="page" style="padding: 0;">
+            <a style="font-size: 24px;" href="/raglist">RAG 목록</a>
+          </div>
+
+          <div style="border-bottom: 1px solid #bcb9b5;" v-for="key in Object.keys(page_list)" :key="key">
             <div class="page-type" @click="check_page_type(key)">
               {{ key }}
             </div>
@@ -40,8 +44,6 @@ export default {
   data () {
     return {
       page_list : {
-        RAG :
-          [{name: 'RAG 목록', link: '/raglist'}],
         Offline :  [
           {name: '백터DB 생성', link: null,},
           {name: '데이터 전처리', style : 'margin-left : 12px',  text: 'data'},
@@ -146,7 +148,7 @@ p {
   font-size: 24px;
   text-decoration-line : none;
   cursor: pointer;
-  color: rgb(233, 184, 184) !important;
+  color: rgb(213 193 231) !important
 }
 .page a {
   font-size: 18px;
