@@ -5,7 +5,7 @@
 
     <div class="content" style="width: max-content;">
       <aiquery :dialog="dialog" v-model="dialog"/>
-      <div class="project-name" style="margin-left: 16px;">#프로젝트 {{ project_id }}</div>
+      <project/>
 
       <div class="box-grid">
         <div style="width: 57%; padding: 24px; margin: 16px; min-width: max-content;">
@@ -158,9 +158,10 @@
 </template>
 <script>
 import aiquery from '@/components/aiquery.vue';
+import project from '@/components/project.vue';
 
 export default {
-  components : { aiquery },
+  components : { aiquery, project },
   data () {
     return {
       dialog: false,

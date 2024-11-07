@@ -45,6 +45,16 @@ export default {
     }
   },
   mounted() {
+    let project_id = JSON.parse(localStorage.getItem('check_project'))
+    if (project_id == null) {
+      if (!window.location.href.includes('project')) {
+        alert('프로젝트를 선택해주세요')
+        window.location.href = '/project'
+      }
+    } else {
+      this.$store.commit('check_project_id', project_id)  
+    }
+    this.$store.dispatch('get_project_list')
     this.path = window.location.pathname
   },
 }
@@ -178,14 +188,6 @@ p {
   margin-left: 12px;
   object-fit: contain;
 }
-.project-name {
-  background-color: rgba(224, 224, 224, 1);
-  padding: 6px;
-  height: max-content;
-  width: max-content;
-  font-size: 12px;
-  border-radius: 8px;
-}
 .load-project {
   display: flex;
   padding: 6px 30px;
@@ -278,5 +280,40 @@ td {
   background-color: rgba(241, 244, 250, 0.5);
   margin-bottom: 12px;
   padding: 24px;
+}
+.project-box {
+  position: relative;
+}
+.project-name {
+  background-color: rgba(224, 224, 224, 1);
+  padding: 6px;
+  height: max-content;
+  width: max-content;
+  font-size: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.project-list{
+  cursor: pointer;
+  max-height: 100px;
+  overflow: auto;
+  position: absolute;
+  width: 100px;
+  left: 12px;
+  border: 1px solid black;
+  background-color: white;
+}
+.project-list::-webkit-scrollbar {
+  width: 5px;  
+}
+.project-list p:hover {
+  background-color: rgba(224, 224, 224, 1)
+}
+.project-list::-webkit-scrollbar-thumb {
+  background: #b2adad;
+  border-radius: 10px;
+}
+.project-list::-webkit-scrollbar-track {
+  background: rgba(220, 20, 60, .1);
 }
 </style>

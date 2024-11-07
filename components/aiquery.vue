@@ -4,7 +4,7 @@
       <p class="main-title" style="margin-top: 0px;">벡터 DB 생성 > <span class="main-sub-title">AI 자동 최적화</span> > <span class="main-sub-title">AI 질의 생성</span></p>
 
       <div style="display: flex; margin-bottom: 24px;">
-        <div class="project-name" style="margin: auto 0px auto 12px">#프로젝트 {{ project_id }}</div>
+        <project/>
           <button @click="close" class="query-button" style="background-color: rgba(160, 157, 255, 1); margin-left: auto;">취소</button>
           <button @click="close" class="query-button" style="background-color: rgba(58, 54, 219, 1); margin-left: 24px;">저장</button>
       </div>
@@ -54,7 +54,10 @@
   </v-dialog>
 </template>
 <script>
+import project from '@/components/project.vue';
+
 export default {
+  components : { project },
   emits: ['input'],
   data () {
     return {

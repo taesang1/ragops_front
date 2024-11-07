@@ -4,7 +4,7 @@
 
     <div class="content">
       <div style="display: flex;margin-bottom: 24px;">
-        <div class="project-name" style="margin: auto 0px auto 12px">#프로젝트 {{ project_id }}</div>
+        <project/>
         <a href="/vectorai" style="margin-left: auto;">
           <button class="next-button">
             <a>백터DB 생성</a>
@@ -52,8 +52,11 @@
 </template>
 <script>
 import * as XLSX from "xlsx"
+import project from '@/components/project.vue';
+// import Viewer from 'hwp.js'
 
 export default {
+  components : { project },
   data () {
     return {
       view: false,

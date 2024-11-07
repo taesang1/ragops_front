@@ -8,7 +8,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr @click="check_project(row.id)" v-for="row in data" :key="row.id" style="cursor: pointer;;">
+          <tr @click="check_project(row.id)" v-for="row in data" :key="row.id" style="cursor: pointer;">
             <td>{{ row.id }}</td>
             <td>{{ row.start_dt }}</td>
             <td>{{ row.status }}</td>

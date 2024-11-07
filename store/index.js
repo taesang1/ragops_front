@@ -1,10 +1,19 @@
 export const state = () => ({
-  project_id : 1
+  project_id : 1,
+  project_name : '',
+  project_list : []
 })
 
 export const mutations = {
   check_project_id(state, data) {
-    state.project_id = data
+    state.project_id = data['id']
+    state.project_name = data['name']
+  },
+  set_project_list(state, data) {
+    state.project_list = []
+    for (let i of data['projects']) {
+      state.project_list.push({'id':i['id'], 'name':i['name']})
+    }
   }
 }
 
@@ -12,14 +21,14 @@ export const actions = {
   get_project_list( {state, commit}) {
     return this.$axios.get(`/api/v1/projects`)
     .then((res) => {
+      commit('set_project_list', res.data)
       return res.data
     })
     .catch((res) => {
-      // alert('예상치 못한 에러가 발생했습니다. 잠시후 다시 시도해주세요.')
     })
   },
-  new_project( {state, commit}, body) {
-    return this.$axios.post(`/api/v1/projects`, body)
+  new_project( {state, commit}, name) {
+    return this.$axios.post(`/api/v1/projects?name=${name}`,)
     .then((res) => {
       return res.data
     })

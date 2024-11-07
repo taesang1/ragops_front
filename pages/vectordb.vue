@@ -4,7 +4,7 @@
 
     <div class="content">
       <div style="display: flex;margin-bottom: 24px;">
-        <div class="project-name" style="margin: auto 0px auto 12px">#프로젝트 {{ project_id }}</div>
+        <project/>
         <button class="next-button" style="margin-left: auto;">
           <a>백터DB 저장</a>
           <img class="arrow-right" src="@/assets/arrow_right.png">
@@ -45,8 +45,10 @@
 </template>
 <script>
 import * as XLSX from "xlsx"
+import project from '@/components/project.vue';
 
 export default {
+  components : { project },
   data () {
     return {
       view: false,

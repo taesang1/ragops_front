@@ -10,7 +10,7 @@
           <img class="add-icon" src="@/assets/add.png">
           프로젝트 불러오기
         </button> -->
-        <div class="project-name" style="margin: auto 0px auto 12px">#프로젝트 {{ project_id }}</div>
+        <project/>
         <a v-if="is_loading" style="margin-left: auto;">
           <button class="next-button">
             <img class="loading" src="@/assets/loading.gif">
@@ -94,10 +94,10 @@
   </div>
 </template>
 <script>
-// import loadproject from '@/components/loadproject.vue';
+import project from '@/components/project.vue';
 
 export default {
-  // components : { loadproject },
+  components : { project },
   data () {
     return {
       count : 0,
