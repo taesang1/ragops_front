@@ -43,12 +43,14 @@ export default {
         Online :  [
           {name: 'RAG 목록', link: '/project'},
           {name: '백터DB 생성', link: null,},
-          {name: '데이터 업로드', link: '/dataupload', style : 'margin-left : 12px',  text: 'data'},
+          {name: '데이터 전처리', style : 'margin-left : 12px',  text: 'data'},
+          {name: '데이터 업로드', link: '/dataupload', style : 'margin-left : 24px'},
           {name: '결과 확인', link: '/dataprogress', style : 'margin-left : 24px'},
           {name: '옵션 설정', link: null, style : 'margin-left : 12px', text: 'vector'},
           {name: 'AI 자동최적화', link: '/vectorai', style : 'margin-left : 24px'},
           {name: '파라미터 수동 설정', link: '/vectorhuman', style : 'margin-left : 24px'},
-          {name: '결과 확인', link: '/vectordb', style : 'margin-left : 24px'}],
+          {name: '결과 확인', link: '/result', style : 'margin-left : 12px'},
+          {name: '배포', link: null, style : 'margin-left : 12px'}],
         Offline : [
           {name: '검색설정', link: null, style : 'color: gray'},
         ]
