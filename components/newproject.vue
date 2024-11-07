@@ -1,5 +1,5 @@
 <template>
-  <v-dialog content-class="aiquery" @keydown.esc="close" @click:outside="close" v-model="dialog">
+  <v-dialog content-class="new_rag" @keydown.esc="close" @click:outside="close" v-model="dialog">
     <v-card style="padding: 24px !important; background-color: rgba(241, 244, 250, 1); height: 100%;">
       <p class="main-title" style="margin-top: 0px;">신규 RAG 생성</p>
 
@@ -14,20 +14,19 @@
         <v-spacer></v-spacer>
         <v-btn
           depressed
-          color="primary"
+          color="rgba(58, 54, 219, 1)"
           @click="new_project"
         >
-          저장
+          <span style="color: white;">저장</span>
         </v-btn>
         <v-btn
           depressed
-          color="error"
+          color="rgba(160, 157, 255, 1)"
           @click="close"
         >
-          취소
+        <span style="color: white;">취소</span>
         </v-btn>
       </v-card-actions>
-
     </v-card>
   </v-dialog>
 </template>
@@ -63,7 +62,7 @@ export default {
 }
 </script>
 <style>
-.v-dialog.aiquery{
+.v-dialog.new_rag{
   width: 500px;
   margin: auto;
   right: 0;

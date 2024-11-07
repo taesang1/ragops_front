@@ -41,7 +41,7 @@ export default {
     return {
       page_list : {
         Online :  [
-          {name: 'RAG 목록', link: '/project'},
+          {name: 'RAG 목록', link: '/raglist'},
           {name: '백터DB 생성', link: null,},
           {name: '데이터 전처리', style : 'margin-left : 12px',  text: 'data'},
           {name: '데이터 업로드', link: '/dataupload', style : 'margin-left : 24px'},
