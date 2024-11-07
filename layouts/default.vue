@@ -7,9 +7,17 @@
           <h2 class="logo-title" >RagBuilder</h2>
         </div>
         <div class="page-list">
-          <div :style="`${i['style']}`" :id="path.includes(i.link) || path.includes(i.text) ? 'activate' : ''" :key="i.name" v-for="i in page_list" class="page">
-            <a v-if="i.link != null" :href="i.link">{{ i.name }}</a>
-            <a v-else>{{ i.name }}</a>
+          <div style="border-bottom: 1px solid burlywood;" v-for="key in Object.keys(page_list)" :key="key">
+            <div class="page-type" @click="check_page_type(key)">
+              {{ key }}
+            </div>
+
+            <template v-for="i in page_list[key]">
+              <div :style="`${i['style']}`" :id="path.includes(i.link) || path.includes(i.text) ? 'activate' : ''"  v-if="check_page[key]" :key="i.name" class="page">
+                <a v-if="i.link != null" :href="i.link">{{ i.name }}</a>
+                <a v-else>{{ i.name }}</a>
+              </div>
+            </template>
           </div>
         </div>
         <img class="logo" src="@/assets/logo.png">        
@@ -31,17 +39,30 @@
 export default {
   data () {
     return {
-      page_list : [
-        {name: '프로젝트 목록', link: '/project'},
-        {name: '데이터 전처리', link: null,  text: 'data'},
-        {name: '데이터 업로드', link: '/dataupload', style : 'margin-left : 24px'},
+      page_list : {
+        online :  [
+        {name: 'RAG 목록', link: '/project'},
+        {name: '백터DB 생성', link: null,},
+        {name: '데이터 업로드', link: '/dataupload', style : 'margin-left : 12px',  text: 'data'},
         {name: '결과 확인', link: '/dataprogress', style : 'margin-left : 24px'},
-        {name: '벡터DB 생성', link: null, text: 'vector'},
+        {name: '옵션 설정', link: null, style : 'margin-left : 12px', text: 'vector'},
         {name: 'AI 자동최적화', link: '/vectorai', style : 'margin-left : 24px'},
         {name: '파라미터 수동 설정', link: '/vectorhuman', style : 'margin-left : 24px'},
-        {name: '결과 확인', link: '/vectordb', style : 'margin-left : 24px'}
-      ],
-      path : '/'
+        {name: '결과 확인', link: '/vectordb', style : 'margin-left : 24px'}],
+        offline : [
+          {name: '검색설정', link: null, style : 'color: gray'},
+        ]
+      },
+      path : '/',
+      check_page : {
+        online: true,
+        offline : false,
+      }
+    }
+  },
+  methods: {
+    check_page_type(key) {
+      this.check_page[key] = !this.check_page[key]
     }
   },
   mounted() {
@@ -101,7 +122,7 @@ p {
   background: rgba(57, 57, 75, 1)
 }
 .page-list {
-  padding: 0px 50px;
+  padding: 0px 25px;
   margin-top: 50px;
 }
 .page {
@@ -117,10 +138,16 @@ p {
   object-fit: contain;
   margin-left: 6px;
 }
+.page-type {
+  font-size: 24px;
+  text-decoration-line : none;
+  cursor: pointer;
+  color: rgb(233, 184, 184) !important;
+}
 .page a {
   font-size: 18px;
   text-decoration-line : none;
-  color: rgb(224, 224, 224);;
+  color: rgb(224, 224, 224);
 }
 .next-button a {
   text-decoration-line : none;
