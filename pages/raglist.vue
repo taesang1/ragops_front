@@ -1,5 +1,6 @@
 <template>
   <div style="width: max-content;">
+    <options v-model="option_dialog" :dialog="option_dialog" :option="option"/>
     <newproject v-model="dialog" :dialog="dialog"/>
     <p class="main-title">RAG 생성</p>
 
@@ -28,7 +29,7 @@
               <td @click="check_project({id : row.id, name : row.name})"><a>{{ row.name }}</a></td>
               <td>{{ row.start_dt }}</td>
               <td>{{ row.status }}</td>
-              <td><a>보기</a></td>
+              <td @click="check_option(row.option)"><a>보기</a></td>
               <td><a>보기</a></td>
               <td>{{ row.end_dt }}</td>
               <td><button v-if="row.status == '생성 완료'" class="table-button">데이터 갱신</button></td>
@@ -44,14 +45,17 @@
 </template>
 <script>
 import newproject from '@/components/newproject.vue';
+import options from '@/components/option.vue';
 
 export default {
-  components : { newproject },
+  components : { newproject, options },
   data () {
     return {
       headers : ['RAG ID','RAG명', '생성 시작 시간', '상태', '옵션', '청킹 결과', '생성 완료 시각', '데이터 갱신', 'Playground'],
       data : [],
-      dialog : false
+      dialog : false,
+      option_dialog: false,
+      option : {}
     }
   },
   mounted() {
@@ -65,6 +69,10 @@ export default {
   methods: {
     new_project() {
       this.dialog = true
+    },
+    check_option(e) {
+      this.option = e
+      this.option_dialog = true
     },
     check_project(e) {
       localStorage.setItem('check_project', JSON.stringify(e))

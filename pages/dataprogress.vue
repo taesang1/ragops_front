@@ -29,7 +29,7 @@
             원본파일
           </div>
           <div class="box" style="min-height: 465px; max-width: 25vw; max-height: 24vw; overflow: auto;">
-            <div ref="hwpContent" id="preview_file">
+            <div v-html="htmlContent" ref="hwpContent" id="preview_file">
 
             </div>
             <!-- <iframe style="width: 100%; height: 400px;" v-if="view" :src="file_src" type="application/pdf">
@@ -54,7 +54,7 @@
 <script>
 import * as XLSX from "xlsx"
 import project from '@/components/project.vue';
-import { Viewer } from 'hwp.js';
+// import { Viewer } from 'hwp.js';
 
 export default {
   components : { project },
@@ -72,16 +72,11 @@ export default {
       tree: [],
       file : null,
       file_nos : {},
+      htmlContent : null,
       server_file_list: []
     }
   },
   mounted() {
-    // this.hwp_viewer()
-    let bodys = {project_id : 1, file_no : 1}
-    this.$store.dispatch('get_file', bodys).then((res) => {
-      this.hwp_viewer(res)
-      // console.log()
-    })
     let body = {project_id : this.project_id}
     this.$store.dispatch('get_project_file_list', body).then((res) => {
       for (let i of res.files) {
@@ -94,15 +89,15 @@ export default {
     })
   },
   methods: {
-    hwp_viewer(file) {
-      let new_file = new File([file], 'random')
-      const reader = new FileReader();
-      reader.onload = (result) => {
-        const bstr = result.target?.result
-        new Viewer(this.$refs.hwpContent, bstr)
-      };
-      reader.readAsBinaryString(new_file)
-    },
+    // hwp_viewer(file) {
+    //   let new_file = new File([file], 'random')
+    //   const reader = new FileReader();
+    //   reader.onload = (result) => {
+    //     const bstr = result.target?.result
+    //     new Viewer(this.$refs.hwpContent, bstr)
+    //   };
+    //   reader.readAsBinaryString(new_file)
+    // },
     renderHwpText(data) {
       this.$refs.hwpContent.innerHTML = data.text || '내용을 로드할 수 없습니다.';
     },
@@ -115,29 +110,50 @@ export default {
     gridExcelToWeb(file, target) {
       var reader = new FileReader();
       reader.onload = function (evt) {
-          if (evt.target.readyState == FileReader.DONE) {
-              var data = evt.target.result;
-              data = new Uint8Array(data);
-              var workbook = XLSX.read(data, { type: 'array' });
-              var sheetName = '';
-              workbook.SheetNames.forEach( function(data, idx){
-                  if(idx == 0){
-                      sheetName = data;
-                  }
-              });
-              var toHtml = XLSX.utils.sheet_to_html(workbook.Sheets[sheetName], { header: '' });
-              target.innerHTML = toHtml;
-          }
+        if (evt.target.readyState == FileReader.DONE) {
+            var data = evt.target.result;
+            data = new Uint8Array(data);
+            var workbook = XLSX.read(data, { type: 'array' });
+            var sheetName = '';
+            workbook.SheetNames.forEach( function(data, idx){
+                if(idx == 0){
+                    sheetName = data;
+                }
+            });
+            var toHtml = XLSX.utils.sheet_to_html(workbook.Sheets[sheetName], { header: '' });
+            target.innerHTML = toHtml;
+        }
       };
       reader.readAsArrayBuffer(file);
     },
     set_doc() {
       let body = {project_id : this.project_id, file_no : this.file_nos[this.file]}
       this.view = true
-      this.$store.dispatch('get_file', body).then((res) => {
-          this.gridExcelToWeb(res, document.querySelector('#preview_file'))
-          // console.log()
-      })
+      let type = this.file.split('.')[1]
+      if (type == 'hwp') {
+        this.$store.dispatch('get_file_html', body).then((res) => {
+          const reader = new FileReader();
+            reader.onloadend = () => {
+            this.htmlContent = reader.result;
+          };
+          reader.readAsText(res)
+        })
+      } else {
+        this.$store.dispatch('get_file', body).then((res) => {
+          switch (type) {
+            case 'html':
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                this.htmlContent = reader.result;
+              };
+              reader.readAsText(res)
+              break;
+            case 'xlsx':
+              this.gridExcelToWeb(res, document.querySelector('#preview_file'))
+              break;
+            }
+        }) 
+      }
         // this.file_src = 'http://is-web.intellisys.co.kr:58580/files/pdf/예금업무방법(제3권 상품)(20240401)_일부개정.pdf?view=FitH&toolbar=0'
       this.$store.dispatch('get_file_parsing', body).then((res) => {
         let html = ''

@@ -2,6 +2,9 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
+  generate: {
+    fallback: false // true로 설정하면 기본 404 페이지 생성됨, false면 404 페이지 생성 안 됨
+  },
   loading: false,
   head: {
     titleTemplate: '%s',

@@ -164,8 +164,10 @@ export default {
       let files = e.target.files || e.dataTransfer.files;
       if (files.length > 0) {
         for (let i of files) {
-          if (allowance.indexOf(i.type) < 0) {
+          if (this.allowance.indexOf(i.name.split('.')[1]) < 0) {
             alert(`${this.allowance.join(' ,')} 파일을 선택해주세요.`)
+            e.preventDefault();
+            e.stopPropagation();
             return
           }
         }

@@ -88,6 +88,15 @@ export const actions = {
       alert('예상치 못한 에러가 발생했습니다. 잠시후 다시 시도해주세요.')
     })
   },
+  get_file_html( {state, commit}, body) {
+    return this.$axios.get(`/api/v1/projects/${body['project_id']}/files/${body['file_no']}/download/html`, {responseType: "blob",})
+    .then((res) => {
+      return res.data
+    })
+    .catch((res) => {
+      alert('예상치 못한 에러가 발생했습니다. 잠시후 다시 시도해주세요.')
+    })
+  },
   get_file_text( {state, commit}, body) {
     return this.$axios.get(`/api/v1/projects/${project_id}/files/${file_no}/text`,  {params : body})
     .then((res) => {

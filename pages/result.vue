@@ -22,7 +22,7 @@
         <div>
           <div class="sub-title">원본파일</div>
           <div class="box" style="min-height: 450px; max-width: 25vw; max-height: 24vw; overflow: auto;">
-            <div id="preview_file">
+            <div v-html="htmlContent" id="preview_file">
 
             </div>
             <!-- <iframe style="width: 100%; height: 400px;" v-if="view" :src="file_src" type="application/pdf">
@@ -63,6 +63,7 @@ export default {
       tree: [],
       file : null,
       file_nos : {},
+      htmlContent : null,
       server_file_list: []
     }
   },
@@ -87,29 +88,50 @@ export default {
     gridExcelToWeb(file, target) {
       var reader = new FileReader();
       reader.onload = function (evt) {
-          if (evt.target.readyState == FileReader.DONE) {
-              var data = evt.target.result;
-              data = new Uint8Array(data);
-              var workbook = XLSX.read(data, { type: 'array' });
-              var sheetName = '';
-              workbook.SheetNames.forEach( function(data, idx){
-                  if(idx == 0){
-                      sheetName = data;
-                  }
-              });
-              var toHtml = XLSX.utils.sheet_to_html(workbook.Sheets[sheetName], { header: '' });
-              target.innerHTML = toHtml;
-          }
+        if (evt.target.readyState == FileReader.DONE) {
+          var data = evt.target.result;
+          data = new Uint8Array(data);
+          var workbook = XLSX.read(data, { type: 'array' });
+          var sheetName = '';
+          workbook.SheetNames.forEach( function(data, idx){
+              if(idx == 0){
+                  sheetName = data;
+              }
+          });
+          var toHtml = XLSX.utils.sheet_to_html(workbook.Sheets[sheetName], { header: '' });
+          target.innerHTML = toHtml;
+        }
       };
       reader.readAsArrayBuffer(file);
     },
     set_doc() {
       let body = {project_id : this.project_id, file_no : this.file_nos[this.file]}
       this.view = true
-      this.$store.dispatch('get_file', body).then((res) => {
-        this.gridExcelToWeb(res, document.querySelector('#preview_file'))
-          // console.log()
-      })
+      let type = this.file.split('.')[1]
+      if (type == 'hwp') {
+        this.$store.dispatch('get_file_html', body).then((res) => {
+          const reader = new FileReader();
+            reader.onloadend = () => {
+            this.htmlContent = reader.result;
+          };
+          reader.readAsText(res)
+        })
+      } else {
+        this.$store.dispatch('get_file', body).then((res) => {
+          switch (type) {
+            case 'html':
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                this.htmlContent = reader.result;
+              };
+              reader.readAsText(res)
+              break;
+            case 'xlsx':
+              this.gridExcelToWeb(res, document.querySelector('#preview_file'))
+              break;
+            }
+        }) 
+      }
       // this.file_src = 'http://is-web.intellisys.co.kr:58580/files/pdf/예금업무방법(제3권 상품)(20240401)_일부개정.pdf?view=FitH&toolbar=0'
       this.$store.dispatch('get_file_chunk', body).then((res) => {
         let html = ''
