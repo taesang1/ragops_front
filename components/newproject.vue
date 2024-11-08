@@ -1,6 +1,6 @@
 <template>
   <v-dialog content-class="new_rag" @keydown.esc="close" @click:outside="close" v-model="dialog">
-    <v-card style="padding: 24px !important; background-color: rgba(241, 244, 250, 1); height: 100%;">
+    <v-card v-if="!is_new_project" style="padding: 24px !important; background-color: rgba(241, 244, 250, 1); height: 100%;">
       <p class="main-title" style="margin-top: 0px;">신규 RAG 생성</p>
 
       <v-text-field
@@ -28,6 +28,31 @@
         </v-btn>
       </v-card-actions>
     </v-card>
+
+    <v-card v-if="is_new_project" style="padding: 24px !important; background-color: rgba(241, 244, 250, 1); height: 100%;">
+      <p class="main-title" style="margin-top: 0px;">데이터 전처리</p>
+
+      <div style="height: 66px; text-align: center; align-content: center; font-size: 20px;">데이터 전처리를 진행하시겠습니까?</div>
+
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          depressed
+          color="rgba(58, 54, 219, 1)"
+          @click="move"
+        >
+          <span style="color: white;">예</span>
+        </v-btn>
+        <v-btn
+          depressed
+          color="rgba(160, 157, 255, 1)"
+          @click="close"
+        >
+        <span style="color: white;">아니오</span>
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+
   </v-dialog>
 </template>
 <script>  
@@ -35,7 +60,8 @@ export default {
   emits: ['input'],
   data () {
     return {
-      name : ''
+      name : '',
+      is_new_project :false
     }
   },
   props: {
@@ -50,10 +76,14 @@ export default {
         return
       }
       this.$store.dispatch('new_project', this.name).then((res)=> {
-        this.$emit('input',false)
+        this.is_new_project = true
       })
     },
+    move() {
+      window.location.href = '/dataupload'
+    },
     close() {
+      this.is_new_project = false
       this.$emit('input',false)
     },
   },
