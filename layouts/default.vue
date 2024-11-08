@@ -50,7 +50,7 @@ export default {
   data () {
     return {
       page_list : [
-        {name: 'RAG 목록', link: '/raglist'},
+        {name: '프로젝트 목록', link: '/raglist'},
         {name: '데이터 전처리', link: null,  text: 'data'},
         {name: '데이터 업로드', link: '/dataupload', style : 'margin-left : 24px'},
         {name: '결과 확인', link: '/dataprogress', style : 'margin-left : 24px'},

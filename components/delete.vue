@@ -44,6 +44,7 @@ export default {
   methods: {
     delete_project() {
       this.$store.dispatch('delete_project', this.id).then((res) => {
+        localStorage.removeItem('check_project')
         this.close()
       })
     },
