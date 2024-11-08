@@ -137,7 +137,7 @@ p {
   padding: 12px 0px
 }
 #activate a{
-  color: rgba(98, 84, 255, 1);
+  color: #A09DFF;
 }
 .page_icon {
   width: 26px;
@@ -153,7 +153,7 @@ p {
 .page a {
   font-size: 18px;
   text-decoration-line : none;
-  color: rgb(224, 224, 224);
+  color:  white;
 }
 .next-button a {
   text-decoration-line : none;
