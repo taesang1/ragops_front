@@ -4,13 +4,17 @@
     <p class="main-title">벡터 DB 생성 > <span class="main-sub-title">AI 자동 최적화</span></p>
 
     <div class="content" style="width: max-content;">
-      <aiquery :dialog="dialog" v-model="dialog"/>
+      <aiquery :dialog="is_query_dialog.dialog" @child="parents" v-model="is_query_dialog"/>
       <project/>
-
       <div class="box-grid">
         <div style="width: 57%; padding: 24px; margin: 16px; min-width: max-content;">
           <div style="display: flex;">
-            <div class="sub-title" style="margin-left: 0px;  height: max-content; margin-bottom: 24px;">테스트 쿼리 입력</div>
+            <div class="sub-title" style="margin-left: 0px;  height: max-content; margin-bottom: 24px;">
+              테스트 쿼리 입력
+            </div>
+            <span v-if="is_query_dialog.gen" style="margin-left: 12px; margin-top: 16px; font-size: 13px; color: darkgray;">
+              AI 쿼리 생성중 <img width="30px" src="/chatloading.gif">
+            </span>
             <button v-if="!is_simulate_loading" @click="simulate_run" class="next-button" style="margin-left: auto; height: max-content;">
               <a>AI 분석 실행</a>
               <img class="arrow-right" src="@/assets/arrow_right.png">
@@ -20,7 +24,7 @@
             </button>
           </div>
           <div style="display: flex;">
-            <button @click="dialog = true" style="padding: 8px 24px; color: white; font-size: 14px; background-color: rgba(255, 105, 180, 1)">AI 쿼리</button>
+            <button @click="is_query_dialog.dialog = true" style="padding: 8px 24px; color: white; font-size: 14px; background-color: rgba(255, 105, 180, 1)">AI 쿼리</button>
             <button style="margin-left: 12px; padding: 8px 24px; color: black; font-size: 14px; background-color: #e0e0e0">직접입력</button>
           </div>
 
@@ -164,7 +168,7 @@ export default {
   components : { aiquery, project },
   data () {
     return {
-      dialog: false,
+      is_query_dialog : {dialog: false, gen: false},
       is_simulate_loading : false,
       is_vectordb_loading : false,
       chuncking : {
@@ -222,6 +226,9 @@ export default {
     this.simulate_expected_time()
   },
   methods: {
+    parents(e) {
+      console.log(e)
+    },
     simulate_expected_time() {
       let body = this.make_body()
       this.$store.dispatch('simulate_expected_time', body).then((res) => {

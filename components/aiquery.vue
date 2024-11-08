@@ -5,8 +5,13 @@
 
       <div style="display: flex; margin-bottom: 24px;">
         <project/>
-          <button @click="close" class="query-button" style="background-color: rgba(160, 157, 255, 1); margin-left: auto;">취소</button>
+        <div v-if="!is_query_loading" style="margin-left: auto;">
+          <button @click="close" class="query-button" style="background-color: rgba(160, 157, 255, 1)">취소</button>
           <button @click="close" class="query-button" style="background-color: rgba(58, 54, 219, 1); margin-left: 24px;">저장</button>
+        </div>
+        <div v-else style="margin-left: auto;">
+          <button @click="close" class="query-button" style="background-color: rgba(58, 54, 219, 1); margin-left: 24px;">생성중</button>
+        </div>
       </div>
 
       <div class="box-grid">
@@ -43,9 +48,11 @@
 
         <div class="box" style="width: 60%; background-color: white">
           <div class="sub-title" style="margin-left: 0">추천 질의</div>
-          <div v-for="row of query_list" :key="row.name" class="query-box query-option-box">
-            <div>{{row.name}}</div>
-            <input v-for="querie of row.queries" :key="querie" :value="querie" readonly>
+          <div style="max-height: 500px; overflow: auto;">
+            <div v-for="row of query_list" :key="row.name" class="query-box query-option-box">
+              <div>{{row.name}}</div>
+              <input v-for="querie of row.queries" :key="querie" :value="querie" readonly>
+            </div>
           </div>
         </div>
         
@@ -83,7 +90,8 @@ export default {
         {'text' : 'key_sentence', value: `재해수술특약은 안되시는걸로 알고있습니다.`},
         {'text' : 'question', value: `재해수술특약도 보험금을 받을 수 있을까요?`}
       ],
-      query_list : []
+      query_list : [],
+      emit : {dialog: false, gen : false}
     }
   },
   props: {
@@ -99,7 +107,8 @@ export default {
   methods: {
     close() {
       document.querySelector('.v-application--wrap').style.display = 'block'
-      this.$emit('input',false)
+      this.emit.dialog = false
+      this.$emit('input',this.emit)
     },
     create_query() {
       let body = {samples : []}
@@ -109,6 +118,7 @@ export default {
       }
       body.samples.push(oj)
       this.is_query_loading = true
+      this.emit.gen = true
       this.$store.dispatch('create_query', body).then((res) => {
         this.get_query()
       })
@@ -121,6 +131,7 @@ export default {
           }, 1000);
         } else {
           this.is_query_loading = false
+          this.emit.gen = false
         }
         this.query_list = []
         for (let i of res['files']) {

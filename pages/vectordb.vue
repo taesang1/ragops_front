@@ -108,7 +108,8 @@ export default {
       let body = {project_id : this.project_id, file_no : this.file_nos[this.file]}
       this.view = true
       this.htmlContent = null
-      let type = this.file.split('.')[1]
+      let type = this.file.split('.')
+      type = type[type.length - 1]
       if (type == 'hwp') {
         this.$store.dispatch('get_file_html', body).then((res) => {
           const reader = new FileReader();

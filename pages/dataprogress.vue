@@ -129,7 +129,8 @@ export default {
     set_doc() {
       let body = {project_id : this.project_id, file_no : this.file_nos[this.file]}
       this.view = true
-      let type = this.file.split('.')[1]
+      let type = this.file.split('.')
+      type = type[type.length - 1]
       this.htmlContent = null
       if (type == 'hwp') {
         this.$store.dispatch('get_file_html', body).then((res) => {
