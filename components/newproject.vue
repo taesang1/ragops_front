@@ -1,10 +1,10 @@
 <template>
   <v-dialog content-class="new_rag" @keydown.esc="close" @click:outside="close" v-model="dialog">
     <v-card v-if="!is_new_project" style="padding: 24px !important; background-color: rgba(241, 244, 250, 1); height: 100%;">
-      <p class="main-title" style="margin-top: 0px;">신규 RAG 생성</p>
+      <p class="main-title" style="margin-top: 0px;">신규 RAG 생성하기</p>
 
       <v-text-field
-        label="RAG 이름을 입력해주세요."
+        label="RAG를 생성할 프로젝트명을 입력해주세요."
         dense
         v-model="name"
         outlined
@@ -32,7 +32,8 @@
     <v-card v-if="is_new_project" style="padding: 24px !important; background-color: rgba(241, 244, 250, 1); height: 100%;">
       <p class="main-title" style="margin-top: 0px;">데이터 전처리</p>
 
-      <div style="height: 66px; text-align: center; align-content: center; font-size: 20px;">데이터 전처리를 진행하시겠습니까?</div>
+      <div style="height: 66px; text-align: center; align-content: center; font-size: 18px;">
+        {{ name }} 프로젝트의 데이터 전처리를 진행하시겠습니까?</div>
 
       <v-card-actions>
         <v-spacer></v-spacer>

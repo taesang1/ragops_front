@@ -54,7 +54,7 @@ export default {
   components : { newproject, options, deletes },
   data () {
     return {
-      headers : ['RAG ID','RAG 이름', '생성 시작 시간', '상태', '옵션', '생성 완료 시각', '데이터 갱신', 'Playground', '삭제'],
+      headers : ['RAG ID','프로젝트명', '생성 시작 시간', '상태', '옵션', '생성 완료 시각', '데이터 갱신', 'Playground', '삭제'],
       data : [],
       dialog : false,
       option_dialog: false,
