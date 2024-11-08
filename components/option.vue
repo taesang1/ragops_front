@@ -10,6 +10,10 @@
               <p style="width: 70px;">Chunk Size</p>
               <input style="color: rgba(96, 92, 255, 1);" :value="simulate_opt['chuncking'][0]" type="text" class="text-field"/>
             </div>
+            <div style="display: flex; width: 100%;">
+              <p style="width: 70px;">Overlap Size</p>
+              <input style="color: rgba(96, 92, 255, 1);" :value="simulate_opt['overlap_size']" type="text" class="text-field"/>
+            </div>
           </div>
           <div v-else class="option">
             <div style="display: flex; width: 100%;">
@@ -45,7 +49,18 @@
         </div>
 
         <div class="option-box">
-          <p class="box-title">top_k : <span style="color: rgba(96, 92, 255, 1);">{{ simulate_opt['top_k'][0] }}</span>
+          <p class="box-title">retriever : <span style="color: rgba(96, 92, 255, 1);">{{ simulate_opt['retriever'] }}</span>
+          </p>
+          <div class="option" style="opacity: 0;">
+            <div style="display: flex; width: 100%;">
+              <p style="width: 70px;">Chunk Size</p>
+              <input readonly value="500" type="text" class="text-field"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="option-box">
+          <p class="box-title">top_k : <span style="color: rgba(96, 92, 255, 1);">{{ simulate_opt['top_k'] }}</span>
           </p>
         </div>
         
@@ -92,7 +107,7 @@ export default {
         this.simulate_opt = {}
         return
       }
-      let simulate_opt = {augmentation : [], top_k:[], chuncking: [], model: ''}
+      let simulate_opt = {augmentation : [], top_k:'', chuncking: [], model: '', overlap_size: '', retriever:''}
       for (let i of Object.keys(this.option)) {
         console.log(i, this.option)
         if (i == 'model_name') {
@@ -106,10 +121,17 @@ export default {
           let data = this.option[i]
           if (i.includes('use')) data = this.simulate_opt_text[this.option[i]]
           simulate_opt['chuncking'].push(data)
-        } else {
+        } else if (i.includes('top_k')) {
           let data = this.option[i]
-          simulate_opt['top_k'].push(data)
+          simulate_opt['top_k'] = data
+        } else if (i.includes('overlap_size')){
+          let data = this.option[i]
+          simulate_opt['overlap_size'] = data
+        } else if (i.includes('retriever')){
+          let data = this.option[i]
+          simulate_opt['retriever'] = data
         }
+        
       }
       this.simulate_opt = simulate_opt
     }
@@ -129,6 +151,6 @@ export default {
   margin: auto;
   right: 0;
   bottom: 0;
-  height: 450px;
+  height: 480px;
 }
 </style>
