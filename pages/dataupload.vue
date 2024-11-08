@@ -10,7 +10,7 @@
           <img class="add-icon" src="@/assets/add.png">
           프로젝트 불러오기
         </button> -->
-        <div class="project-name" style="margin: auto 0px auto 12px">#프로젝트 {{ project_id }}</div>
+        <project/>
         <a v-if="is_loading" style="margin-left: auto;">
           <button class="next-button">
             <img class="loading" src="@/assets/loading.gif">
@@ -83,7 +83,9 @@
               <img src="@/assets/file_upload.png">
               <p style="padding: 8px 0px;">Drag your file here, of Click here to browse</p>
             </div>
-            <input multiple @change="input_files" type="file" id="upload_file" accept=".pdf, .hwp" style="display:none;">
+            <input multiple @change="input_files" type="file" id="upload_file"
+              accept=".pdf, .hwp, .xlsx, .doc, .docx, .hwpx, .csv, .html, .xhtml, .jpg, .jpeg, .png, .webp, .txt, .json"
+              style="display:none;">
           </div>
         </div>
 
@@ -92,10 +94,10 @@
   </div>
 </template>
 <script>
-// import loadproject from '@/components/loadproject.vue';
+import project from '@/components/project.vue';
 
 export default {
-  // components : { loadproject },
+  components : { project },
   data () {
     return {
       count : 0,
@@ -122,7 +124,24 @@ export default {
           ],
         },
       ],
-      server_file_list: []
+      server_file_list: [],
+      allowance : [
+        'pdf',
+        'hwp',
+        'xlsx',
+        'doc',
+        'docx',
+        'hwpx',
+        'csv',
+        'html',
+        'xhtml',
+        'jpg',
+        'jpeg',
+        'png',
+        'webp',
+        'txt',
+        'json'
+      ],
     }
   },
   mounted() {
@@ -145,8 +164,8 @@ export default {
       let files = e.target.files || e.dataTransfer.files;
       if (files.length > 0) {
         for (let i of files) {
-          if (i.type != 'application/pdf' && i.name.split('.')[1] != 'hwp') {
-            alert(".pdf 또는 .hwp 파일을 선택해주세요.")
+          if (this.allowance.indexOf(i.name.split('.')[1]) < 0) {
+            alert(`${this.allowance.join(' ,')} 파일을 선택해주세요.`)
             e.preventDefault();
             e.stopPropagation();
             return
@@ -154,6 +173,8 @@ export default {
         }
         this.upload_file = files;
         this.upload_files()
+        e.preventDefault();
+        e.stopPropagation();
       }
     },
     triggerZipFileInput(){
@@ -177,6 +198,7 @@ export default {
     get_project_file_list() {
       let body = {project_id : this.project_id}
       this.$store.dispatch('get_project_file_list', body).then((res) => {
+        this.server_file_list = []
         for (let i of res.files) {
           let file = {}
           file['name'] = i.name

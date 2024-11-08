@@ -2,7 +2,7 @@
   <div>
     <p class="main-title">벡터 DB 생성 > <span class="main-sub-title">파라미터 수동 설정</span></p>  
     <div class="content">
-      <div class="project-name" style="margin-left: 16px; margin-bottom: 24px;">#프로젝트 1</div>
+      <project/>
 
       <div style="padding: 24px 0px;">
         <div style="width: max-content; margin-left: auto; margin-bottom: 24px;">
@@ -70,7 +70,10 @@
   </div>
 </template>
 <script>
+import project from '@/components/project.vue';
+
 export default {
+  components : { project }, 
   data () {
     return {
       dialog : false,

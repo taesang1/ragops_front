@@ -2,6 +2,9 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
+  generate: {
+    fallback: false // true로 설정하면 기본 404 페이지 생성됨, false면 404 페이지 생성 안 됨
+  },
   loading: false,
   head: {
     titleTemplate: '%s',
@@ -42,7 +45,7 @@ export default {
     '@nuxtjs/axios',
   ],
   axios: {
-    baseURL: 'http://is-web.intellisys.co.kr:50001'
+    baseURL: 'http://34.64.84.88:50003'
     // baseURL: 'http://127.0.0.1:8000/'
   },
 
@@ -67,5 +70,10 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    extend (config, { isDev, isClient }) {
+    config.node = {
+      fs: 'empty'
+    }
+   }
   }
 }

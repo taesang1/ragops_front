@@ -4,7 +4,7 @@
       <p class="main-title" style="margin-top: 0px;">벡터 DB 생성 > <span class="main-sub-title">AI 자동 최적화</span> > <span class="main-sub-title">AI 질의 생성</span></p>
 
       <div style="display: flex; margin-bottom: 24px;">
-        <div class="project-name" style="margin: auto 0px auto 12px">#프로젝트 {{ project_id }}</div>
+        <project/>
           <button @click="close" class="query-button" style="background-color: rgba(160, 157, 255, 1); margin-left: auto;">취소</button>
           <button @click="close" class="query-button" style="background-color: rgba(58, 54, 219, 1); margin-left: 24px;">저장</button>
       </div>
@@ -14,7 +14,8 @@
           <div class="sub-title" style="margin-left: 0">데이터 설정</div>
           <span class="query-sub-title">쿼리 생성에 이용할 작업목록 데이터의 비율을 입력해 주세요</span>
           <label class="query-option-box" for="inputName">활용 비율 설정
-            <input style="width: 45px; margin-left: 12px; height: 30px; text-align: left;" value="5" id="inputName" type="text">
+            <input style="width: 45px; margin: 0px 0px 0px 12px; height: 30px; text-align: left;" value="5" id="inputName" type="text">
+            %
           </label>
 
           <div style="display: flex; margin-top: 50px;">
@@ -53,7 +54,10 @@
   </v-dialog>
 </template>
 <script>
+import project from '@/components/project.vue';
+
 export default {
+  components : { project },
   emits: ['input'],
   data () {
     return {
@@ -65,23 +69,19 @@ export default {
 
       },
       query_input: [
-        {'text' : 'passage', value: `예금업무방법(제3권 상품)
-제1편 일반상품
-제1장 입출금이자유로운예금
-제1절 당좌예금
-제1관 일반사항
-제2조(거래대상자)
-① 거래대상자는 아래의 거래실적을 충족한 법인 또는 개인사업자로 한다.<개정 2021.03.25.>
-1. 당좌예금 개설신청일 현재 본인명의의 예금 또는 신탁 거래기간이 6개월 이상이고, 최근 6개월간의 예금 및 신탁 평균잔액 합계액이 1억원 이상인 자. 다만, 관련대출이 있는 예금계좌의 경우에는 대출금액 해당액을 거래실적에서 제외하고 산정한다.<개정 2021.03.25.>
-2. 제1호의 거래실적은 다음의 기준에 따라 처리한다.<개정 2021.03.25.>
-가. 거래실적은 당행 거래실적으로 한다.<개정 2021.03.25.>
-나. 하나 이상의 계좌가 6개월 이상 거래가 있어야 하며, 6개월 미만 거래한 계좌는 6개월 평잔으로 환산하여 실적에 포함할 수 있다.<개정 2021.03.25>
-다. 해지계좌도 대상기간 내에 실적이 있는 경우 합산할 수 있다.
+        {'text' : 'passage', value: `(고객) 모든 수술에 보험금을 다 받을수있나요?
+(상담사) 하시는 수술에대한 해당약관을 보셔야합니다.
+(고객) 어떤 약관을 봐야하는거죠?
+(상담사) 가입하신 보험에 약관을 확인하시면됩니다.
+(고객) 약관에 해당되면 보험금을 받을수 있는건가요?
+(상담사) 네.맞습니다
+(고객) 재해수술특약도 보험금을 받을 수 있을까요?
+(상담사) 재해수술특약은 안되시는걸로 알고있습니다.
+(고객) 그럼 약관에 따라 지급된다는 말인가요?
+(상담사) 네.
 `},
-        {'text' : 'key_sentence', value: `① 거래대상자는 아래의 거래실적을 충족한 법인 또는 개인사업자로 한다.<개정 2021.03.25.>
-1. 당좌예금 개설신청일 현재 본인명의의 예금 또는 신탁 거래기간이 6개월 이상이고, 최근 6개월간의 예금 및 신탁 평균잔액 합계액이 1억원 이상인 자.
-`},
-        {'text' : 'question', value: `입출금자유로운예금 개설 조건이 뭐야?`}
+        {'text' : 'key_sentence', value: `재해수술특약은 안되시는걸로 알고있습니다.`},
+        {'text' : 'question', value: `재해수술특약도 보험금을 받을 수 있을까요?`}
       ],
       query_list : []
     }
@@ -102,12 +102,26 @@ export default {
       this.$emit('input',false)
     },
     create_query() {
-      // let body = {samples : {}}
-      // for (let i of this.query_input) {
-      //   body['samples'][i.text] = i.value
-      // }
-      // this.is_query_loading = true
-      this.$store.dispatch('create_query').then((res) => {
+      let body = {samples : []}
+      let oj = {}
+      for (let i of this.query_input) {
+        oj[i.text] = i.value
+      }
+      body.samples.push(oj)
+      this.is_query_loading = true
+      this.$store.dispatch('create_query', body).then((res) => {
+        this.get_query()
+      })
+    },
+    get_query() {
+      this.$store.dispatch('get_query').then((res) => {
+        if (res['status']['msg'] != 'done') { 
+          setTimeout(() => {
+            this.get_query()
+          }, 1000);
+        } else {
+          this.is_query_loading = false
+        }
         this.query_list = []
         for (let i of res['files']) {
           let query_list = {}
@@ -118,7 +132,6 @@ export default {
           }
           this.query_list.push(query_list)
         }
-        this.is_query_loading = false
       })
     }
   },
@@ -175,6 +188,8 @@ export default {
   background-color: rgba(241, 244, 250, 0.5);
   padding: 12px;
   margin: 24px 0;
+  max-height: 510px;
+  overflow: auto;
 }
 .query-box input {
   border: 0.5px solid rgba(102, 112, 133, 1);

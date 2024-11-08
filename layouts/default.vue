@@ -7,11 +7,28 @@
           <h2 class="logo-title" >RagBuilder</h2>
         </div>
         <div class="page-list">
+ 
           <div :style="`${i['style']}`" :id="path.includes(i.link) || path.includes(i.text) ? 'activate' : ''" :key="i.name" v-for="i in page_list" class="page">
-            <div v-if="i.link == null || i.link.includes('project')"></div>
+            <div v-if="i.link == null || i.link.includes('raglist')"></div>
             <a v-if="i.link != null" :href="i.link">{{ i.name }}</a>
             <a v-else>{{ i.name }}</a>
           </div>
+
+          <!-- <div :id="path.includes('/raglist') ? 'activate' : ''"  class="page" style="padding: 0;">
+            <a style="font-size: 24px;" href="/raglist">RAG 목록</a>
+          </div> -->
+          <!-- <div style="border-bottom: 1px solid #bcb9b5;" v-for="key in Object.keys(page_list)" :key="key">
+            <div class="page-type" @click="check_page_type(key)">
+              {{ key }}
+            </div>
+
+            <template v-for="i in page_list[key]">
+              <div :style="`${i['style']}`" :id="path.includes(i.link) || path.includes(i.text) ? 'activate' : ''"  v-if="check_page[key]" :key="i.name" class="page">
+                <a v-if="i.link != null" :href="i.link">{{ i.name }}</a>
+                <a v-else>{{ i.name }}</a>
+              </div>
+            </template>
+          </div> -->
         </div>
         <img class="logo" src="@/assets/logo.png">        
       </div>
@@ -33,7 +50,7 @@ export default {
   data () {
     return {
       page_list : [
-        {name: '프로젝트 목록', link: '/project'},
+        {name: 'RAG 목록', link: '/raglist'},
         {name: '데이터 전처리', link: null,  text: 'data'},
         {name: '데이터 업로드', link: '/dataupload', style : 'margin-left : 24px'},
         {name: '결과 확인', link: '/dataprogress', style : 'margin-left : 24px'},
@@ -42,10 +59,46 @@ export default {
         {name: '파라미터 수동 설정', link: '/vectorhuman', style : 'margin-left : 24px'},
         {name: '결과 확인', link: '/vectordb', style : 'margin-left : 24px'}
       ],
-      path : '/'
+      // page_list : {
+      //   Offline :  [
+      //     {name: '백터DB 생성', link: null,},
+      //     {name: '데이터 전처리', style : 'margin-left : 12px',  text: 'data'},
+      //     {name: '데이터 업로드', link: '/dataupload', style : 'margin-left : 24px'},
+      //     {name: '결과 확인', link: '/dataprogress', style : 'margin-left : 24px'},
+      //     {name: '옵션 설정', link: null, style : 'margin-left : 12px', text: 'vector'},
+      //     {name: 'AI 자동최적화', link: '/vectorai', style : 'margin-left : 24px'},
+      //     {name: '파라미터 수동 설정', link: '/vectorhuman', style : 'margin-left : 24px'},
+      //     {name: '결과 확인', link: '/result', style : 'margin-left : 12px'},
+      //     {name: '배포', link: null, style : 'margin-left : 12px'}],
+      //   Online : [
+      //     {name: '검색설정', link: null, style : 'color: gray'},
+      //   ]
+      // },
+      path : '/',
+      check_page : {
+        RAG : true,
+        Online: true,
+        Offline : true,
+      }
+    }
+  },
+  methods: {
+    check_page_type(key) {
+      this.check_page[key] = !this.check_page[key]
     }
   },
   mounted() {
+    if (window.location.pathname == '/') return
+    let project_id = JSON.parse(localStorage.getItem('check_project'))
+    if (project_id == null) {
+      if (!window.location.pathname.includes('raglist')) {
+        alert('RAG를 선택해주세요')
+        window.location.href = '/raglist'
+      }
+    } else {
+      this.$store.commit('check_project_id', project_id)  
+    }
+    this.$store.dispatch('get_project_list')
     this.path = window.location.pathname
   },
 }
@@ -91,7 +144,7 @@ p {
   background: rgba(57, 57, 75, 1)
 }
 .page-list {
-  padding: 0px 50px;
+  padding: 0px 25px;
   margin-top: 50px;
 }
 .page {
@@ -127,6 +180,12 @@ p {
   width: 26px;
   object-fit: contain;
   margin-left: 6px;
+}
+.page-type {
+  font-size: 24px;
+  text-decoration-line : none;
+  cursor: pointer;
+  color: rgb(213 193 231) !important
 }
 .page a {
   font-size: 18px;
@@ -200,14 +259,6 @@ p {
   margin-left: 12px;
   object-fit: contain;
 }
-.project-name {
-  background-color: rgba(224, 224, 224, 1);
-  padding: 6px;
-  height: max-content;
-  width: max-content;
-  font-size: 12px;
-  border-radius: 8px;
-}
 .load-project {
   display: flex;
   padding: 6px 30px;
@@ -276,6 +327,7 @@ td {
 }
 .check-box-label {
   display: flex;
+  width: max-content;
   /* margin-top: 36px; */
 }
 .check-box {
@@ -290,6 +342,7 @@ td {
   padding: 6px 12px;
   margin-bottom: 12px;
   overflow: hidden;
+  cursor: pointer;
   text-overflow: ellipsis;
   white-space: nowrap;
   border-bottom: 1px solid rgba(224, 224, 224, 1);
@@ -298,5 +351,40 @@ td {
   background-color: rgba(241, 244, 250, 0.5);
   margin-bottom: 12px;
   padding: 24px;
+}
+.project-box {
+  position: relative;
+}
+.project-name {
+  background-color: rgba(224, 224, 224, 1);
+  padding: 6px;
+  height: max-content;
+  width: max-content;
+  font-size: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.project-list{
+  cursor: pointer;
+  max-height: 100px;
+  overflow: auto;
+  position: absolute;
+  width: 100px;
+  left: 12px;
+  border: 1px solid black;
+  background-color: white;
+}
+.project-list::-webkit-scrollbar {
+  width: 5px;  
+}
+.project-list p:hover {
+  background-color: rgba(224, 224, 224, 1)
+}
+.project-list::-webkit-scrollbar-thumb {
+  background: #b2adad;
+  border-radius: 10px;
+}
+.project-list::-webkit-scrollbar-track {
+  background: rgba(220, 20, 60, .1);
 }
 </style>

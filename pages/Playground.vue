@@ -3,6 +3,20 @@
     <p class="main-title">Playground</p>
     <div class="content">
       <div class="box">
+        모델 선택 :
+        <v-chip
+          small
+          class="ma-2"
+          color="primary"
+        >
+          GPT
+        </v-chip>
+        <v-chip
+          small
+          class="ma-2"
+        >
+          라마
+        </v-chip>
         <div id="target">
           <div v-show="is_doc_type == ''" style="width: 30vw; margin-left: auto;"></div>
           <div v-show="is_doc_type != ''" class="doc_html" style="width: 30vw; margin-left: auto; overflow: hidden; border: 1px solid #dddddd;">

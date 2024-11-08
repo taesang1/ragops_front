@@ -5,13 +5,13 @@
 
     <div class="content" style="width: max-content;">
       <aiquery :dialog="dialog" v-model="dialog"/>
-      <div class="project-name" style="margin-left: 16px;">#프로젝트 {{ project_id }}</div>
+      <project/>
 
       <div class="box-grid">
         <div style="width: 57%; padding: 24px; margin: 16px; min-width: max-content;">
           <div style="display: flex;">
             <div class="sub-title" style="margin-left: 0px;  height: max-content; margin-bottom: 24px;">테스트 쿼리 입력</div>
-            <button v-if="!is_simulate_loading" @click="get_simulate_result" class="next-button" style="margin-left: auto; height: max-content;">
+            <button v-if="!is_simulate_loading" @click="simulate_run" class="next-button" style="margin-left: auto; height: max-content;">
               <a>AI 분석 실행</a>
               <img class="arrow-right" src="@/assets/arrow_right.png">
             </button>
@@ -41,18 +41,18 @@
               <p class="box-title">청킹 옵션 설정</p>
               <div class="option-box" v-for="option in Object.keys(chuncking)" :key="option.text">
                 <label class="check-box-label">
-                  <input name="chuncking_popup" type="checkbox" v-model="chuncking[option].value" class="check-box">
+                  <input v-model="chuncking[option].value" @change="simulate_expected_time" name="chuncking_popup" type="checkbox" class="check-box">
                   <p class="option-title">{{ chuncking[option].text }}</p>
                 </label>
                 <template v-for="key in Object.keys(chuncking[option])">
                   <div :key="key" v-if="key != 'text' && key !='value' && key != 'param'" class="option">
                     <p>{{ key }}</p>
                     <span>Min</span>
-                    <input v-model="chuncking[option][key]['min']" type="text" class="text-field"/>
+                    <input v-model="chuncking[option][key]['min']" @change="simulate_expected_time" type="text" class="text-field"/>
                     <span>Max</span>
-                    <input v-model="chuncking[option][key]['max']" type="text" class="text-field"/>
+                    <input v-model="chuncking[option][key]['max']" @change="simulate_expected_time" type="text" class="text-field"/>
                     <span>Step</span>
-                    <input v-model="chuncking[option][key]['step']" type="text" class="text-field"/>
+                    <input v-model="chuncking[option][key]['step']" @change="simulate_expected_time" type="text" class="text-field"/>
                   </div>
                 </template>
               </div>
@@ -63,7 +63,7 @@
                 <p class="box-title">임베딩 모델 선택</p>
                 <div class="option-box" v-for="option in Object.keys(model)" :key="option">
                   <label class="check-box-label" style="margin-bottom: 12px;">
-                    <input type="checkbox" name="model_popup" v-model="model[option]['value']" class="check-box">
+                    <input v-model="model[option]['value']" @change="simulate_expected_time" type="checkbox" name="model_popup" class="check-box">
                     <p class="option-title">{{ model[option]['text'] }}</p>
                   </label>
                 </div>
@@ -73,14 +73,14 @@
                 <p class="box-title">Augmentation 옵션</p>
                 <div class="option-box" v-for="option in Object.keys(augmentation)" :key="option">
                   <label class="check-box-label" style="margin-bottom: 12px;">
-                    <input type="checkbox" name="augmentation_popup" v-model="augmentation[option]['value']" class="check-box">
+                    <input v-model="augmentation[option]['value']" @change="simulate_expected_time" type="checkbox" name="augmentation_popup" class="check-box">
                     <p class="option-title">{{ augmentation[option]['text'] }}</p>
                   </label>
                   <div v-if="option == 'chunk_window'" class="option">
                     <p style="width: max-content;">
                       Max window size
                     </p>
-                    <input v-model="augmentation[option]['size']" type="text" class="text-field"/>
+                    <input v-model="augmentation[option]['size']"  @change="simulate_expected_time" type="text" class="text-field"/>
                   </div>
                 </div>
               </div>
@@ -158,9 +158,10 @@
 </template>
 <script>
 import aiquery from '@/components/aiquery.vue';
+import project from '@/components/project.vue';
 
 export default {
-  components : { aiquery },
+  components : { aiquery, project },
   data () {
     return {
       dialog: false,
@@ -171,35 +172,35 @@ export default {
           value : true,
           param : 'char',
           text : 'OVERLAP',
-          chunk_size : {text : 'Chunk Size', min : 400, max : 500, step: 100},
-          overlap_size : {text: 'Overlap Size', min : 50, max : 50, step: 50},
+          chunk_size : {text : 'Chunk Size', min : 300, max : 500, step: 200},
+          overlap_size : {text: 'Overlap Size', min : 0, max : 100, step: 100},
         },
         recursive : {
           value : true,
           param : 'recu',
           text : 'RECURSIVE',
-          chunk_size : {text : 'Chunk Size', min : 400, max : 500, step: 100},
-          overlap_size : {text: 'Overlap Size', min : 50, max : 100, step: 50},
+          chunk_size : {text : 'Chunk Size', min : 300, max : 500, step: 200},
+          overlap_size : {text: 'Overlap Size', min : 0, max : 100, step: 100},
         },
         semantic : {
           value : true,
           param : 'sema',
           text : 'SEMANTIC',
-          threshold : {text: 'Threshold' ,min : 70, max : 80, step: 10}
+          threshold : {text: 'Threshold' ,min : 70, max : 90, step: 10}
         }
       },
       expected : {
         CP01 : {value : true, text : 'Full Search', sub :'10분'},
-        CP02 : {value : false, text : 'Adaptive Alg.', sub :'5분'},
-        CP03 : {value : false, text : 'Greedy Alg.', sub :'1분'},
+        // CP02 : {value : false, text : 'Adaptive Alg.', sub :'5분'},
+        CP03 : {value : false, text : 'Adaptive Alg.', sub :'1분'},
       },
       model : {
-        MD01 : {value : true, text : '모델 1'},
+        MD01 : {value : false, text : '모델 1'},
         MD02 : {value : true, text : '모델 2'},
       },
       augmentation : {
         no_augmentation : {text : 'No augmentation', value : true, param : 'aug_noaug_use'},
-        chunk_window : {text: 'Chunk window', value: true, size: 3, param : 'aug_chwin_use'}
+        chunk_window : {text: 'Chunk window', value: false, size: 1, param : 'aug_chwin_use'}
       },
       is_chart : false,
       model_test : {},
@@ -212,10 +213,12 @@ export default {
         recu_use: "RECURSIVE",
         sema_use: 'SEMANTIC'
       },
-      simulate_opt : {}
+      simulate_opt : {},
+      ai_opts : {}
     }
   },
   mounted() {
+    this.get_simulate_result()
     this.simulate_expected_time()
   },
   methods: {
@@ -223,6 +226,7 @@ export default {
       let body = this.make_body()
       this.$store.dispatch('simulate_expected_time', body).then((res) => {
         for (let i of Object.keys(res['expected'])) {
+          if (this.expected[i] == null) continue
           this.expected[i]['sub'] = `${res['expected'][i]['duration_min']}분`
         }
       })
@@ -237,7 +241,7 @@ export default {
         }
       }
       this.$store.dispatch('simulate_run', body).then((res) => {
-        this.get_simulate_result(body)
+        this.get_simulate_result()
         this.is_simulate_loading = true
       })
     },
@@ -245,7 +249,11 @@ export default {
       let body = this.make_body()
       this.$store.dispatch('get_simulate_result', body).then((res) => {
         if (res['sims'][0]['status']['msg'] != 'done') {
-          this.get_simulate_result(body)
+          this.is_simulate_loading = true
+          setTimeout(() => {
+            this.get_simulate_result()
+          }, 1000);
+          return
         } else {
           let data = []
           let title = []
@@ -254,6 +262,7 @@ export default {
             data.push(i['metric']['HR'])
           }
           let simulate_opt = {augmentation : [], chuncking: []}
+          this.ai_opts = res['sims'][0]['combis'][0]['opts']
           for (let i of Object.keys(res['sims'][0]['combis'][0]['opts'])) {
             if (i == 'emb_model') {
               simulate_opt['model'] = this.simulate_opt_text[res['sims'][0]['combis'][0]['opts'][i]]
@@ -312,9 +321,20 @@ export default {
       return body
     },
     create_db() {
-      let body = this.make_body()
-      this.$store.dispatch('create_db', body).then((res) => {
+      this.ai_opts['project_id'] = this.project_id
+      this.$store.dispatch('create_db', this.ai_opts).then((res) => {
         this.is_vectordb_loading = true
+        // this.is_vectordb_loading = false
+        // this.get_db()
+      })
+    },
+    get_db() {
+      this.$store.dispatch('get_db').then((res) => {
+        if (res['status']['msg'] != 'done') {
+          this.get_db()
+          return
+        }
+        this.is_vectordb_loading = false
       })
     },
     check(e, ch) {
