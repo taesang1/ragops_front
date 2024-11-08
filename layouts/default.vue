@@ -7,11 +7,17 @@
           <h2 class="logo-title" >RagBuilder</h2>
         </div>
         <div class="page-list">
-          <div :id="path.includes('/raglist') ? 'activate' : ''"  class="page" style="padding: 0;">
-            <a style="font-size: 24px;" href="/raglist">RAG 목록</a>
+ 
+          <div :style="`${i['style']}`" :id="path.includes(i.link) || path.includes(i.text) ? 'activate' : ''" :key="i.name" v-for="i in page_list" class="page">
+            <div v-if="i.link == null || i.link.includes('project')"></div>
+            <a v-if="i.link != null" :href="i.link">{{ i.name }}</a>
+            <a v-else>{{ i.name }}</a>
           </div>
 
-          <div style="border-bottom: 1px solid #bcb9b5;" v-for="key in Object.keys(page_list)" :key="key">
+          <!-- <div :id="path.includes('/raglist') ? 'activate' : ''"  class="page" style="padding: 0;">
+            <a style="font-size: 24px;" href="/raglist">RAG 목록</a>
+          </div> -->
+          <!-- <div style="border-bottom: 1px solid #bcb9b5;" v-for="key in Object.keys(page_list)" :key="key">
             <div class="page-type" @click="check_page_type(key)">
               {{ key }}
             </div>
@@ -22,7 +28,7 @@
                 <a v-else>{{ i.name }}</a>
               </div>
             </template>
-          </div>
+          </div> -->
         </div>
         <img class="logo" src="@/assets/logo.png">        
       </div>
@@ -43,21 +49,31 @@
 export default {
   data () {
     return {
-      page_list : {
-        Offline :  [
-          {name: '백터DB 생성', link: null,},
-          {name: '데이터 전처리', style : 'margin-left : 12px',  text: 'data'},
-          {name: '데이터 업로드', link: '/dataupload', style : 'margin-left : 24px'},
-          {name: '결과 확인', link: '/dataprogress', style : 'margin-left : 24px'},
-          {name: '옵션 설정', link: null, style : 'margin-left : 12px', text: 'vector'},
-          {name: 'AI 자동최적화', link: '/vectorai', style : 'margin-left : 24px'},
-          {name: '파라미터 수동 설정', link: '/vectorhuman', style : 'margin-left : 24px'},
-          {name: '결과 확인', link: '/result', style : 'margin-left : 12px'},
-          {name: '배포', link: null, style : 'margin-left : 12px'}],
-        Online : [
-          {name: '검색설정', link: null, style : 'color: gray'},
-        ]
-      },
+      page_list : [
+        {name: 'RAG 목록', link: '/raglist'},
+        {name: '데이터 전처리', link: null,  text: 'data'},
+        {name: '데이터 업로드', link: '/dataupload', style : 'margin-left : 24px'},
+        {name: '결과 확인', link: '/dataprogress', style : 'margin-left : 24px'},
+        {name: '벡터DB 생성', link: null, text: 'vector'},
+        {name: 'AI 자동최적화', link: '/vectorai', style : 'margin-left : 24px'},
+        {name: '파라미터 수동 설정', link: '/vectorhuman', style : 'margin-left : 24px'},
+        {name: '결과 확인', link: '/result', style : 'margin-left : 24px'}
+      ],
+      // page_list : {
+      //   Offline :  [
+      //     {name: '백터DB 생성', link: null,},
+      //     {name: '데이터 전처리', style : 'margin-left : 12px',  text: 'data'},
+      //     {name: '데이터 업로드', link: '/dataupload', style : 'margin-left : 24px'},
+      //     {name: '결과 확인', link: '/dataprogress', style : 'margin-left : 24px'},
+      //     {name: '옵션 설정', link: null, style : 'margin-left : 12px', text: 'vector'},
+      //     {name: 'AI 자동최적화', link: '/vectorai', style : 'margin-left : 24px'},
+      //     {name: '파라미터 수동 설정', link: '/vectorhuman', style : 'margin-left : 24px'},
+      //     {name: '결과 확인', link: '/result', style : 'margin-left : 12px'},
+      //     {name: '배포', link: null, style : 'margin-left : 12px'}],
+      //   Online : [
+      //     {name: '검색설정', link: null, style : 'color: gray'},
+      //   ]
+      // },
       path : '/',
       check_page : {
         RAG : true,

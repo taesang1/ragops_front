@@ -4,7 +4,7 @@
       <p class="main-title" style="margin-top: 0px;">신규 RAG 생성</p>
 
       <v-text-field
-        label="RAG명을 입력해주세요."
+        label="RAG 이름을 입력해주세요."
         dense
         v-model="name"
         outlined
