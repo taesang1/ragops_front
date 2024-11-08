@@ -111,17 +111,17 @@ export default {
       var reader = new FileReader();
       reader.onload = function (evt) {
         if (evt.target.readyState == FileReader.DONE) {
-            var data = evt.target.result;
-            data = new Uint8Array(data);
-            var workbook = XLSX.read(data, { type: 'array' });
-            var sheetName = '';
-            workbook.SheetNames.forEach( function(data, idx){
-                if(idx == 0){
-                    sheetName = data;
-                }
-            });
-            var toHtml = XLSX.utils.sheet_to_html(workbook.Sheets[sheetName], { header: '' });
-            target.innerHTML = toHtml;
+          var data = evt.target.result;
+          data = new Uint8Array(data);
+          var workbook = XLSX.read(data, { type: 'array' });
+          var sheetName = '';
+          workbook.SheetNames.forEach( function(data, idx){
+              if(idx == 0){
+                  sheetName = data;
+              }
+          });
+          var toHtml = XLSX.utils.sheet_to_html(workbook.Sheets[sheetName], { header: '' });
+          target.innerHTML = toHtml;
         }
       };
       reader.readAsArrayBuffer(file);
@@ -173,3 +173,13 @@ export default {
   }
 }
 </script>
+<style>
+#preview_file p {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  unicode-bidi: isolate;
+}
+</style>
