@@ -77,6 +77,7 @@ export default {
         return
       }
       this.$store.dispatch('new_project', this.name).then((res)=> {
+        localStorage.setItem('check_project', JSON.stringify({id:res['project_id'], name:this.name}))
         this.is_new_project = true
       })
     },
