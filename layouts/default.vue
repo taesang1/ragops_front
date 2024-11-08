@@ -57,7 +57,7 @@ export default {
         {name: '벡터DB 생성', link: null, text: 'vector'},
         {name: 'AI 자동최적화', link: '/vectorai', style : 'margin-left : 24px'},
         {name: '파라미터 수동 설정', link: '/vectorhuman', style : 'margin-left : 24px'},
-        {name: '결과 확인', link: '/result', style : 'margin-left : 24px'}
+        {name: '결과 확인', link: '/vectordb', style : 'margin-left : 24px'}
       ],
       // page_list : {
       //   Offline :  [
