@@ -155,6 +155,26 @@ p {
 #activate a{
   color: #A09DFF;
 }
+@keyframes fadeIn-up{
+    0%{
+        transform:translateX(-40px);
+        opacity:0;
+    }
+    100%{
+        transform:translateX(0);
+        opacity:1;
+    }
+}
+#activate div {
+  opacity:0;
+  border-radius: 0px 6px 6px 0px;
+  background-color: rgb(255, 255, 255, 0.1);
+  width: 40px;
+  height: 40px;
+  margin-left: -50px;
+  margin-right: 10px;
+  animation: fadeIn-up 0.75s ease forwards;
+}
 .page_icon {
   width: 26px;
   object-fit: contain;
@@ -169,7 +189,7 @@ p {
 .page a {
   font-size: 18px;
   text-decoration-line : none;
-  color:  white;
+  color: white;
 }
 .next-button a {
   text-decoration-line : none;
