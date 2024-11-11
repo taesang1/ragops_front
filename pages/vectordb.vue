@@ -3,13 +3,13 @@
     <p class="main-title">벡터 DB 생성 > <span class="main-sub-title">결과 확인</span></p>
 
     <div class="content">
-      <div style="display: flex;margin-bottom: 24px;">
+      <!-- <div style="display: flex;margin-bottom: 24px;">
         <project/>
         <button class="next-button" style="margin-left: auto;">
           <a>백터DB 저장</a>
           <img class="arrow-right" src="@/assets/arrow_right.png">
         </button>
-      </div>
+      </div> -->
 
       <div class="box-grid">
         <div>
